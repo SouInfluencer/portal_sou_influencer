@@ -82,11 +82,6 @@ function App() {
             <Dashboard />
           </ProtectedRoute>
         } />
-        <Route path="/new-campaign" element={
-          <ProtectedRoute>
-            <NewCampaign onBack={() => navigate('/dashboard')} />
-          </ProtectedRoute>
-        } />
         <Route path="/dashboard/campaign/:id" element={
           <ProtectedRoute>
             <CampaignDetails onBack={() => navigate('/dashboard/campaigns')} />
