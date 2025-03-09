@@ -1,13 +1,70 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calculator, Star, BarChart2, Shield, ChevronRight, Users, Globe2, Award, Sparkles, DollarSign, MessageSquare, Calendar, CheckCircle, ArrowRight, TrendingUp, Zap, Rocket, Target, Heart, Building2, Eye, Share2, MousePointer } from 'lucide-react';
+import { Calculator, Star, BarChart2, Shield, ChevronRight, Users, Globe2, Award, Sparkles, DollarSign, MessageSquare, Calendar, CheckCircle, ArrowRight, TrendingUp, Zap, Rocket, Target, Heart, Building2, Menu, X, Eye, MousePointer, Bell } from 'lucide-react';
 
 export function AdvertiserLanding() {
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const headerRef = React.useRef<HTMLElement>(null);
+  const [notificationPermission, setNotificationPermission] = useState(Notification.permission);
+  const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
   const [calculatorValues, setCalculatorValues] = useState({
     budget: '',
     platform: 'influencer' as 'influencer' | 'google' | 'meta'
   });
+
+  // Check notification permission on mount
+  React.useEffect(() => {
+    if (Notification.permission === 'default') {
+      // Show prompt after a short delay
+      const timer = setTimeout(() => {
+        setShowNotificationPrompt(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const requestNotificationPermission = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      setNotificationPermission(permission);
+      setShowNotificationPrompt(false);
+      
+      if (permission === 'granted') {
+        // Send welcome notification
+        new Notification('Bem-vindo ao Sou Influencer!', {
+          body: 'Você receberá notificações sobre novas campanhas e atualizações importantes.',
+          icon: '/vite.svg', // Replace with your app icon
+          badge: '/vite.svg', // Replace with your app badge
+          tag: 'welcome'
+        });
+      }
+    } catch (error) {
+      console.error('Error requesting notification permission:', error);
+    }
+  };
+
+  // Close mobile menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  React.useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
+  
   const [estimatedReach, setEstimatedReach] = useState<{
     views: number;
     engagement: number;
@@ -84,30 +141,91 @@ export function AdvertiserLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg">
-                <Building2 className="h-6 w-6 text-white" />
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
+        {/* Header */}
+        <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100/80">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex h-16 sm:h-20 items-center justify-between">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group cursor-pointer">
+                  <Building2 className="h-6 w-6 text-white" />
+                  <div className="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                </div>
+                <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700 hidden sm:block">
+                  Sou Influencer
+                </span>
               </div>
-              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700">
-                Sou Influencer
-              </span>
             </div>
-            <div className="flex items-center space-x-6">
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex md:items-center md:space-x-4">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium rounded-lg hover:bg-gray-100/80 transition-colors duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                >
+                  Entrar
+                </button>
+                <button
+                  onClick={() => navigate('/register')}
+                  className="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-sm hover:shadow-md transition-all duration-200 min-w-[44px] min-h-[44px] transform hover:scale-[1.02]"
+                >
+                  Criar Conta
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="flex items-center md:hidden">
               <button
-                onClick={() => navigate('/register')}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-sm hover:shadow-md transition-all duration-200"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
               >
-                Criar Conta
-                <ChevronRight className="ml-2 h-4 w-4" />
+                <span className="sr-only">Abrir menu</span>
+                {mobileMenuOpen ? (
+                  <X className="block h-6 w-6" />
+                ) : (
+                  <Menu className="block h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
-        </div>
+
+          {/* Mobile menu */}
+          <div className={`md:hidden transform transition-all duration-300 ease-in-out ${
+            mobileMenuOpen 
+              ? 'translate-x-0 opacity-100 h-screen' 
+              : 'translate-x-full opacity-0 h-0'
+          }`}>
+            <div className="pt-2 pb-3 space-y-1">
+              <div className="flex flex-col items-center space-y-4 p-4">
+                <button
+                  onClick={() => {
+                    navigate('/login');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-center text-gray-600 hover:text-gray-900 font-medium rounded-lg hover:bg-gray-100/80 transition-colors duration-200"
+                >
+                  Entrar
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/register');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  Criar Conta
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
       </header>
 
       {/* Hero Section */}
@@ -366,6 +484,52 @@ export function AdvertiserLanding() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+      {/* Notification Permission Prompt */}
+      {showNotificationPrompt && notificationPermission === 'default' && (
+        <div className="fixed bottom-4 left-4 right-4 z-50 animate-in slide-in-from-bottom-4 duration-300">
+          <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-4 max-w-md mx-auto">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0">
+                  <div className="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+                    <Bell className="h-5 w-5 text-indigo-600" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-900">
+                    Ativar Notificações
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Receba alertas sobre novas campanhas e atualizações importantes
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowNotificationPrompt(false)}
+                className="flex-shrink-0 ml-4 p-1 rounded-full hover:bg-gray-100"
+              >
+                <X className="h-5 w-5 text-gray-400" />
+              </button>
+            </div>
+            <div className="mt-4 flex justify-end space-x-3">
+              <button
+                onClick={() => setShowNotificationPrompt(false)}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200"
+              >
+                Agora não
+              </button>
+              <button
+                onClick={requestNotificationPermission}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm hover:shadow-md transition-all duration-200"
+              >
+                <Bell className="h-4 w-4 mr-2" />
+                Ativar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

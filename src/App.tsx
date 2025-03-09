@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate, useSearchParams } from 'react-router-dom';
 import { NotificationProvider } from './components/Notifications/NotificationProvider';
+import { PWAPrompt } from './components/PWAPrompt';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { ResetPassword } from './pages/ResetPassword';
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <NotificationProvider>
+      <PWAPrompt />
     <div className="min-h-screen bg-gray-50">
       <Routes>
         <Route path="/" element={

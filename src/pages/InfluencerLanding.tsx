@@ -1,15 +1,96 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calculator, Star, BarChart2, Shield, ChevronRight, Users, Globe2, Award, Sparkles, DollarSign, MessageSquare, Calendar, CheckCircle, ArrowRight, TrendingUp, Zap, Rocket, Target, Heart, Building2 } from 'lucide-react';
+import { Calculator, Star, BarChart2, Shield, ChevronRight, Users, Globe2, Award, Sparkles, DollarSign, MessageSquare, Calendar, CheckCircle, ArrowRight, TrendingUp, Zap, Rocket, Target, Heart, Building2, Menu, X } from 'lucide-react';
+
+// Add keyframes for animations
+const styles = `
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 8s ease infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+`;
 
 export function InfluencerLanding() {
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const headerRef = React.useRef<HTMLElement>(null);
+  const [mounted, setMounted] = React.useState(false);
   const [calculatorValues, setCalculatorValues] = useState({
     followers: '',
     engagement: '',
     contentType: 'feed' as 'feed' | 'story' | 'reels'
   });
   const [estimatedEarnings, setEstimatedEarnings] = useState<number | null>(null);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
+  // Close mobile menu when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  React.useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
 
   const calculateEarnings = () => {
     const followers = parseInt(calculatorValues.followers.replace(/,/g, ''));
@@ -37,53 +118,118 @@ export function InfluencerLanding() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg">
-                <Building2 className="h-6 w-6 text-white" />
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100/80">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex h-16 sm:h-20 items-center justify-between">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group cursor-pointer">
+                  <Sparkles className="h-6 w-6 text-white" />
+                  <div className="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur opacity-0 group-hover:opacity-30 transition duration-200" />
+                </div>
+                <span className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700 hidden sm:block">
+                  Sou Influencer
+                </span>
               </div>
-              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700">
-                Sou Influencer
-              </span>
             </div>
-            <div className="flex items-center space-x-6">
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex md:items-center md:space-x-4">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium rounded-lg hover:bg-gray-100/80 transition-colors duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                >
+                  Entrar
+                </button>
+                <button
+                  onClick={() => navigate('/register')}
+                  className="inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-sm hover:shadow-md transition-all duration-200 min-w-[44px] min-h-[44px] transform hover:scale-[1.02]"
+                >
+                  Criar Conta
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="flex items-center md:hidden">
               <button
-                onClick={() => navigate('/register')}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-sm hover:shadow-md transition-all duration-200"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
               >
-                Criar Conta
-                <ChevronRight className="ml-2 h-4 w-4" />
+                <span className="sr-only">Abrir menu</span>
+                {mobileMenuOpen ? (
+                  <X className="block h-6 w-6" />
+                ) : (
+                  <Menu className="block h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
-        </div>
+
+          {/* Mobile menu */}
+          <div className={`md:hidden transform transition-all duration-300 ease-in-out ${
+            mobileMenuOpen 
+              ? 'translate-x-0 opacity-100 h-screen' 
+              : 'translate-x-full opacity-0 h-0'
+          }`}>
+            <div className="pt-2 pb-3 space-y-1">
+              <div className="flex flex-col items-center space-y-4 p-4">
+                <button
+                  onClick={() => {
+                    navigate('/login');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-center text-gray-600 hover:text-gray-900 font-medium rounded-lg hover:bg-gray-100/80 transition-colors duration-200"
+                >
+                  Entrar
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/register');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  Criar Conta
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
       </header>
 
       {/* Hero Section */}
-      <div className="relative pt-32 pb-20 lg:pt-40 lg:pb-28">
+      <div className="relative pt-24 sm:pt-32 pb-16 sm:pb-20 lg:pt-40 lg:pb-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 text-indigo-600 mb-6">
               <Sparkles className="h-5 w-5" />
-              <span className="text-sm font-semibold tracking-wide uppercase">Plataforma líder em marketing de influência</span>
+              <span className={`text-sm font-semibold tracking-wide uppercase transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+                Plataforma líder em marketing de influência
+              </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-8">
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-8 transition-all duration-1000 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <span className="block mb-2">Do micro ao macro</span>
-              <span className="block text-indigo-600">todo criador tem espaço</span>
+              <span className="block bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-gradient">
+                todo criador tem espaço
+              </span>
             </h1>
-            <p className="max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed mb-12">
+            <p className={`max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed mb-12 transition-all duration-1000 delay-400 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               Conectamos você com as marcas ideais, independente do seu número de seguidores. 
               Aqui, seu conteúdo autêntico é valorizado e sua audiência engajada faz a diferença.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 transition-all duration-1000 delay-600 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <button
                 onClick={() => navigate('/register')}
                 className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 Começar Agora
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-200" />
               </button>
               <button
                 onClick={() => navigate('/login')}
@@ -92,17 +238,17 @@ export function InfluencerLanding() {
                 Já tenho conta
               </button>
             </div>
-            <div className="flex flex-wrap justify-center gap-8">
+            <div className={`flex flex-wrap justify-center gap-8 transition-all duration-1000 delay-800 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
               <div className="flex items-center space-x-2">
-                <Users className="h-5 w-5 text-indigo-600" />
+                <Users className="h-5 w-5 text-indigo-600 animate-float" />
                 <span className="text-gray-600">15K+ Influenciadores</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Building2 className="h-5 w-5 text-indigo-600" />
+                <Building2 className="h-5 w-5 text-indigo-600 animate-float" style={{ animationDelay: '0.2s' }} />
                 <span className="text-gray-600">2.5K+ Marcas</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Globe2 className="h-5 w-5 text-indigo-600" />
+                <Globe2 className="h-5 w-5 text-indigo-600 animate-float" style={{ animationDelay: '0.4s' }} />
                 <span className="text-gray-600">45K+ Campanhas</span>
               </div>
             </div>
@@ -113,31 +259,34 @@ export function InfluencerLanding() {
       {/* Features Section */}
       <div className="py-20 bg-gradient-to-b from-white to-indigo-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Por que escolher nossa plataforma?</h2>
             <p className="text-xl text-gray-600">Tudo que você precisa para crescer como influenciador</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <div className="h-12 w-12 rounded-xl bg-indigo-100 flex items-center justify-center mb-6">
+              <div className="relative h-12 w-12 rounded-xl bg-indigo-100 flex items-center justify-center mb-6 group">
                 <Target className="h-6 w-6 text-indigo-600" />
+                <div className="absolute inset-0 rounded-xl bg-indigo-200 animate-pulse-ring opacity-0 group-hover:opacity-100" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Match Inteligente</h3>
               <p className="text-gray-600">Nossa IA encontra as marcas perfeitas para seu perfil e nicho.</p>
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <div className="h-12 w-12 rounded-xl bg-purple-100 flex items-center justify-center mb-6">
+              <div className="relative h-12 w-12 rounded-xl bg-purple-100 flex items-center justify-center mb-6 group">
                 <BarChart2 className="h-6 w-6 text-purple-600" />
+                <div className="absolute inset-0 rounded-xl bg-purple-200 animate-pulse-ring opacity-0 group-hover:opacity-100" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Métricas Avançadas</h3>
               <p className="text-gray-600">Análise detalhada do seu desempenho e insights valiosos.</p>
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <div className="h-12 w-12 rounded-xl bg-green-100 flex items-center justify-center mb-6">
+              <div className="relative h-12 w-12 rounded-xl bg-green-100 flex items-center justify-center mb-6 group">
                 <Shield className="h-6 w-6 text-green-600" />
+                <div className="absolute inset-0 rounded-xl bg-green-200 animate-pulse-ring opacity-0 group-hover:opacity-100" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Pagamento Seguro</h3>
               <p className="text-gray-600">Receba seus pagamentos de forma segura e garantida.</p>
@@ -147,20 +296,20 @@ export function InfluencerLanding() {
       </div>
 
       {/* Earnings Calculator */}
-      <div className="py-20 bg-gradient-to-b from-indigo-50/30 to-white">
+      <div className="py-12 sm:py-20 bg-gradient-to-b from-indigo-50/30 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
             <div className="p-8">
-              <div className="text-center mb-8">
+              <div className="text-center mb-6 sm:mb-8">
                 <div className="flex items-center justify-center space-x-2 text-indigo-600 mb-4">
                   <Calculator className="h-5 w-5" />
-                  <span className="text-sm font-semibold tracking-wide uppercase">Calculadora de Ganhos</span>
+                  <span className="text-xs sm:text-sm font-semibold tracking-wide uppercase">Calculadora de Ganhos</span>
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Calcule seu potencial de ganhos</h2>
-                <p className="text-gray-600">Descubra quanto você pode ganhar com base no seu alcance</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Calcule seu potencial de ganhos</h2>
+                <p className="text-sm sm:text-base text-gray-600">Descubra quanto você pode ganhar com base no seu alcance</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -264,12 +413,12 @@ export function InfluencerLanding() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white py-20">
+      <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white py-12 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-8">Comece sua jornada como influenciador</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Comece sua jornada como influenciador</h2>
           <button
             onClick={() => navigate('/register')}
-            className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-indigo-600 bg-white hover:bg-gray-50 shadow-lg hover:shadow-xl transition-all duration-200"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 border border-transparent text-base font-medium rounded-xl text-indigo-600 bg-white hover:bg-gray-50 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[44px]"
           >
             Criar Conta Grátis
             <ChevronRight className="ml-2 h-5 w-5" />
