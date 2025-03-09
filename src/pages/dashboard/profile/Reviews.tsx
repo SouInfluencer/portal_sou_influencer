@@ -32,17 +32,17 @@ export function Reviews({ profile }: ReviewsProps) {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
       {/* Rating Summary */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-        <div className="flex items-center space-x-6">
+      <div className="bg-white rounded-lg sm:rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
           <div className="flex-shrink-0">
-            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-indigo-50">
-              <span className="text-3xl font-bold text-indigo-600">{profile.metrics.rating}</span>
+            <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-indigo-50">
+              <span className="text-2xl sm:text-3xl font-bold text-indigo-600">{profile.metrics.rating}</span>
             </div>
           </div>
           <div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
@@ -58,19 +58,19 @@ export function Reviews({ profile }: ReviewsProps) {
       </div>
 
       {/* Reviews List */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {reviews.map((review) => (
-          <div key={review.id} className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-start space-x-4">
+          <div key={review.id} className="bg-white rounded-lg sm:rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
               <img
                 src={review.author.avatar}
                 alt={review.author.name}
                 className="h-12 w-12 rounded-full"
               />
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
                   <div>
-                    <h4 className="text-lg font-medium text-gray-900">{review.author.name}</h4>
+                    <h4 className="text-base sm:text-lg font-medium text-gray-900">{review.author.name}</h4>
                     <p className="text-sm text-gray-500">{review.author.company}</p>
                   </div>
                   <div className="flex items-center">
@@ -82,8 +82,8 @@ export function Reviews({ profile }: ReviewsProps) {
                     ))}
                   </div>
                 </div>
-                <p className="mt-4 text-gray-600">{review.comment}</p>
-                <div className="mt-4 flex items-center text-sm text-gray-500">
+                <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-600">{review.comment}</p>
+                <div className="mt-3 sm:mt-4 flex items-center text-sm text-gray-500">
                   <time dateTime={review.date}>
                     {new Date(review.date).toLocaleDateString('pt-BR', {
                       year: 'numeric',
@@ -97,6 +97,19 @@ export function Reviews({ profile }: ReviewsProps) {
           </div>
         ))}
       </div>
+
+      {/* Empty State */}
+      {reviews.length === 0 && (
+        <div className="text-center py-12 bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200">
+          <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">
+            Nenhuma avaliação ainda
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            As avaliações aparecerão aqui após a conclusão de campanhas.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

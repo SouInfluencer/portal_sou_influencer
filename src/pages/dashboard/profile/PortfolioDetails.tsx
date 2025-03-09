@@ -8,12 +8,12 @@ interface PortfolioDetailsProps {
 
 export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
         <button
           onClick={onBack}
-          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+          className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 min-h-[44px] px-2"
         >
           <ArrowLeft className="h-4 w-4 mr-1" />
           Voltar para portfólio
@@ -21,20 +21,20 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
       </div>
 
       {/* Campaign Overview */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
+      <div className="bg-white rounded-lg sm:rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 mb-4 sm:mb-6">
+            <div className="flex items-center space-x-3 sm:space-x-4">
               <img
                 src={`https://logo.clearbit.com/${campaign.brand.toLowerCase()}.com`}
                 alt={campaign.brand}
-                className="h-16 w-16 rounded-xl shadow-sm"
+                className="h-12 w-12 sm:h-16 sm:w-16 rounded-lg sm:rounded-xl shadow-sm"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'https://via.placeholder.com/64';
                 }}
               />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{campaign.product}</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{campaign.product}</h1>
                 <div className="flex items-center mt-1 space-x-2">
                   <span className="text-gray-500">{campaign.brand}</span>
                   <span className="text-gray-300">•</span>
@@ -48,7 +48,7 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
               href="#"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
+              className="inline-flex items-center justify-center px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 min-h-[44px]"
             >
               <LinkIcon className="h-4 w-4 mr-2" />
               Ver Publicação
@@ -56,13 +56,13 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
           </div>
 
           {/* Performance Metrics */}
-          <div className="grid grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
             <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100">
               <div className="flex items-center justify-between mb-2">
                 <Eye className="h-5 w-5 text-indigo-600" />
                 <BarChart2 className="h-4 w-4 text-indigo-400" />
               </div>
-              <p className="text-2xl font-bold text-gray-900">{campaign.performance.views}</p>
+              <p className="text-lg sm:text-2xl font-bold text-gray-900">{campaign.performance.views}</p>
               <p className="text-sm text-gray-500">Visualizações</p>
             </div>
             <div className="p-4 rounded-xl bg-gradient-to-br from-pink-50 to-white border border-pink-100">
@@ -92,9 +92,9 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
           </div>
 
           {/* Campaign Details */}
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Detalhes da Campanha</h3>
+              <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">Detalhes da Campanha</h3>
               <div className="space-y-4">
                 <div className="flex items-center text-sm">
                   <Calendar className="h-5 w-5 text-gray-400 mr-3" />
@@ -135,7 +135,7 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Resultados</h3>
+              <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">Resultados</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 rounded-xl bg-gray-50">
                   <span className="text-gray-600">CTR</span>

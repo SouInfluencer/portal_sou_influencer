@@ -155,26 +155,26 @@ export function Profile() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Cover Image */}
-      <div className="relative h-80 w-full overflow-hidden">
+      <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden">
         <img
           src={profile.coverImage}
           alt="Cover"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-24 md:-mt-32 relative z-10">
         {/* Profile Header */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          <div className="p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             <div className="flex items-start justify-between">
-              <div className="flex items-center space-x-6">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <div className="relative group">
                   <img
                     src={profile.avatar}
                     alt={profile.name}
-                    className="h-32 w-32 rounded-2xl object-cover ring-4 ring-white shadow-lg"
+                    className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 rounded-2xl object-cover ring-4 ring-white shadow-lg transform group-hover:scale-105 transition-transform duration-300"
                   />
                   {profile.verified && (
                     <div className="absolute -bottom-3 -right-3">
@@ -185,43 +185,45 @@ export function Profile() {
                   )}
                 </div>
                 <div>
-                  <div className="flex items-center space-x-3">
-                    <h1 className="text-3xl font-bold text-gray-900">{profile.name}</h1>
+                  <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{profile.name}</h1>
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
                       Influenciador Verificado
                     </span>
                   </div>
-                  <p className="mt-1 text-xl text-gray-600">{profile.bio.headline}</p>
-                  <div className="flex items-center mt-4 space-x-4">
+                  <p className="mt-1 text-lg sm:text-xl text-gray-600">{profile.bio.headline}</p>
+                  <div className="flex flex-wrap items-center mt-4 gap-4">
                     <div className="flex items-center text-gray-600">
                       <MapPin className="h-5 w-5 mr-2" />
                       {profile.location}
                     </div>
                     <div className="flex items-center text-gray-600">
                       <Globe className="h-5 w-5 mr-2" />
-                      <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600">
+                      <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 truncate max-w-[200px]">
                         {profile.website}
                       </a>
                     </div>
                     <div className="flex items-center text-gray-600">
                       <AtSign className="h-5 w-5 mr-2" />
-                      {profile.contact.email}
+                      <span className="truncate max-w-[200px]">{profile.contact.email}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <button
-                onClick={handleHireClick}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transform hover:scale-[1.02] transition-all duration-200"
-              >
-                <Sparkles className="h-5 w-5 mr-2" />
-                Criar Campanha
-                <ChevronRight className="ml-2 h-5 w-5" />
-              </button>
+              <div className="hidden sm:block">
+                <button
+                  onClick={handleHireClick}
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transform hover:scale-[1.02] transition-all duration-200"
+                >
+                  <Sparkles className="h-5 w-5 mr-2" />
+                  Criar Campanha
+                  <ChevronRight className="ml-2 h-5 w-5" />
+                </button>
+              </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-4 gap-6 mt-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-6 sm:mt-8">
               <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
                 <div className="flex items-center justify-between mb-2">
                   <Users className="h-6 w-6 text-indigo-600" />
@@ -249,7 +251,7 @@ export function Profile() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex space-x-8 mt-8 border-b border-gray-200">
+            <div className="flex flex-wrap gap-4 sm:gap-8 mt-6 sm:mt-8 border-b border-gray-200 overflow-x-auto pb-1">
               <button
                 onClick={() => setActiveTab('overview')}
                 className={`pb-4 border-b-2 text-sm font-medium transition-colors duration-200 ${
@@ -292,13 +294,24 @@ export function Profile() {
               </button>
             </div>
             {/* Tab Content */}
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               {activeTab === 'overview' && <Overview profile={profile} />}
               {activeTab === 'portfolio' && <Portfolio profile={profile} />}
               {activeTab === 'social' && <SocialMedia profile={profile} />}
               {activeTab === 'reviews' && <Reviews profile={profile} />}
             </div>
           </div>
+        </div>
+        {/* Mobile CTA Button */}
+        <div className="fixed bottom-4 left-4 right-4 sm:hidden z-50">
+          <button
+            onClick={handleHireClick}
+            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800"
+          >
+            <Sparkles className="h-5 w-5 mr-2" />
+            Criar Campanha
+            <ChevronRight className="ml-2 h-5 w-5" />
+          </button>
         </div>
       </div>
     </div>
