@@ -67,7 +67,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
   return (
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 mb-6 shadow-lg">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 mb-6 shadow-lg">
           <CreditCard className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-3">Método de Pagamento</h2>
@@ -119,8 +119,8 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
               }}
               className={`relative rounded-lg border p-4 cursor-pointer transition-all duration-200 ${
                 selectedCard === card.id
-                  ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                  : 'border-gray-200 hover:border-indigo-200'
+                  ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                  : 'border-gray-200 hover:border-blue-200'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -140,7 +140,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
                   </div>
                 </div>
                 {selectedCard === card.id && (
-                  <CheckCircle className="h-5 w-5 text-indigo-600" />
+                  <CheckCircle className="h-5 w-5 text-blue-600" />
                 )}
               </div>
             </div>
@@ -151,8 +151,8 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
               setShowNewCardForm(true);
               setSelectedCard(null);
             }}
-            className={`relative w-full rounded-lg border-2 border-dashed p-4 hover:border-indigo-300 transition-colors duration-200 ${
-              showNewCardForm ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300'
+            className={`relative w-full rounded-lg border-2 border-dashed p-4 hover:border-blue-300 transition-colors duration-200 ${
+              showNewCardForm ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
             }`}
           >
             <div className="flex items-center justify-center">
@@ -176,7 +176,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
                 id="cardNumber"
                 value={newCard.number}
                 onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
-                className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="1234 5678 9012 3456"
               />
             </div>
@@ -191,7 +191,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
                   id="expMonth"
                   value={newCard.expMonth}
                   onChange={(e) => setNewCard({ ...newCard, expMonth: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="MM"
                 />
               </div>
@@ -204,7 +204,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
                   id="expYear"
                   value={newCard.expYear}
                   onChange={(e) => setNewCard({ ...newCard, expYear: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="AAAA"
                 />
               </div>
@@ -217,7 +217,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
                   id="cvc"
                   value={newCard.cvc}
                   onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   placeholder="123"
                 />
               </div>
@@ -232,7 +232,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
                 id="holderName"
                 value={newCard.holderName}
                 onChange={(e) => setNewCard({ ...newCard, holderName: e.target.value })}
-                className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="NOME COMO ESTÁ NO CARTÃO"
               />
             </div>
@@ -276,7 +276,7 @@ export function PaymentStep({ budget, onPaymentMethodSelect }: PaymentStepProps)
       <div className="flex justify-end space-x-4">
         <button
           onClick={handleSubmit}
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200"
         >
           <CreditCard className="h-5 w-5 mr-2" />
           Continuar

@@ -108,7 +108,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
   const getStatusBadgeColor = (status: Campaign['status']) => {
     const colors = {
       pending: 'bg-yellow-100 text-yellow-800',
-      in_progress: 'bg-indigo-100 text-indigo-800',
+      in_progress: 'bg-blue-100 text-blue-800',
       completed: 'bg-green-100 text-green-800',
       rejected: 'bg-red-100 text-red-800'
     };
@@ -175,7 +175,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
           </div>
           <button
             onClick={() => navigate('/new-campaign')}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <PlusCircle className="h-5 w-5 mr-2" />
             Nova Campanha
@@ -227,7 +227,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200"
                 placeholder="Buscar campanhas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -238,13 +238,13 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
               <div className="flex items-center bg-gray-100 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow text-indigo-600' : 'text-gray-500'}`}
+                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
                 >
                   <LayoutGrid className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow text-indigo-600' : 'text-gray-500'}`}
+                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
                 >
                   <List className="h-5 w-5" />
                 </button>
@@ -254,7 +254,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="date">Data</option>
                 <option value="budget">Orçamento</option>
@@ -265,12 +265,12 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
               {/* Filter Button */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Filtros
                 {Object.values(filters).some(arr => arr.length > 0) && (
-                  <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     {Object.values(filters).reduce((acc, curr) => acc + curr.length, 0)}
                   </span>
                 )}
@@ -302,7 +302,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                             type="checkbox"
                             checked={filters.status.includes(status)}
                             onChange={() => handleFilterChange('status', status)}
-                            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                           />
                           <span className="ml-2 text-sm text-gray-600">
                             {getStatusLabel(status as Campaign['status'])}
@@ -322,7 +322,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                             type="checkbox"
                             checked={filters.platform.includes(platform)}
                             onChange={() => handleFilterChange('platform', platform)}
-                            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                           />
                           <span className="ml-2 text-sm text-gray-600">{platform}</span>
                         </label>
@@ -340,7 +340,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                             type="checkbox"
                             checked={filters.budget.includes(range)}
                             onChange={() => handleFilterChange('budget', range)}
-                            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                           />
                           <span className="ml-2 text-sm text-gray-600">{range}</span>
                         </label>
@@ -408,7 +408,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                       {/* Quick Actions */}
                       <div className="flex justify-between items-center">
                         <div className="flex space-x-2">
-                          <button className="p-2 text-gray-400 hover:text-indigo-600 rounded-lg hover:bg-gray-50">
+                          <button className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50">
                             <Edit className="h-5 w-5" />
                           </button>
                           <button className="p-2 text-gray-400 hover:text-yellow-600 rounded-lg hover:bg-gray-50">
@@ -542,7 +542,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                   <select
                     value={itemsPerPage}
                     onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                    className="mr-4 rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mr-4 rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="9">9 por página</option>
                     <option value="12">12 por página</option>
@@ -555,7 +555,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                   <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
                     1
                   </button>
-                  <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-indigo-50 text-sm font-medium text-indigo-600">
+                  <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600">
                     2
                   </button>
                   <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">

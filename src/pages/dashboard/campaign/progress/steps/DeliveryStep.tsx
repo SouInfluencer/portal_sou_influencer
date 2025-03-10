@@ -216,7 +216,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
             <h3 className="text-lg font-medium text-gray-900">Link da Publicação</h3>
             <button
               onClick={() => setShowHelpModal(true)}
-              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 transition-colors duration-200 min-h-[var(--min-touch-target)]"
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors duration-200 min-h-[var(--min-touch-target)]"
             >
               <Info className="h-4 w-4 mr-1.5" />
               Como encontrar o link?
@@ -235,7 +235,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
                   setPostUrl(e.target.value);
                   setShowError(false);
                 }}
-                className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg min-h-[var(--min-touch-target)] input"
+                className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg min-h-[var(--min-touch-target)] input"
                 placeholder={`https://${campaign.platform.toLowerCase()}.com/...`}
               />
             </div>
@@ -269,7 +269,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
                           }));
                           setShowError(false);
                         }}
-                        className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded min-h-[var(--min-touch-target)]"
+                        className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded min-h-[var(--min-touch-target)]"
                       />
                       <label className="ml-3 font-medium text-gray-700">{requirement}</label>
                     </div>
@@ -285,7 +285,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
       <div className="flex flex-col sm:flex-row justify-end gap-4">
         <button
           onClick={handleSubmit}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 min-h-[var(--min-touch-target)] button"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 min-h-[var(--min-touch-target)] button"
         >
           <LinkIcon className="h-5 w-5 mr-2" />
           Enviar Link
@@ -313,7 +313,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
               <div className="mt-6">
                 <button
                   onClick={() => setShowHelpModal(false)}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
                 >
                   Entendi
                 </button>

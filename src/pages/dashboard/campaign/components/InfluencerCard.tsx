@@ -106,7 +106,7 @@ export function InfluencerCard({ influencer, onClick }: InfluencerCardProps) {
   return (
     <button
       onClick={onClick}
-      className={`relative rounded-xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-sm hover:shadow-lg hover:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-[1.02] influencer-card ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+      className={`relative rounded-xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-sm hover:shadow-lg hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02] influencer-card ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 card-header">
         <div className="flex-shrink-0">
@@ -147,7 +147,7 @@ export function InfluencerCard({ influencer, onClick }: InfluencerCardProps) {
               {influencer.categories.map(category => (
                 <span
                   key={category}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                 >
                   {category}
                 </span>
@@ -155,7 +155,7 @@ export function InfluencerCard({ influencer, onClick }: InfluencerCardProps) {
             </div>
           </div>
         </div>
-        <ChevronRight className="h-6 w-6 text-indigo-400 hidden sm:block" />
+        <ChevronRight className="h-6 w-6 text-blue-400 hidden sm:block" />
       </div>
     </button>
   );

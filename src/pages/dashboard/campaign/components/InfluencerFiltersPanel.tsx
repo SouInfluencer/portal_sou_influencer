@@ -102,7 +102,7 @@ export function InfluencerFiltersPanel({ filters, onChange, onClose }: Influence
               ...filters,
               platform: e.target.value as Platform || undefined
             })}
-            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
+            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
           >
             <option value="">Todas</option>
             <option value="Instagram">Instagram</option>
@@ -126,7 +126,7 @@ export function InfluencerFiltersPanel({ filters, onChange, onClose }: Influence
                   categories: options
                 });
               }}
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[120px] input"
+              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg min-h-[120px] input"
             >
               <option value="Tech">Tecnologia</option>
               <option value="Lifestyle">Lifestyle</option>
@@ -163,7 +163,7 @@ export function InfluencerFiltersPanel({ filters, onChange, onClose }: Influence
                 ...filters,
                 minFollowers: Number(e.target.value) || undefined
               })}
-              className="block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
+              className="block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
             />
             <span className="text-gray-500">-</span>
             <input
@@ -174,7 +174,7 @@ export function InfluencerFiltersPanel({ filters, onChange, onClose }: Influence
                 ...filters,
                 maxFollowers: Number(e.target.value) || undefined
               })}
-              className="block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
+              className="block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
             />
           </div>
         </div>
@@ -191,7 +191,7 @@ export function InfluencerFiltersPanel({ filters, onChange, onClose }: Influence
               ...filters,
               location: e.target.value || undefined
             })}
-            className="block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
+            className="block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)] input"
           />
         </div>
       </div>
@@ -208,7 +208,7 @@ export function InfluencerFiltersPanel({ filters, onChange, onClose }: Influence
         </button>
         <button
           onClick={onClose}
-          className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm hover:shadow transition-all duration-200 min-h-[var(--min-touch-target)] button"
+          className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           Aplicar Filtros
         </button>

@@ -77,7 +77,7 @@ export function Notifications() {
   const getIconColor = (type: Notification['type']) => {
     switch (type) {
       case 'campaign':
-        return 'text-indigo-500';
+        return 'text-blue-500';
       case 'message':
         return 'text-blue-500';
       case 'payment':
@@ -153,7 +153,7 @@ export function Notifications() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 placeholder="Buscar notificações..."
               />
             </div>
@@ -162,7 +162,7 @@ export function Notifications() {
               <select
                 value={selectedFilter}
                 onChange={(e) => setSelectedFilter(e.target.value as 'all' | 'unread' | 'read')}
-                className="block w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg"
+                className="block w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg"
               >
                 <option value="all">Todas</option>
                 <option value="unread">Não lidas</option>
@@ -172,13 +172,13 @@ export function Notifications() {
               <div className="flex items-center bg-gray-100 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow text-indigo-600' : 'text-gray-500'}`}
+                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
                 >
                   <LayoutGrid className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow text-indigo-600' : 'text-gray-500'}`}
+                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
                 >
                   <List className="h-5 w-5" />
                 </button>
@@ -196,7 +196,7 @@ export function Notifications() {
                 <div
                   key={notification.id}
                   className={`bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 ${
-                    !notification.read ? 'bg-indigo-50/50' : ''
+                    !notification.read ? 'bg-blue-50/50' : ''
                   }`}
                 >
                   <div className="p-6">
@@ -217,7 +217,7 @@ export function Notifications() {
                             {!notification.read && (
                               <button
                                 onClick={() => handleMarkAsRead(notification.id)}
-                                className="ml-4 bg-indigo-100 text-indigo-600 rounded-full p-1.5 hover:bg-indigo-200 transition-all duration-200 transform hover:scale-110"
+                                className="ml-4 bg-blue-100 text-blue-600 rounded-full p-1.5 hover:bg-blue-200 transition-all duration-200 transform hover:scale-110"
                               >
                                 <CheckCircle className="h-4 w-4" />
                               </button>
@@ -232,7 +232,7 @@ export function Notifications() {
                             <a
                               href={notification.action.href}
                               onClick={() => handleMarkAsRead(notification.id)}
-                              className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors duration-200"
+                              className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                             >
                               {notification.action.label}
                               <ChevronRight className="ml-1.5 h-4 w-4" />

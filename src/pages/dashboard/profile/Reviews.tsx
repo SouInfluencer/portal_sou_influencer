@@ -37,8 +37,8 @@ export function Reviews({ profile }: ReviewsProps) {
       <div className="bg-white rounded-lg sm:rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
           <div className="flex-shrink-0">
-            <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-indigo-50">
-              <span className="text-2xl sm:text-3xl font-bold text-indigo-600">{profile.metrics.rating}</span>
+            <div className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-50">
+              <span className="text-2xl sm:text-3xl font-bold text-blue-600">{profile.metrics.rating}</span>
             </div>
           </div>
           <div>

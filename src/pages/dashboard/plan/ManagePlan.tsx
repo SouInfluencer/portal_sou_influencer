@@ -156,8 +156,8 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
             <div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="h-10 w-10 rounded-lg bg-indigo-100 flex items-center justify-center">
-                    <CreditCard className="h-6 w-6 text-indigo-600" />
+                  <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <CreditCard className="h-6 w-6 text-blue-600" />
                   </div>
                 </div>
                 <div className="ml-4">
@@ -186,8 +186,8 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                 onClick={() => setSelectedCard(card.id)}
                 className={`relative rounded-lg border p-4 cursor-pointer transition-all duration-200 ${
                   selectedCard === card.id 
-                    ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                    : 'border-gray-200 hover:border-indigo-200'
+                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                    : 'border-gray-200 hover:border-blue-200'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -207,7 +207,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                     </div>
                   </div>
                   {selectedCard === card.id && (
-                    <CheckCircle className="h-5 w-5 text-indigo-600" />
+                    <CheckCircle className="h-5 w-5 text-blue-600" />
                   )}
                 </div>
               </div>
@@ -215,7 +215,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
 
             <button
               onClick={() => setShowNewCardForm(true)}
-              className="w-full flex items-center justify-center px-4 py-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-300 transition-colors duration-200"
+              className="w-full flex items-center justify-center px-4 py-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-300 transition-colors duration-200"
             >
               <CreditCard className="h-5 w-5 text-gray-400 mr-2" />
               <span className="text-sm font-medium text-gray-600">
@@ -229,7 +229,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
         <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-medium text-gray-900">Histórico de Faturas</h3>
-            <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+            <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
               Baixar todas
             </button>
           </div>
@@ -266,7 +266,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-indigo-600 hover:text-indigo-900">
+                      <button className="text-blue-600 hover:text-blue-900">
                         <Receipt className="h-5 w-5" />
                       </button>
                     </td>
@@ -290,7 +290,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       Pago
                     </span>
-                    <button className="text-indigo-600 hover:text-indigo-900">
+                    <button className="text-blue-600 hover:text-blue-900">
                       <Receipt className="h-5 w-5" />
                     </button>
                   </div>
@@ -343,7 +343,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
                   onClick={() => setShowCancelConfirm(false)}
                 >
                   Voltar

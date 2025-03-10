@@ -144,7 +144,7 @@ export function EventItem({ event, onClick, onEdit, onDelete }: EventItemProps) 
               <div className="mt-4">
                 <button
                   onClick={() => onClick(event)}
-                  className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-700 group/link min-h-[var(--min-touch-target)] px-3 py-2 rounded-lg hover:bg-indigo-50/80 transition-all duration-200"
+                  className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 group/link min-h-[var(--min-touch-target)] px-3 py-2 rounded-lg hover:bg-blue-50/80 transition-all duration-200"
                 >
                   Ver Campanha
                   <ChevronRight className="h-4 w-4 ml-1 transform group-hover/link:translate-x-0.5 transition-transform duration-200" />

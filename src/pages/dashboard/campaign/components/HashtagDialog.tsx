@@ -149,13 +149,13 @@ export function HashtagDialog({
                 value={newHashtag}
                 onChange={(e) => setNewHashtag(e.target.value.replace(/\s+/g, ''))}
                 placeholder="Digite uma nova hashtag"
-                className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 min-h-[var(--min-touch-target)] input"
+                className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[var(--min-touch-target)] input"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 <button
                   type="submit"
                   disabled={!newHashtag}
-                  className="p-1 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                  className="p-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -167,7 +167,7 @@ export function HashtagDialog({
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center text-sm font-medium text-gray-700">
-                <Sparkles className="h-4 w-4 text-indigo-500 mr-1.5" />
+                <Sparkles className="h-4 w-4 text-blue-500 mr-1.5" />
                 Hashtags Sugeridas
               </div>
               <div className="relative">
@@ -179,7 +179,7 @@ export function HashtagDialog({
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar..."
-                  className="block w-full pl-10 pr-3 py-2 text-sm border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 min-h-[var(--min-touch-target)] input"
+                  className="block w-full pl-10 pr-3 py-2 text-sm border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 min-h-[var(--min-touch-target)] input"
                 />
               </div>
             </div>
@@ -189,7 +189,7 @@ export function HashtagDialog({
                   key={hashtag}
                   onClick={() => onAddHashtag(hashtag)}
                   disabled={existingHashtags.includes(hashtag)}
-                  className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-white border border-gray-200 text-sm text-gray-600 hover:border-indigo-500 hover:text-indigo-600 hover:bg-indigo-50/50 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
+                  className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-white border border-gray-200 text-sm text-gray-600 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50/50 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
                 >
                   {hashtag}
                 </button>
@@ -203,7 +203,7 @@ export function HashtagDialog({
           <div className="flex justify-end">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 min-h-[var(--min-touch-target)] button"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[var(--min-touch-target)] button"
             >
               Fechar
             </button>

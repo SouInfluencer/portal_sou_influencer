@@ -147,7 +147,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                 generateCaption();
               }
             }}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 min-h-[var(--min-touch-target)] button"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 min-h-[var(--min-touch-target)] button"
           >
             <Copy className="h-4 w-4 mr-2" />
             {caption ? 'Copiar Legenda' : 'Gerar Legenda'}
@@ -247,7 +247,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                   rows={4}
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 min-h-[var(--min-touch-target)] input"
+                  className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 min-h-[var(--min-touch-target)] input"
                   placeholder="Digite a legenda do seu post..."
                 />
               </div>
@@ -282,13 +282,13 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                   Perfis na Foto
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  <div className="inline-flex items-center px-3 py-1 rounded-md bg-indigo-100 text-indigo-700">
+                  <div className="inline-flex items-center px-3 py-1 rounded-md bg-blue-100 text-blue-700">
                     @techcorp
-                    <button className="ml-2 text-indigo-500 hover:text-indigo-600">
+                    <button className="ml-2 text-blue-500 hover:text-blue-600">
                       <X className="h-4 w-4" />
                     </button>
                   </div>
-                  <button className="inline-flex items-center px-3 py-1 rounded-md border border-dashed border-gray-300 text-gray-600 hover:border-indigo-500 hover:text-indigo-500">
+                  <button className="inline-flex items-center px-3 py-1 rounded-md border border-dashed border-gray-300 text-gray-600 hover:border-blue-500 hover:text-blue-500">
                     <Plus className="h-4 w-4 mr-1" />
                     Adicionar
                   </button>

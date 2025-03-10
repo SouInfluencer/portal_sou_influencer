@@ -37,7 +37,7 @@ export function SocialMetrics({ onBack }: SocialMetricsProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -75,7 +75,7 @@ export function SocialMetrics({ onBack }: SocialMetricsProps) {
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="flex items-center space-x-4">
-              <div className="p-3 sm:p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100">
+              <div className="p-3 sm:p-4 rounded-xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
                 {platform.name === 'Instagram' && <Instagram className="h-6 w-6 sm:h-8 sm:w-8 text-pink-600" />}
                 {platform.name === 'YouTube' && <Youtube className="h-6 w-6 sm:h-8 sm:w-8 text-red-600" />}
                 {platform.name === 'TikTok' && <Video className="h-6 w-6 sm:h-8 sm:w-8" />}
@@ -98,10 +98,10 @@ export function SocialMetrics({ onBack }: SocialMetricsProps) {
 
           {/* Quick Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100">
+            <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
               <div className="flex items-center justify-between mb-2">
-                <Users className="h-5 w-5 text-indigo-600" />
-                <BarChart2 className="h-4 w-4 text-indigo-400" />
+                <Users className="h-5 w-5 text-blue-600" />
+                <BarChart2 className="h-4 w-4 text-blue-400" />
               </div>
               <p className="text-lg sm:text-2xl font-bold text-gray-900">{platform.metrics.reach}</p>
               <p className="text-xs sm:text-sm text-gray-500">Alcance</p>
@@ -191,7 +191,7 @@ export function SocialMetrics({ onBack }: SocialMetricsProps) {
                         <span className="w-12 sm:w-16 text-xs sm:text-sm text-gray-600">{age}</span>
                         <div className="flex-1 h-2 mx-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-indigo-500 rounded-full"
+                            className="h-full bg-blue-500 rounded-full"
                             style={{ width: `${Math.random() * 100}%` }}
                           />
                         </div>
@@ -233,10 +233,10 @@ export function SocialMetrics({ onBack }: SocialMetricsProps) {
               <div className="p-4 rounded-xl bg-gray-50">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center">
-                    <TrendingUp className="h-5 w-5 text-indigo-500 mr-2" />
+                    <TrendingUp className="h-5 w-5 text-blue-500 mr-2" />
                     <span className="text-sm text-gray-700">Crescimento Mensal</span>
                   </div>
-                  <Sparkles className="h-4 w-4 text-indigo-400" />
+                  <Sparkles className="h-4 w-4 text-blue-400" />
                 </div>
                 <p className="text-lg sm:text-2xl font-bold text-gray-900">+5.2%</p>
                 <p className="text-xs sm:text-sm text-gray-500 mt-1">vs. mês anterior</p>

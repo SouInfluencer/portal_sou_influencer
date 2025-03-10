@@ -38,7 +38,7 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
                 <div className="flex items-center mt-1 space-x-2">
                   <span className="text-gray-500">{campaign.brand}</span>
                   <span className="text-gray-300">•</span>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     {campaign.type}
                   </span>
                 </div>
@@ -57,10 +57,10 @@ export function PortfolioDetails({ campaign, onBack }: PortfolioDetailsProps) {
 
           {/* Performance Metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100">
+            <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
               <div className="flex items-center justify-between mb-2">
-                <Eye className="h-5 w-5 text-indigo-600" />
-                <BarChart2 className="h-4 w-4 text-indigo-400" />
+                <Eye className="h-5 w-5 text-blue-600" />
+                <BarChart2 className="h-4 w-4 text-blue-400" />
               </div>
               <p className="text-lg sm:text-2xl font-bold text-gray-900">{campaign.performance.views}</p>
               <p className="text-sm text-gray-500">Visualizações</p>

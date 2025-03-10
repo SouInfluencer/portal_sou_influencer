@@ -283,7 +283,7 @@ export function Profile() {
                   {profile.verified && (
                     <div className="absolute -bottom-3 -right-3">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-lg">
-                        <Crown className="h-5 w-5 text-indigo-600" />
+                        <Crown className="h-5 w-5 text-blue-600" />
                       </div>
                     </div>
                   )}
@@ -291,7 +291,7 @@ export function Profile() {
                 <div>
                   <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
                     <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{profile.name}</h1>
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                       Influenciador Verificado
                     </span>
                   </div>
@@ -303,7 +303,7 @@ export function Profile() {
                     </div>
                     <div className="flex items-center text-gray-600">
                       <Globe className="h-5 w-5 mr-2" />
-                      <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="hover:text-indigo-600 truncate max-w-[200px]">
+                      <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 truncate max-w-[200px]">
                         {profile.website}
                       </a>
                     </div>
@@ -317,7 +317,7 @@ export function Profile() {
               <div className="hidden sm:block">
                 <button
                   onClick={handleHireClick}
-                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transform hover:scale-[1.02] transition-all duration-200"
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200"
                 >
                   <Sparkles className="h-5 w-5 mr-2" />
                   Criar Campanha
@@ -328,10 +328,10 @@ export function Profile() {
 
             {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-6 sm:mt-8">
-              <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+              <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border border-blue-100">
                 <div className="flex items-center justify-between mb-2">
-                  <Users className="h-6 w-6 text-indigo-600" />
-                  <BarChart2 className="h-5 w-5 text-indigo-400" />
+                  <Users className="h-6 w-6 text-blue-600" />
+                  <BarChart2 className="h-5 w-5 text-blue-400" />
                 </div>
                 <p className="text-2xl font-bold text-gray-900">{profile.metrics.totalReach}</p>
                 <p className="text-sm text-gray-600">Alcance Total</p>
@@ -360,7 +360,7 @@ export function Profile() {
                 onClick={() => setActiveTab('overview')}
                 className={`pb-4 border-b-2 text-sm font-medium transition-colors duration-200 ${
                   activeTab === 'overview'
-                    ? 'border-indigo-500 text-indigo-600'
+                    ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -370,7 +370,7 @@ export function Profile() {
                 onClick={() => setActiveTab('portfolio')}
                 className={`pb-4 border-b-2 text-sm font-medium transition-colors duration-200 ${
                   activeTab === 'portfolio'
-                    ? 'border-indigo-500 text-indigo-600'
+                    ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -380,7 +380,7 @@ export function Profile() {
                 onClick={() => setActiveTab('social')}
                 className={`pb-4 border-b-2 text-sm font-medium transition-colors duration-200 ${
                   activeTab === 'social'
-                    ? 'border-indigo-500 text-indigo-600'
+                    ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -390,7 +390,7 @@ export function Profile() {
                 onClick={() => setActiveTab('reviews')}
                 className={`pb-4 border-b-2 text-sm font-medium transition-colors duration-200 ${
                   activeTab === 'reviews'
-                    ? 'border-indigo-500 text-indigo-600'
+                    ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -410,7 +410,7 @@ export function Profile() {
         <div className="fixed bottom-4 left-4 right-4 sm:hidden z-50">
           <button
             onClick={handleHireClick}
-            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800"
+            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
           >
             <Sparkles className="h-5 w-5 mr-2" />
             Criar Campanha

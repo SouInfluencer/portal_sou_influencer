@@ -137,7 +137,7 @@ export function Header({ title, subtitle, onNewEvent }: HeaderProps) {
       <div className="header-actions">
         <button
           onClick={onNewEvent}
-          className="inline-flex items-center border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] action-button"
+          className="inline-flex items-center border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] action-button"
         >
           <Plus className="h-5 w-5 mr-2" />
           Novo Evento

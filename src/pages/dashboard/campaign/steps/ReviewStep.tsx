@@ -147,7 +147,7 @@ export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
                       {formData.categories.map((category) => (
                         <span
                           key={category}
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800"
+                          className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
                         >
                           {category}
                         </span>

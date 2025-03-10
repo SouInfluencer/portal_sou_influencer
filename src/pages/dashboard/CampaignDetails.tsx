@@ -328,7 +328,7 @@ export function CampaignDetails({ onBack }: CampaignDetailsProps) {
             </button>
             <button
               onClick={() => navigate('/dashboard/messages')}
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-sm hover:shadow-md transition-all duration-200 min-h-[var(--min-touch-target)] campaign-button"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-sm hover:shadow-md transition-all duration-200 min-h-[var(--min-touch-target)] campaign-button"
             >
               <MessageSquare className="h-4 w-4 mr-2" />
               Nova Mensagem
@@ -358,7 +358,7 @@ export function CampaignDetails({ onBack }: CampaignDetailsProps) {
                   <div className="flex items-center mt-1 space-x-2">
                     <p className="text-gray-500">{campaign.brand.name}</p>
                     <span className="text-gray-300">•</span>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       {campaign.platform}
                     </span>
                   </div>
@@ -371,7 +371,7 @@ export function CampaignDetails({ onBack }: CampaignDetailsProps) {
                     onClick={() => setViewMode('influencer')}
                     className={`flex items-center justify-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 min-h-[var(--min-touch-target)] ${
                       viewMode === 'influencer'
-                        ? 'bg-white text-indigo-600 shadow'
+                        ? 'bg-white text-blue-600 shadow'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
@@ -382,7 +382,7 @@ export function CampaignDetails({ onBack }: CampaignDetailsProps) {
                     onClick={() => setViewMode('advertiser')}
                     className={`flex items-center justify-center px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 min-h-[var(--min-touch-target)] ${
                       viewMode === 'advertiser'
-                        ? 'bg-white text-indigo-600 shadow'
+                        ? 'bg-white text-blue-600 shadow'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
@@ -398,10 +398,10 @@ export function CampaignDetails({ onBack }: CampaignDetailsProps) {
             
             {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-8 campaign-stats">
-              <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+              <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border border-blue-100">
                 <div className="flex items-center justify-between mb-2">
-                  <Users className="h-6 w-6 text-indigo-600" />
-                  <BarChart2 className="h-5 w-5 text-indigo-400" />
+                  <Users className="h-6 w-6 text-blue-600" />
+                  <BarChart2 className="h-5 w-5 text-blue-400" />
                 </div>
                 <p className="text-2xl font-bold text-gray-900">45K+</p>
                 <p className="text-sm text-gray-600">Alcance Estimado</p>

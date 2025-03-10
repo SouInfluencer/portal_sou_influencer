@@ -89,7 +89,7 @@ export function StepMetrics({ step, campaign }: StepMetricsProps) {
       {stepDetails.metrics.map((metric, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl border border-gray-200/80 hover:border-indigo-200 transition-all duration-200 metric-card"
+          className="bg-white rounded-xl border border-gray-200/80 hover:border-blue-200 transition-all duration-200 metric-card"
         >
           <div className="flex items-center justify-between mb-2">
             <metric.icon className={`h-5 w-5 ${metric.color || 'text-gray-400'}`} />

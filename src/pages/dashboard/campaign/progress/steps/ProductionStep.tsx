@@ -142,8 +142,8 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
   if (userType === 'advertiser') {
     return (
       <div className="text-center py-12">
-        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
-          <Hourglass className="h-6 w-6 text-indigo-600 animate-pulse" />
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+          <Hourglass className="h-6 w-6 text-blue-600 animate-pulse" />
         </div>
         <h3 className="text-lg font-medium text-gray-900 mb-2">
           Aguardando Produção do Conteúdo
@@ -162,8 +162,8 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
       <div>
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 flex items-center justify-center">
-              <TrendingUp className="h-8 w-8 text-indigo-600" />
+            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-50 to-white border border-blue-100 flex items-center justify-center">
+              <TrendingUp className="h-8 w-8 text-blue-600" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-900">Material da Postagem</h2>
@@ -174,10 +174,10 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
 
         {/* Quick Stats */}
         <div className="grid gap-4 mb-8 stats-grid">
-          <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+          <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border border-blue-100">
             <div className="flex items-center justify-between mb-2">
-              <Users className="h-6 w-6 text-indigo-600" />
-              <BarChart2 className="h-4 w-4 text-indigo-400" />
+              <Users className="h-6 w-6 text-blue-600" />
+              <BarChart2 className="h-4 w-4 text-blue-400" />
             </div>
             <p className="text-2xl font-bold text-gray-900">45K+</p>
             <p className="text-sm text-gray-500">Alcance Estimado</p>
@@ -193,7 +193,7 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
             <h3 className="text-lg font-medium text-gray-900">Visualização do Post</h3>
             <button
               onClick={() => setShowPreview(!showPreview)}
-              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 min-h-[var(--min-touch-target)] button"
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-blue-600 hover:text-blue-700 hover:bg-blue-50 min-h-[var(--min-touch-target)] button"
             >
               <Eye className="h-4 w-4 mr-1.5" />
               {showPreview ? 'Ocultar Preview' : 'Mostrar Preview'}
@@ -230,7 +230,7 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
                   <span className="font-semibold">{campaign.brand.name}</span>{' '}
                   <span className="text-gray-700">{campaign.description}</span>
                 </p>
-                <p className="mt-2 text-sm text-indigo-600">
+                <p className="mt-2 text-sm text-blue-600">
                   {hashtags.join(' ')}
                 </p>
               </div>
@@ -294,7 +294,7 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
               </button>
             </div>
             <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-indigo-600">
+              <p className="text-sm text-blue-600">
                 #TechReview #Tecnologia #Inovacao #Review #Unboxing #Tech #Gadgets #TechBrasil
               </p>
             </div>
@@ -313,7 +313,7 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
               </button>
             </div>
             <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-indigo-600">
+              <p className="text-sm text-blue-600">
                 @techcorp @techbrasil
               </p>
             </div>
@@ -325,7 +325,7 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
       <div className="flex justify-end space-x-4">
         <button
           onClick={handleComplete}
-          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[var(--min-touch-target)] button"
+          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           <CheckCircle className="h-5 w-5 mr-2" />
           Prosseguir para Entrega

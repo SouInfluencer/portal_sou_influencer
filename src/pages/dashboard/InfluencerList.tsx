@@ -228,7 +228,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm min-h-[var(--min-touch-target)]"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm min-h-[var(--min-touch-target)]"
                 placeholder="Buscar influenciadores..."
               />
             </div>
@@ -236,7 +236,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
             {/* Sort */}
             <div className="flex items-center space-x-2">
               <select
-                className="block w-full sm:w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)]"
+                className="block w-full sm:w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)]"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'followers' | 'engagement' | 'price')}
               >
@@ -260,7 +260,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
               <Filter className="h-4 w-4 mr-2" />
               Filtros
               {Object.values(filters).some(arr => arr.length > 0) && (
-                <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                   {Object.values(filters).reduce((acc, curr) => acc + curr.length, 0)}
                 </span>
               )}
@@ -292,7 +292,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                           type="checkbox"
                           checked={filters.platform.includes(platform)}
                           onChange={() => handleFilter('platform', platform)}
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                         />
                         <span className="ml-2 text-sm text-gray-600">{platform}</span>
                       </label>
@@ -313,7 +313,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                           type="checkbox"
                           checked={filters.categories.includes(category)}
                           onChange={() => handleFilter('categories', category)}
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                         />
                         <span className="ml-2 text-sm text-gray-600">{category}</span>
                       </label>
@@ -484,7 +484,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                     {influencer.categories.map((category, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                       >
                         {category}
                       </span>
@@ -496,7 +496,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                 <div className="mt-6">
                   <button
                     onClick={() => onViewProfile(influencer.id)}
-                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 min-h-[var(--min-touch-target)]"
+                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 min-h-[var(--min-touch-target)]"
                   >
                     Ver Perfil
                     <ChevronRight className="ml-2 h-4 w-4" />

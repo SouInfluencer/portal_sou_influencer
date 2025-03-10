@@ -33,7 +33,7 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
 
   const getPlatformGradient = (platform: SocialAccount['platform']) => {
     const gradients = {
-      instagram: 'from-pink-500 via-purple-500 to-indigo-500',
+      instagram: 'from-pink-500 via-purple-500 to-blue-500',
       tiktok: 'from-gray-900 to-gray-800',
       youtube: 'from-red-600 to-red-500',
       twitter: 'from-blue-400 to-blue-500'
@@ -162,7 +162,7 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
             <h4 className="text-sm font-medium text-gray-900 mb-3">Categorias de Conteúdo</h4>
             <div className="flex flex-wrap gap-2">
               {account.contentCategories.map((category) => (
-                <span key={category} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                <span key={category} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                   {category}
                 </span>
               ))}

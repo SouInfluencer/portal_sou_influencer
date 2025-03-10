@@ -48,11 +48,11 @@ export function RegisterForm() {
               setUserType('influencer');
               setStep('details');
             }}
-            className="w-full p-6 text-left border rounded-lg hover:border-indigo-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
+            className="w-full p-6 text-left border rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors"
           >
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <User className="h-8 w-8 text-indigo-600" />
+                <User className="h-8 w-8 text-blue-600" />
               </div>
               <div className="ml-4">
                 <p className="text-lg font-medium text-gray-900">Sou Influenciador</p>
@@ -69,11 +69,11 @@ export function RegisterForm() {
               setUserType('business');
               setStep('details');
             }}
-            className="w-full p-6 text-left border rounded-lg hover:border-indigo-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-colors"
+            className="w-full p-6 text-left border rounded-lg hover:border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-colors"
           >
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Building2 className="h-8 w-8 text-indigo-600" />
+                <Building2 className="h-8 w-8 text-blue-600" />
               </div>
               <div className="ml-4">
                 <p className="text-lg font-medium text-gray-900">Sou Empresa</p>
@@ -104,7 +104,7 @@ export function RegisterForm() {
             name="name"
             id="name"
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             value={formData.name}
             onChange={handleInputChange}
           />
@@ -119,7 +119,7 @@ export function RegisterForm() {
             name="email"
             id="email"
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             value={formData.email}
             onChange={handleInputChange}
           />
@@ -134,7 +134,7 @@ export function RegisterForm() {
             name="password"
             id="password"
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             value={formData.password}
             onChange={handleInputChange}
           />
@@ -149,7 +149,7 @@ export function RegisterForm() {
             name="confirmPassword"
             id="confirmPassword"
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             value={formData.confirmPassword}
             onChange={handleInputChange}
           />
@@ -166,7 +166,7 @@ export function RegisterForm() {
                 name="cnpj"
                 id="cnpj"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 value={formData.cnpj}
                 onChange={handleInputChange}
               />
@@ -181,7 +181,7 @@ export function RegisterForm() {
                 name="segment"
                 id="segment"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 value={formData.segment}
                 onChange={handleInputChange}
               />
@@ -196,7 +196,7 @@ export function RegisterForm() {
                 name="averageBudget"
                 id="averageBudget"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 value={formData.averageBudget}
                 onChange={handleInputChange}
               />
@@ -213,7 +213,7 @@ export function RegisterForm() {
                 name="niche"
                 id="niche"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 value={formData.niche}
                 onChange={handleInputChange}
               />
@@ -231,7 +231,7 @@ export function RegisterForm() {
                   name="instagram"
                   id="instagram"
                   placeholder="@seuperfil"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   value={formData.platforms.instagram}
                   onChange={handleInputChange}
                 />
@@ -246,7 +246,7 @@ export function RegisterForm() {
                   name="youtube"
                   id="youtube"
                   placeholder="URL do canal"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   value={formData.platforms.youtube}
                   onChange={handleInputChange}
                 />
@@ -261,7 +261,7 @@ export function RegisterForm() {
                   name="tiktok"
                   id="tiktok"
                   placeholder="@seuperfil"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   value={formData.platforms.tiktok}
                   onChange={handleInputChange}
                 />
@@ -274,13 +274,13 @@ export function RegisterForm() {
           <button
             type="button"
             onClick={() => setStep('type')}
-            className="text-indigo-600 hover:text-indigo-500"
+            className="text-blue-600 hover:text-blue-500"
           >
             Voltar
           </button>
           <button
             type="submit"
-            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Criar conta
           </button>

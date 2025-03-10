@@ -103,7 +103,7 @@ export function TypeStep({ onTypeSelect }: TypeStepProps) {
   return (
     <div className="max-w-3xl mx-auto container">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 mb-6 shadow-lg transform hover:scale-105 transition-transform duration-200">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 mb-6 shadow-lg transform hover:scale-105 transition-transform duration-200">
           <Users className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-3">Escolha seu perfil</h2>
@@ -116,16 +116,16 @@ export function TypeStep({ onTypeSelect }: TypeStepProps) {
         {/* Influencer Card */}
         <button
           onClick={() => onTypeSelect('influencer')}
-          className="group relative rounded-2xl border-2 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02] touch-manipulation type-card min-h-[var(--min-touch-target)]"
+          className="group relative rounded-2xl border-2 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02] touch-manipulation type-card min-h-[var(--min-touch-target)]"
         >
           <div className="absolute top-6 right-6">
-            <div className="flex items-center space-x-2 text-indigo-600">
+            <div className="flex items-center space-x-2 text-blue-600">
               <Sparkles className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300" />
             </div>
           </div>
           <div>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg mb-6">
               <AtSign className="h-7 w-7 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Sou Influenciador</h3>
@@ -146,16 +146,16 @@ export function TypeStep({ onTypeSelect }: TypeStepProps) {
         {/* Advertiser Card */}
         <button
           onClick={() => onTypeSelect('advertiser')}
-          className="group relative rounded-2xl border-2 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02] touch-manipulation type-card min-h-[var(--min-touch-target)]"
+          className="group relative rounded-2xl border-2 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02] touch-manipulation type-card min-h-[var(--min-touch-target)]"
         >
           <div className="absolute top-6 right-6">
-            <div className="flex items-center space-x-2 text-indigo-600">
+            <div className="flex items-center space-x-2 text-blue-600">
               <Sparkles className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300" />
             </div>
           </div>
           <div>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg mb-6">
               <Users className="h-7 w-7 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Sou Anunciante</h3>

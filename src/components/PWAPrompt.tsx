@@ -92,11 +92,11 @@ export function PWAPrompt() {
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
             <div className="flex-shrink-0">
-              <div className="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+              <div className="h-10 w-10 rounded-xl bg-blue-100 flex items-center justify-center">
                 {showPrompt ? (
-                  <Download className="h-5 w-5 text-indigo-600" />
+                  <Download className="h-5 w-5 text-blue-600" />
                 ) : (
-                  <Plus className="h-5 w-5 text-indigo-600" />
+                  <Plus className="h-5 w-5 text-blue-600" />
                 )}
               </div>
             </div>
@@ -128,7 +128,7 @@ export function PWAPrompt() {
             onClick={() => {
               showPrompt ? handleInstall() : handleAddToHomeScreen();
             }}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm hover:shadow-md transition-all duration-200"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-200"
           >
             {showPrompt ? (
               <>

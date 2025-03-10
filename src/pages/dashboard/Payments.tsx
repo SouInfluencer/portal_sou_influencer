@@ -252,7 +252,7 @@ export function Payments() {
                 </div>
                 <button
                   onClick={() => setShowAddBankAccount(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Adicionar Conta
@@ -286,7 +286,7 @@ export function Payments() {
                   onClick={() => setActiveTab('payments')}
                   className={`${
                     activeTab === 'payments'
-                      ? 'border-indigo-500 text-indigo-600'
+                      ? 'border-blue-500 text-blue-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   } whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm flex items-center`}
                 >
@@ -297,7 +297,7 @@ export function Payments() {
                   onClick={() => setActiveTab('transfers')}
                   className={`${
                     activeTab === 'transfers'
-                      ? 'border-indigo-500 text-indigo-600'
+                      ? 'border-blue-500 text-blue-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   } whitespace-nowrap py-4 px-6 border-b-2 font-medium text-sm flex items-center`}
                 >
@@ -316,7 +316,7 @@ export function Payments() {
                   <select
                     value={selectedMonth}
                     onChange={(e) => setSelectedMonth(e.target.value)}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                   >
                     <option value="all">Todos os meses</option>
                     <option value="03-2024">Março 2024</option>
@@ -515,7 +515,7 @@ export function Payments() {
                   </label>
                   <select
                     id="bank"
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                   >
                     <option>Selecione o banco</option>
                     <option>Banco do Brasil</option>
@@ -533,7 +533,7 @@ export function Payments() {
                       type="text"
                       id="agency"
                       name="agency"
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>
                   <div>
@@ -543,7 +543,7 @@ export function Payments() {
                     <input
                       type="text"
                       id="account"
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                   </div>
                 </div>
@@ -554,7 +554,7 @@ export function Payments() {
                   <input
                     type="text"
                     id="holder"
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   />
                 </div>
                 <div>
@@ -564,7 +564,7 @@ export function Payments() {
                   <input
                     type="text"
                     id="cpf"
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   />
                 </div>
               </form>
@@ -572,13 +572,13 @@ export function Payments() {
                 <button
                   type="button"
                   onClick={() => setShowAddBankAccount(false)}
-                  className="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="mt-3 sm:mt-0 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-3 sm:mt-0 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm"
                 >
                   Adicionar
                 </button>

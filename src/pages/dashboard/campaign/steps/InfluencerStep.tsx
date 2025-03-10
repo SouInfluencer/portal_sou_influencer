@@ -153,7 +153,7 @@ export function InfluencerStep({
               type="text"
               value={searchTerm}
               onChange={(e) => onSearch(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm min-h-[var(--min-touch-target)] search-input"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm min-h-[var(--min-touch-target)] search-input"
               placeholder="Buscar influenciadores..."
             />
           </div>
@@ -164,7 +164,7 @@ export function InfluencerStep({
             <Filter className="h-4 w-4 mr-2" />
             Filtros
             {Object.keys(filters).length > 0 && (
-              <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+              <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                 {Object.keys(filters).length}
               </span>
             )}
@@ -193,8 +193,8 @@ export function InfluencerStep({
             onMouseEnter={() => setHoveredInfluencer(influencer)}
             className={`relative rounded-xl border influencer-card ${
               selectedInfluencer === influencer.id
-                ? 'border-indigo-500 ring-2 ring-indigo-200 bg-indigo-50/50'
-                : 'border-gray-200 bg-white hover:border-indigo-300'
+                ? 'border-blue-500 ring-2 ring-blue-200 bg-blue-50/50'
+                : 'border-gray-200 bg-white hover:border-blue-300'
             } shadow-sm hover:shadow-lg focus:outline-none transition-all duration-200 transform hover:scale-[1.02]`}
           >
             <div className="flex flex-col space-y-6">
@@ -230,7 +230,7 @@ export function InfluencerStep({
                     </div>
                   </div>
                 </div>
-                <ChevronRight className="h-6 w-6 text-indigo-400" />
+                <ChevronRight className="h-6 w-6 text-blue-400" />
               </div>
 
               {/* Pricing */}
@@ -238,8 +238,8 @@ export function InfluencerStep({
                 <div className="col-span-3 relative group">
                   <div className={`p-3 rounded-lg bg-white border ${
                     selectedInfluencer === influencer.id || hoveredInfluencer?.id === influencer.id
-                      ? 'border-indigo-300 bg-indigo-50/50 shadow-md'
-                      : 'border-gray-200 hover:border-indigo-200 hover:bg-gray-100/50'
+                      ? 'border-blue-300 bg-blue-50/50 shadow-md'
+                      : 'border-gray-200 hover:border-blue-200 hover:bg-gray-100/50'
                   } transition-all duration-200`}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-medium text-gray-600 capitalize">{contentType}</span>
@@ -248,7 +248,7 @@ export function InfluencerStep({
                       <DollarSign className="h-4 w-4 text-gray-500" />
                       <span className={`font-semibold ${
                         selectedInfluencer === influencer.id || hoveredInfluencer?.id === influencer.id
-                          ? 'text-indigo-600'
+                          ? 'text-blue-600'
                           : 'text-gray-900'
                       }`}>
                         {formatCurrency(getInfluencerPrice(influencer))}
@@ -263,7 +263,7 @@ export function InfluencerStep({
                 {influencer.categories.map(category => (
                   <span
                     key={category}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
                   >
                     {category}
                   </span>
@@ -278,7 +278,7 @@ export function InfluencerStep({
               <div className="grid gap-3 pt-4 border-t border-gray-100 metrics-grid">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-1">
-                    <Clock className="h-4 w-4 text-indigo-500" />
+                    <Clock className="h-4 w-4 text-blue-500" />
                   </div>
                   <p className="text-sm font-medium text-gray-900">98%</p>
                   <p className="text-xs text-gray-500">Entregas no Prazo</p>
@@ -335,7 +335,7 @@ export function InfluencerStep({
           type="button"
           onClick={() => selectedInfluencer && onInfluencerSelect(mockInfluencers.find(i => i.id === selectedInfluencer)!)}
           disabled={!selectedInfluencer}
-          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
+          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
         >
           Continuar
           <ChevronRight className="ml-2 h-4 w-4" />

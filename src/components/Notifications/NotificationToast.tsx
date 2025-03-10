@@ -92,7 +92,7 @@ export function NotificationToast({ notification, onClose }: NotificationToastPr
               <div className="mt-3 flex space-x-4">
                 <button
                   onClick={notification.action.onClick}
-                  className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  className="text-sm font-medium text-blue-600 hover:text-blue-500"
                 >
                   {notification.action.label}
                 </button>

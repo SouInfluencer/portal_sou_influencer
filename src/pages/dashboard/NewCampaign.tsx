@@ -307,9 +307,9 @@ export function NewCampaign({ onBack }: NewCampaignProps) {
                   {currentStepIndex > stepIdx ? (
                     <>
                       <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                        <div className="h-0.5 w-full bg-indigo-600" />
+                        <div className="h-0.5 w-full bg-blue-600" />
                       </div>
-                      <div className="relative w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full hover:bg-indigo-900">
+                      <div className="relative w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full hover:bg-blue-900">
                         <Check className="w-5 h-5 text-white" />
                         <span className="sr-only">{step.title}</span>
                       </div>
@@ -319,8 +319,8 @@ export function NewCampaign({ onBack }: NewCampaignProps) {
                       <div className="absolute inset-0 flex items-center" aria-hidden="true">
                         <div className="h-0.5 w-full bg-gray-200" />
                       </div>
-                      <div className="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-indigo-600 rounded-full">
-                        <span className="h-2.5 w-2.5 bg-indigo-600 rounded-full" />
+                      <div className="relative w-8 h-8 flex items-center justify-center bg-white border-2 border-blue-600 rounded-full">
+                        <span className="h-2.5 w-2.5 bg-blue-600 rounded-full" />
                         <span className="sr-only">{step.title}</span>
                       </div>
                     </>
@@ -337,7 +337,7 @@ export function NewCampaign({ onBack }: NewCampaignProps) {
                   )}
                   <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
                     <span className={`text-xs font-medium ${
-                      step.id === currentStep ? 'text-indigo-600' : 'text-gray-500'
+                      step.id === currentStep ? 'text-blue-600' : 'text-gray-500'
                     }`}>
                       {step.title}
                     </span>
@@ -380,7 +380,7 @@ export function NewCampaign({ onBack }: NewCampaignProps) {
                           step="100"
                           value={formData.budget || ''}
                           onChange={handleBudgetChange}
-                          className="block w-full pl-12 pr-12 sm:text-3xl border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 font-bold"
+                          className="block w-full pl-12 pr-12 sm:text-3xl border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 font-bold"
                           placeholder="0,00"
                         />
                       </div>
@@ -469,7 +469,7 @@ export function NewCampaign({ onBack }: NewCampaignProps) {
             <button
               onClick={handleNext}
               disabled={currentStepIndex === activeSteps.length - 1}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
             >
               Próximo
             </button>

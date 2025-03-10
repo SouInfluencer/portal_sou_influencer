@@ -265,7 +265,7 @@ export function AddSocialNetwork() {
             {platforms.map((platform) => (
               <div
                 key={platform.id}
-                className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] platform-card"
+                className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] platform-card"
               >
                 <div>
                   <div className="flex items-center justify-between">
@@ -280,7 +280,7 @@ export function AddSocialNetwork() {
                     </div>
                     <button
                       onClick={() => handleConnect(platform.id)}
-                      className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105 min-h-[var(--min-touch-target)] button"
+                      className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105 min-h-[var(--min-touch-target)] button"
                     >
                       Conectar
                     </button>
@@ -288,7 +288,7 @@ export function AddSocialNetwork() {
 
                   <div className="mt-6 grid grid-cols-2 gap-6">
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center"><Shield className="h-4 w-4 mr-2 text-indigo-500" />Recursos</h4>
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center"><Shield className="h-4 w-4 mr-2 text-blue-500" />Recursos</h4>
                       <ul className="space-y-2">
                         {platform.features.map((feature, index) => (
                           <li key={index} className="flex items-center text-sm text-gray-500">
@@ -297,12 +297,12 @@ export function AddSocialNetwork() {
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-4 p-3 bg-indigo-50 rounded-lg">
+                      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                         <div className="flex items-start">
-                          <HelpCircle className="h-5 w-5 text-indigo-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <p className="text-xs text-indigo-700">
+                          <HelpCircle className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
+                          <p className="text-xs text-blue-700">
                             Ao conectar sua conta, você mantém total controle sobre suas publicações.
-                            <span className="block mt-1 text-indigo-600">
+                            <span className="block mt-1 text-blue-600">
                               Nunca publicaremos nada sem sua autorização expressa.
                             </span>
                           </p>
@@ -348,7 +348,7 @@ export function AddSocialNetwork() {
                       id="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200"
                       placeholder={`Seu usuário do ${selectedPlatformData.name}`}
                       required
                     />
@@ -365,7 +365,7 @@ export function AddSocialNetwork() {
                   </button>
                   <button
                     type="submit"
-                    className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     Continuar
                   </button>
@@ -448,7 +448,7 @@ export function AddSocialNetwork() {
                       id="postUrl"
                       value={postUrl}
                       onChange={(e) => setPostUrl(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200"
                       placeholder="https://"
                       required
                     />
@@ -465,7 +465,7 @@ export function AddSocialNetwork() {
                   </button>
                   <button
                     type="submit"
-                    className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     Verificar Publicação
                   </button>
@@ -478,8 +478,8 @@ export function AddSocialNetwork() {
         {connectStep === 'verifying' && selectedPlatformData && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
             <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
-                <Loader2 className="h-6 w-6 text-indigo-600 animate-spin" />
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+                <Loader2 className="h-6 w-6 text-blue-600 animate-spin" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 Verificando Publicação
@@ -534,7 +534,7 @@ export function AddSocialNetwork() {
                 </button>
                 <button
                   onClick={handleAdminApproval}
-                  className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   Aprovar Conta
                 </button>
@@ -556,7 +556,7 @@ export function AddSocialNetwork() {
             </p>
             <button
               onClick={handleBack}
-              className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300"
+              className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Voltar para Redes Sociais
             </button>

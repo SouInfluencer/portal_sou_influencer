@@ -164,16 +164,16 @@ export function PrepaymentStep({ campaign, onNext, onComplete }: PrepaymentStepP
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Shield className="h-5 w-5 text-indigo-600" />
+            <Shield className="h-5 w-5 text-blue-600" />
             <span className="text-sm font-medium text-gray-600">Pagamento Seguro</span>
           </div>
         </div>
 
         {/* Quick Stats */}
         <div className="grid gap-4 sm:gap-6 card-grid">
-          <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+          <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border border-blue-100">
             <div className="flex items-center justify-between mb-2">
-              <DollarSign className="h-6 w-6 text-indigo-600" />
+              <DollarSign className="h-6 w-6 text-blue-600" />
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ export function PrepaymentStep({ campaign, onNext, onComplete }: PrepaymentStepP
                 <button
                   type="button"
                   onClick={() => setShowNewCardForm(false)}
-                  className="mt-3 w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:text-sm min-h-[var(--min-touch-target)] button"
+                  className="mt-3 w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:text-sm min-h-[var(--min-touch-target)] button"
                 >
                   Cancelar
                 </button>

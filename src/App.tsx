@@ -1,26 +1,25 @@
 import React from 'react';
-import { Routes, Route, useLocation, useNavigate, Navigate, useSearchParams } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { NotificationProvider } from './components/Notifications/NotificationProvider';
 import { PWAPrompt } from './components/PWAPrompt';
-import { Register } from './pages/Register';
-import { Login } from './pages/Login';
-import { ResetPassword } from './pages/ResetPassword';
-import { CompleteProfile } from './pages/CompleteProfile';
-import { ForgotPassword } from './pages/ForgotPassword';
-import { Dashboard } from './pages/Dashboard';
-import { InfluencerLanding } from './pages/InfluencerLanding';
-import { AdvertiserLanding } from './pages/AdvertiserLanding';
-import { NewCampaign } from './pages/dashboard/NewCampaign';
+import { Register } from './pages/onboarding/Register.tsx';
+import { ResetPassword } from './pages/onboarding/ResetPassword.tsx';
+import { CompleteProfile } from './pages/dashboard/CompleteProfile.tsx';
+import { ForgotPassword } from './pages/onboarding/ForgotPassword.tsx';
+import { WebSite } from './pages/WebSite.tsx';
+import { InfluencerLanding } from './pages/website/InfluencerLanding.tsx';
+import { AdvertiserLanding } from './pages/website/AdvertiserLanding.tsx';
 import { CampaignDetails } from './pages/dashboard/CampaignDetails';
-import { LandingPage } from './pages/LandingPage';
+import { LandingPage } from './pages/website/LandingPage.tsx';
 import { SocialMetrics } from './pages/dashboard/profile/SocialMetrics';
 import { Notifications } from './pages/dashboard/Notifications';
 import { authService } from './services/auth';
+import {Login} from "./pages/onboarding/Login.tsx";
+import {Terms} from "./pages/website/Terms.tsx";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(authService.isAuthenticated());
   
   React.useEffect(() => {
@@ -79,9 +78,10 @@ function App() {
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/redefinir-senha" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="/dashboard/*" element={
           <ProtectedRoute>
-            <Dashboard />
+            <WebSite />
           </ProtectedRoute>
         } />
         <Route path="/dashboard/campaign/:id" element={

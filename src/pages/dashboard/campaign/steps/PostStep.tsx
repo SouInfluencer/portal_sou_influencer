@@ -233,11 +233,11 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                 ) : (
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-white hover:from-gray-100 hover:to-gray-50 transition-colors duration-200 cursor-pointer border-2 border-dashed border-gray-300 hover:border-indigo-300"
+                    className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-white hover:from-gray-100 hover:to-gray-50 transition-colors duration-200 cursor-pointer border-2 border-dashed border-gray-300 hover:border-blue-300"
                   >
                     <div className="text-center p-6">
-                      <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto mb-4">
-                        <ImageIcon className="h-8 w-8 text-indigo-400" />
+                      <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
+                        <ImageIcon className="h-8 w-8 text-blue-400" />
                       </div>
                       <p className="text-sm font-medium text-gray-900 mb-1">
                         Selecione uma imagem
@@ -273,7 +273,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                   </span>
                 </p>
                 {hashtags.length > 0 && (
-                  <p className="text-sm text-indigo-600 mt-1">
+                  <p className="text-sm text-blue-600 mt-1">
                     {hashtags.join(' ')}
                   </p>
                 )}
@@ -290,7 +290,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
               <h3 className="text-lg font-medium text-gray-900">Legenda</h3>
               <button
                 onClick={generateCaption}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 min-h-[var(--min-touch-target)] button"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 min-h-[var(--min-touch-target)] button"
               >
                 <Wand2 className="h-4 w-4 mr-2" />
                 Gerar Legenda
@@ -318,7 +318,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                   rows={4}
                   value={caption}
                   onChange={handleCaptionChange}
-                  className="w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-400 hover:border-gray-400 transition-colors duration-200 font-mono min-h-[var(--min-touch-target)] input"
+                  className="w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 placeholder-gray-400 hover:border-gray-400 transition-colors duration-200 font-mono min-h-[var(--min-touch-target)] input"
                   placeholder="💡 Comece com uma introdução chamativa...
 
 📝 Desenvolva o conteúdo em parágrafos curtos...
@@ -347,12 +347,12 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                   {hashtags.map(hashtag => (
                     <span
                       key={hashtag}
-                      className="inline-flex items-center px-3 py-1.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100 hover:bg-indigo-100 transition-colors duration-200"
+                      className="inline-flex items-center px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors duration-200"
                     >
                       {hashtag}
                       <button
                         onClick={() => handleRemoveHashtag(hashtag)}
-                        className="ml-1.5 text-indigo-400 hover:text-indigo-600 p-0.5 hover:bg-indigo-200/50 rounded-full transition-colors duration-200"
+                        className="ml-1.5 text-blue-400 hover:text-blue-600 p-0.5 hover:bg-blue-200/50 rounded-full transition-colors duration-200"
                       >
                         <X className="h-4 w-4" />
                       </button>
@@ -360,7 +360,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                   ))}
                   <button
                     onClick={() => setShowHashtagDialog(true)}
-                    className="inline-flex items-center px-3 py-1.5 rounded-full border-2 border-dashed border-gray-300 text-gray-600 hover:border-indigo-500 hover:text-indigo-500 hover:bg-indigo-50/50 transition-all duration-200 min-h-[var(--min-touch-target)] button"
+                    className="inline-flex items-center px-3 py-1.5 rounded-full border-2 border-dashed border-gray-300 text-gray-600 hover:border-blue-500 hover:text-blue-500 hover:bg-blue-50/50 transition-all duration-200 min-h-[var(--min-touch-target)] button"
                   >
                     <Plus className="h-4 w-4 mr-1" />
                     Adicionar
@@ -401,7 +401,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
             <button
               type="button"
               onClick={onNext}
-              className="px-6 py-2.5 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 min-h-[var(--min-touch-target)] button"
+              className="px-6 py-2.5 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 min-h-[var(--min-touch-target)] button"
             >
               Continuar
             </button>

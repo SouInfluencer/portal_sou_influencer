@@ -65,7 +65,7 @@ export function MessageItem({
       <div
         className={`max-w-lg ${
           isCurrentUser
-            ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white'
+            ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white'
             : 'bg-white text-gray-900'
         } rounded-xl px-4 py-2 shadow-sm hover:shadow-md transition-shadow duration-200 ${
           isFirstInGroup ? 'rounded-t-xl' : ''
@@ -76,7 +76,7 @@ export function MessageItem({
             <textarea
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
-              className="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full p-2 rounded border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={2}
             />
             <div className="flex justify-end space-x-2">
@@ -88,7 +88,7 @@ export function MessageItem({
               </button>
               <button
                 onClick={handleEdit}
-                className="px-3 py-1 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
               >
                 Save
               </button>
@@ -104,9 +104,9 @@ export function MessageItem({
                 className="mt-2 flex items-center p-2 rounded bg-black/5 hover:bg-black/10 transition-colors duration-200 group cursor-pointer"
               >
                 {attachment.type === 'document' ? (
-                  <File className="h-5 w-5 mr-2 text-indigo-500" />
+                  <File className="h-5 w-5 mr-2 text-blue-500" />
                 ) : (
-                  <ImageIcon className="h-5 w-5 mr-2 text-indigo-500" />
+                  <ImageIcon className="h-5 w-5 mr-2 text-blue-500" />
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">

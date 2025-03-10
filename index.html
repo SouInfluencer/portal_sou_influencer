@@ -1,13 +1,67 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sou Influencer - Conecte-se às Melhores Marcas</title>
+
+  <meta name="description" content="Do micro ao macro influenciador, aqui todo criador de conteúdo tem espaço. Conectamos você às melhores marcas, independente do número de seguidores.">
+  <meta name="keywords" content="influenciador digital, parcerias com marcas, marketing de influência, conectar influenciadores, publicidade digital">
+  <meta name="author" content="Sou Influencer">
+
+  <!-- Open Graph (Facebook, LinkedIn) -->
+  <meta property="og:title" content="Sou Influencer - Conecte-se às Melhores Marcas">
+  <meta property="og:description" content="Plataforma que conecta influenciadores a marcas ideais. Seu número de seguidores não limita suas oportunidades!">
+  <meta property="og:image" content="/images/sou-influencer-banner.jpg">
+  <meta property="og:url" content="https://souinfluencer.com">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sou Influencer - Conecte-se às Melhores Marcas">
+  <meta name="twitter:description" content="Do micro ao macro influenciador, aqui todo criador de conteúdo tem espaço. Conectamos você às melhores marcas.">
+  <meta name="twitter:image" content="/images/sou-influencer-banner.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://souinfluencer.com" />
+
+  <!-- Meta Pixel Code -->
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1020602683282549',
+        xfbml      : true,
+        version    : 'v22.0'
+      });
+      FB.AppEvents.logPageView();
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <!-- End Meta Pixel Code -->
+
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- Meta Pixel NoScript -->
+<noscript>
+  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1189980432552719&ev=PageView&noscript=1" alt=""/>
+</noscript>
+<!-- End Meta Pixel NoScript -->
+
+<script type="module" src="/src/main.tsx"></script>
+
+</body>
 </html>

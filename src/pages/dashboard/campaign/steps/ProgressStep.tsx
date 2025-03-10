@@ -105,14 +105,14 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
       icon: CheckCircle,
       content: (
         <div className="space-y-6 container">
-          <div className="bg-indigo-50 rounded-lg p-4">
+          <div className="bg-blue-50 rounded-lg p-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <CheckCircle className="h-5 w-5 text-indigo-400" />
+                <CheckCircle className="h-5 w-5 text-blue-400" />
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-indigo-800">Proposta de Campanha</h3>
-                <div className="mt-2 text-sm text-indigo-700">
+                <h3 className="text-sm font-medium text-blue-800">Proposta de Campanha</h3>
+                <div className="mt-2 text-sm text-blue-700">
                   <p>Revise os detalhes da proposta e aceite ou recuse a campanha.</p>
                 </div>
               </div>
@@ -357,14 +357,14 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
       icon: Upload,
       content: (
         <div className="space-y-6">
-          <div className="bg-indigo-50 rounded-lg p-4">
+          <div className="bg-blue-50 rounded-lg p-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <Upload className="h-5 w-5 text-indigo-400" />
+                <Upload className="h-5 w-5 text-blue-400" />
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-indigo-800">Entrega do conteúdo</h3>
-                <div className="mt-2 text-sm text-indigo-700">
+                <h3 className="text-sm font-medium text-blue-800">Entrega do conteúdo</h3>
+                <div className="mt-2 text-sm text-blue-700">
                   <p>O conteúdo está pronto para ser publicado na plataforma.</p>
                 </div>
               </div>
@@ -617,7 +617,7 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <currentStep.icon className="h-6 w-6 text-indigo-600" />
+          <currentStep.icon className="h-6 w-6 text-blue-600" />
         </div>
       </div>
 
@@ -659,7 +659,7 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
                   onClick={() => setShowRejectConfirm(false)}
                 >
                   Cancelar

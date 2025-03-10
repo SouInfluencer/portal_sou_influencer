@@ -47,7 +47,7 @@ export function SocialMedia({ profile }: SocialMediaProps) {
                 href={platform.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-gray-400 hover:text-indigo-600 rounded-lg hover:bg-gray-50 transition-colors duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50 transition-colors duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <ChevronRight className="h-5 w-5" />
               </a>
@@ -56,7 +56,7 @@ export function SocialMedia({ profile }: SocialMediaProps) {
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gray-50">
                 <div className="flex items-center justify-between mb-2">
-                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-500" />
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
                   <BarChart2 className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
                 </div>
                 <p className="text-lg sm:text-2xl font-bold text-gray-900">{formatNumber(platform.followers)}</p>

@@ -191,7 +191,7 @@ export function EventList({ events, onEventClick, onEditEvent, onDeleteEvent }: 
 
               {event.content?.hashtags && event.content.hashtags.length > 0 && (
                 <div className="mt-2 text-sm text-gray-500">
-                  <p className="line-clamp-1 text-indigo-600">
+                  <p className="line-clamp-1 text-blue-600">
                     {event.content.hashtags.join(' ')}
                   </p>
                 </div>

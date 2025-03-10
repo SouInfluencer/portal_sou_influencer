@@ -77,7 +77,7 @@ export function NotificationBell() {
   const getIconColor = (type: Notification['type']) => {
     switch (type) {
       case 'campaign':
-        return 'text-indigo-500';
+        return 'text-blue-500';
       case 'message':
         return 'text-blue-500';
       case 'payment':
@@ -103,7 +103,7 @@ export function NotificationBell() {
     <div className="relative">
       <button
         onClick={() => navigate('/dashboard/notifications')}
-        className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-lg transition-all duration-200 group min-h-[44px] min-w-[44px]"
+        className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-lg transition-all duration-200 group min-h-[44px] min-w-[44px]"
       >
         <span className="sr-only">Ver notificações</span>
         <Bell className="h-5 w-5" />
@@ -123,7 +123,7 @@ export function NotificationBell() {
               <h3 className="text-lg font-medium text-gray-900">Notificações</h3>
               <div className="flex items-center space-x-4">
                 {unreadCount > 0 && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     {unreadCount} não lidas
                   </span>
                 )}
@@ -148,7 +148,7 @@ export function NotificationBell() {
                     <div
                       key={notification.id}
                       className={`p-4 hover:bg-gray-50 transition-all duration-200 transform hover:scale-[1.02] ${
-                        !notification.read ? 'bg-indigo-50/50' : ''
+                        !notification.read ? 'bg-blue-50/50' : ''
                       }`}
                     >
                       <div className="flex items-start">
@@ -171,7 +171,7 @@ export function NotificationBell() {
                               <a
                                 href={notification.action.href}
                                 onClick={() => handleMarkAsRead(notification.id)}
-                                className="inline-flex items-center px-2 py-1 text-xs font-medium text-indigo-600 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors duration-200"
+                                className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-600 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                               >
                                 {notification.action.label}
                                 <ChevronRight className="ml-1 h-4 w-4" />
@@ -182,7 +182,7 @@ export function NotificationBell() {
                         {!notification.read && (
                           <button
                             onClick={() => handleMarkAsRead(notification.id)}
-                            className="ml-4 bg-indigo-100 text-indigo-600 rounded-full p-1.5 hover:bg-indigo-200 transition-all duration-200 transform hover:scale-110"
+                            className="ml-4 bg-blue-100 text-blue-600 rounded-full p-1.5 hover:bg-blue-200 transition-all duration-200 transform hover:scale-110"
                           >
                             <CheckCircle className="h-4 w-4" />
                           </button>

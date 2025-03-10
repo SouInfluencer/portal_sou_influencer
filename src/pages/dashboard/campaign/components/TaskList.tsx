@@ -106,7 +106,7 @@ export function TaskList({ step, campaign, onTaskComplete }: TaskListProps) {
               className={`flex items-center justify-center rounded-full mr-3 transition-colors duration-200 task-checkbox ${
                 task.completed
                   ? 'bg-green-100 text-green-600'
-                  : 'border-2 border-gray-300 hover:border-indigo-500'
+                  : 'border-2 border-gray-300 hover:border-blue-500'
               }`}
             >
               {task.completed ? (

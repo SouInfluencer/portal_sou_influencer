@@ -94,19 +94,19 @@ export function NextAction({ step, campaign, onAction }: NextActionProps) {
   if (!stepDetails) return null;
 
   return (
-    <div className={`bg-gradient-to-br from-indigo-50/50 to-white border border-indigo-100/50 next-action transition-all duration-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+    <div className={`bg-gradient-to-br from-blue-50/50 to-white border border-blue-100/50 next-action transition-all duration-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
       <div className="flex items-center justify-between mb-4 action-header">
         <div className="flex items-center">
-          <Sparkles className="h-5 w-5 text-indigo-600 mr-2" />
-          <h3 className="font-medium text-indigo-900 action-title">{stepDetails.nextAction.title}</h3>
+          <Sparkles className="h-5 w-5 text-blue-600 mr-2" />
+          <h3 className="font-medium text-blue-900 action-title">{stepDetails.nextAction.title}</h3>
         </div>
       </div>
-      <p className="text-indigo-700 mb-6 action-description">
+      <p className="text-blue-700 mb-6 action-description">
         {stepDetails.nextAction.description}
       </p>
       <button
         onClick={onAction}
-        className="inline-flex items-center border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-[1.02] action-button"
+        className="inline-flex items-center border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02] action-button"
       >
         {stepDetails.nextAction.buttonText}
         <ArrowRight className="ml-2 h-4 w-4" />

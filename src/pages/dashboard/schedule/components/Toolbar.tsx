@@ -186,7 +186,7 @@ export function Toolbar({
               onClick={() => onViewChange('month')}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 view-button ${
                 selectedView === 'month'
-                  ? 'bg-white text-indigo-600 shadow'
+                  ? 'bg-white text-blue-600 shadow'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -196,7 +196,7 @@ export function Toolbar({
               onClick={() => onViewChange('week')}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 view-button ${
                 selectedView === 'week'
-                  ? 'bg-white text-indigo-600 shadow'
+                  ? 'bg-white text-blue-600 shadow'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -206,7 +206,7 @@ export function Toolbar({
               onClick={() => onViewChange('agenda')}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 view-button ${
                 selectedView === 'agenda'
-                  ? 'bg-white text-indigo-600 shadow'
+                  ? 'bg-white text-blue-600 shadow'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -219,7 +219,7 @@ export function Toolbar({
         <select
           value={selectedFilter}
           onChange={(e) => onFilterChange(e.target.value as 'all' | 'pending' | 'completed')}
-          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg transition-colors duration-200 hover:border-gray-400 filter-select"
+          className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg transition-colors duration-200 hover:border-gray-400 filter-select"
         >
           <option value="all">Todas as postagens</option>
           <option value="pending">Pendentes</option>
@@ -238,7 +238,7 @@ export function Toolbar({
           </button>
           <button
             onClick={() => onNavigate('today')}
-            className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors duration-200 nav-button"
+            className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200 nav-button"
           >
             Hoje
           </button>
@@ -255,7 +255,7 @@ export function Toolbar({
           type="date"
           value={selectedDate.toISOString().split('T')[0]}
           onChange={(e) => onDateChange(new Date(e.target.value))}
-          className="block w-auto px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200 hover:border-gray-400 date-picker"
+          className="block w-auto px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200 hover:border-gray-400 date-picker"
         />
       </div>
     </div>

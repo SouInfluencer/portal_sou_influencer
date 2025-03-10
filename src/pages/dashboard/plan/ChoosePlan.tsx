@@ -147,8 +147,8 @@ export function ChoosePlan({ onBack, onUpgrade }: ChoosePlanProps) {
         'Múltiplos perfis de usuário'
       ],
       icon: Crown,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-100',
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-100',
       popular: true
     }
   ];
@@ -190,13 +190,13 @@ export function ChoosePlan({ onBack, onUpgrade }: ChoosePlanProps) {
               key={plan.id}
               className={`relative rounded-2xl border plan-card ${
                 selectedPlan === plan.id
-                  ? 'border-indigo-500 ring-2 ring-indigo-200 bg-gradient-to-br from-indigo-50 to-white'
-                  : 'border-gray-200 bg-white hover:border-indigo-300'
+                  ? 'border-blue-500 ring-2 ring-blue-200 bg-gradient-to-br from-blue-50 to-white'
+                  : 'border-gray-200 bg-white hover:border-blue-300'
               } shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]`}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center rounded-full bg-indigo-600 px-4 py-1 text-xs font-medium text-white">
+                  <span className="inline-flex items-center rounded-full bg-blue-600 px-4 py-1 text-xs font-medium text-white">
                     Popular
                   </span>
                 </div>
@@ -224,7 +224,7 @@ export function ChoosePlan({ onBack, onUpgrade }: ChoosePlanProps) {
                 className={`mt-8 rounded-xl px-6 py-3 text-sm font-medium button ${
                   currentPlan === plan.name.toLowerCase()
                     ? 'bg-green-100 text-green-700 cursor-default'
-                    : 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200'
+                    : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200'
                 }`}
               >
                 {currentPlan === plan.name.toLowerCase() ? 'Plano Atual' : plan.name.toLowerCase() === 'starter' ? 'Plano Gratuito' : 'Escolher Plano'}

@@ -356,7 +356,7 @@ export function Schedule({ onSelectCampaign }: ScheduleProps) {
                   <select
                     value={selectedFilter}
                     onChange={(e) => setSelectedFilter(e.target.value as 'all' | 'pending' | 'completed')}
-                    className="block w-40 pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-lg min-h-[var(--min-touch-target)]"
+                    className="block w-40 pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-lg min-h-[var(--min-touch-target)]"
                   >
                     <option value="all">Todas as postagens</option>
                     <option value="pending">Pendentes</option>

@@ -167,7 +167,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                       id="title"
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
+                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
                       required
                     />
                   </div>
@@ -182,7 +182,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                         id="date"
                         value={formData.date}
                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
+                        className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
                         required
                       />
                     </div>
@@ -195,7 +195,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                         id="time"
                         value={formData.time}
                         onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                        className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
+                        className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
                         required
                       />
                     </div>
@@ -209,7 +209,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                       id="type"
                       value={formData.type}
                       onChange={(e) => setFormData({ ...formData, type: e.target.value as EventFormData['type'] })}
-                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
+                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
                     >
                       <option value="Post">Post</option>
                       <option value="Story">Story</option>
@@ -226,7 +226,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                       id="platform"
                       value={formData.platform}
                       onChange={(e) => setFormData({ ...formData, platform: e.target.value as EventFormData['platform'] })}
-                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
+                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
                     >
                       <option value="Instagram">Instagram</option>
                       <option value="TikTok">TikTok</option>
@@ -243,7 +243,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       rows={3}
-                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm font-mono transition-all duration-200 hover:border-gray-400 form-input"
+                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono transition-all duration-200 hover:border-gray-400 form-input"
                       placeholder="Digite a legenda do seu post aqui..."
                     />
                   </div>
@@ -263,7 +263,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                           hashtags: e.target.value.split(' ').filter(tag => tag.startsWith('#'))
                         }
                       })}
-                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
+                      className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 form-input"
                       placeholder="#exemplo #hashtag"
                     />
                   </div>
@@ -281,7 +281,7 @@ export function EventForm({ onClose, onSubmit, initialData }: EventFormProps) {
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 form-button"
+                  className="px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 form-button"
                 >
                   {initialData ? 'Salvar' : 'Criar'}
                 </button>

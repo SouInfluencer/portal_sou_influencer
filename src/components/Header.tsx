@@ -16,7 +16,7 @@ export function Header({ onLoginClick, currentView, onLogoClick }: {
                 onClick={onLogoClick}
                 className="flex-shrink-0 flex items-center"
               >
-                <span className="text-2xl font-bold text-indigo-600">Sou Influencer</span>
+                <span className="text-2xl font-bold text-blue-600">Sou Influencer</span>
               </button>
             )}
           </div>
@@ -30,7 +30,7 @@ export function Header({ onLoginClick, currentView, onLogoClick }: {
                   </div>
                   <input
                     type="text"
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     placeholder="Buscar influenciadores ou campanhas..."
                   />
                 </div>

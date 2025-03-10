@@ -36,10 +36,10 @@ export function Dashboard() {
    };
    
    return (
-    <div className="h-screen flex flex-col lg:flex-row overflow-hidden bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
+    <div className="h-screen flex flex-col lg:flex-row overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
        {/* Background Decorative Elements */}
        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-         <div className="absolute -top-40 -right-40 w-[30rem] h-[30rem] bg-gradient-to-br from-indigo-200/40 to-indigo-300/40 rounded-full opacity-20 blur-[120px] animate-pulse" />
+         <div className="absolute -top-40 -right-40 w-[30rem] h-[30rem] bg-gradient-to-br from-blue-200/40 to-blue-300/40 rounded-full opacity-20 blur-[120px] animate-pulse" />
          <div className="absolute top-1/2 -left-40 w-[35rem] h-[35rem] bg-gradient-to-br from-purple-200/40 to-purple-300/40 rounded-full opacity-20 blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
          <div className="absolute -bottom-40 right-1/3 w-[28rem] h-[28rem] bg-gradient-to-br from-pink-200/40 to-pink-300/40 rounded-full opacity-20 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
        </div>
@@ -49,14 +49,14 @@ export function Dashboard() {
          {/* Mobile Menu Button */}
          <button
            onClick={() => setShowMobileMenu(!showMobileMenu)}
-          className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+          className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
          >
            {showMobileMenu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
          </button>
 
         {/* Mobile Logo */}
         <div className="lg:hidden flex items-center ml-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-md">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-md">
             <Building2 className="h-5 w-5 text-white" />
           </div>
         </div>
@@ -74,7 +74,7 @@ export function Dashboard() {
                className="flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100/80 transition-all duration-200 group"
              >
                <img
-                 className="h-9 w-9 rounded-full ring-2 ring-white shadow-sm group-hover:ring-indigo-200 transition-all duration-200"
+                 className="h-9 w-9 rounded-full ring-2 ring-white shadow-sm group-hover:ring-blue-200 transition-all duration-200"
                  src={user.imageUrl}
                  alt=""
                />
@@ -137,10 +137,10 @@ export function Dashboard() {
             <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
               <div className="flex-shrink-0 flex items-center px-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg">
                     <Building2 className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700">
+                  <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
                     Sou Influencer
                   </span>
                 </div>
@@ -166,7 +166,7 @@ export function Dashboard() {
                     }}
                     className={`w-full ${
                       activeMenuItem === item.path
-                        ? 'bg-indigo-50 text-indigo-600 border-indigo-100'
+                        ? 'bg-blue-50 text-blue-600 border-blue-100'
                         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                     } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200`}
                   >
@@ -207,11 +207,11 @@ export function Dashboard() {
            <div className="flex flex-col flex-grow pt-8 pb-4 overflow-y-auto">
              <div className="flex items-center flex-shrink-0 px-6">
                <div className="flex items-center space-x-3">
-                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group cursor-pointer">
+                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group cursor-pointer">
                    <Building2 className="h-6 w-6 text-white" />
                    <Sparkles className="absolute h-3 w-3 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                  </div>
-                 <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700">
+                 <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
                    Sou Influencer
                  </span>
                </div>
@@ -223,10 +223,10 @@ export function Dashboard() {
                    <div className="ml-3">
                      <button
                        onClick={() => navigate('profile')}
-                       className="text-sm font-medium text-gray-900 hover:text-indigo-600 transition-colors duration-200 focus:outline-none group"
+                       className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 focus:outline-none group"
                      >
                        {user.name}
-                       <div className="h-0.5 w-0 bg-indigo-600 group-hover:w-full transition-all duration-200"></div>
+                       <div className="h-0.5 w-0 bg-blue-600 group-hover:w-full transition-all duration-200"></div>
                      </button>
                      <p className="text-xs text-gray-500 mt-0.5">Influenciador</p>
                    </div>
@@ -237,11 +237,11 @@ export function Dashboard() {
                      onClick={() => navigate('profile')}
                      className={`w-full text-left ${
                        activeMenuItem === 'profile'
-                         ? 'bg-gradient-to-r from-indigo-50 to-indigo-50/50 text-indigo-600 shadow-sm border border-indigo-100/50 scale-[1.02]'
+                         ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
                          : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
                      } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
                    >
-                     <div className="absolute inset-0 bg-gradient-to-r from-indigo-100/0 via-indigo-100/30 to-indigo-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                     <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                      <UserCircle className="mr-3 flex-shrink-0 h-5 w-5" />
                      Minha Página
                    </button>
@@ -254,7 +254,7 @@ export function Dashboard() {
 
        {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden pt-16 relative w-full">
-         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
+         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
            <Routes>
              <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
              <Route path="profile" element={<Profile />} />

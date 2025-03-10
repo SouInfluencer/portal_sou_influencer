@@ -105,17 +105,17 @@ export function PaymentStep({ campaign, onNext, onComplete }: PaymentStepProps) 
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Shield className="h-5 w-5 text-indigo-600" />
+            <Shield className="h-5 w-5 text-blue-600" />
             <span className="text-sm font-medium text-gray-600">Pagamento Seguro</span>
           </div>
         </div>
 
         {/* Quick Stats */}
         <div className="grid gap-6 mb-8 stats-grid">
-          <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+          <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-xl border border-blue-100">
             <div className="flex items-center justify-between mb-2">
-              <DollarSign className="h-6 w-6 text-indigo-600" />
-              <BarChart2 className="h-4 w-4 text-indigo-400" />
+              <DollarSign className="h-6 w-6 text-blue-600" />
+              <BarChart2 className="h-4 w-4 text-blue-400" />
             </div>
             <p className="text-2xl font-bold text-gray-900">R$ {campaign.budget.toLocaleString()}</p>
             <p className="text-sm text-gray-500">Valor Total</p>
@@ -164,8 +164,8 @@ export function PaymentStep({ campaign, onNext, onComplete }: PaymentStepProps) 
                       <CheckCircle className="h-6 w-6 text-green-600" />
                     </div>
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600" />
+                    <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600" />
                     </div>
                   )}
                 </div>
@@ -180,7 +180,7 @@ export function PaymentStep({ campaign, onNext, onComplete }: PaymentStepProps) 
                   </p>
                   <div className="mt-4 w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-indigo-600 h-2 rounded-full transition-all duration-500 ease-out"
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
                       style={{ width: status === 'completed' ? '100%' : '60%' }}
                     />
                   </div>

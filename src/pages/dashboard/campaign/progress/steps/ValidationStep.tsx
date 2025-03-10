@@ -125,10 +125,10 @@ export function ValidationStep({ campaign, onNext, onComplete }: ValidationStepP
 
         {/* Performance Metrics */}
         <div className="grid gap-6 mb-8 metrics-grid">
-          <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100">
+          <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
             <div className="flex items-center justify-between mb-2">
-              <Eye className="h-5 w-5 text-indigo-600" />
-              <span className="text-xs font-medium text-indigo-600">Alcance</span>
+              <Eye className="h-5 w-5 text-blue-600" />
+              <span className="text-xs font-medium text-blue-600">Alcance</span>
             </div>
             <p className="text-2xl font-bold text-gray-900">12.5k</p>
           </div>
@@ -179,7 +179,7 @@ export function ValidationStep({ campaign, onNext, onComplete }: ValidationStepP
                       ...prev,
                       [requirement]: e.target.checked
                     }))}
-                    className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded min-h-[var(--min-touch-target)]"
+                    className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded min-h-[var(--min-touch-target)]"
                   />
                 </div>
                 <div className="ml-3 text-sm">
@@ -219,7 +219,7 @@ export function ValidationStep({ campaign, onNext, onComplete }: ValidationStepP
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               rows={4}
-              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-xl min-h-[var(--min-touch-target)] input"
+              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-xl min-h-[var(--min-touch-target)] input"
               placeholder="Deixe um feedback para o influenciador..."
             />
           </div>
@@ -283,7 +283,7 @@ export function ValidationStep({ campaign, onNext, onComplete }: ValidationStepP
                 <button
                   type="button"
                   onClick={() => setShowRejectConfirm(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
                 >
                   Cancelar
                 </button>

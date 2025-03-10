@@ -88,14 +88,14 @@ export function ProposalStep({ campaign, onAcceptProposal, onRejectProposal }: P
 
   return (
     <div className="space-y-4 sm:space-y-6 lg:space-y-8 container">
-      <div className="bg-indigo-50 rounded-lg p-4">
+      <div className="bg-blue-50 rounded-lg p-4">
         <div className="flex">
           <div className="flex-shrink-0">
-            <AlertTriangle className="h-5 w-5 text-indigo-400" aria-hidden="true" />
+            <AlertTriangle className="h-5 w-5 text-blue-400" aria-hidden="true" />
           </div>
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-indigo-800">Atenção</h3>
-            <div className="mt-2 text-sm text-indigo-700">
+            <h3 className="text-sm font-medium text-blue-800">Atenção</h3>
+            <div className="mt-2 text-sm text-blue-700">
               <p>
                 Revise cuidadosamente os detalhes da proposta antes de aceitar.
               </p>

@@ -57,8 +57,8 @@ export function SocialNetworks() {
         {/* Empty State */}
         {connectedNetworks.length === 0 && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 text-center mb-8">
-            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
-              <Share2 className="h-6 w-6 text-indigo-600" />
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+              <Share2 className="h-6 w-6 text-blue-600" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               Conecte suas redes sociais
@@ -69,7 +69,7 @@ export function SocialNetworks() {
             </p>
             <button
               onClick={() => setShowAddNetwork(true)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <Plus className="h-5 w-5 mr-2" />
               Conectar Rede Social
@@ -86,7 +86,7 @@ export function SocialNetworks() {
           </div>
           <button
             onClick={() => setShowAddNetwork(true)}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <Plus className="h-5 w-5 mr-2" />
             Conectar Nova Rede
@@ -185,7 +185,7 @@ export function SocialNetworks() {
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
                   onClick={() => setShowDisconnectConfirm(null)}
                 >
                   Cancelar

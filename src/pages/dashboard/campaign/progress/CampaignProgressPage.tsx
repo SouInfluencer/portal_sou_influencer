@@ -108,7 +108,7 @@ const getStepDetails = (step: string) => {
       title: 'Liberação do Pagamento',
       description: 'Processamento e liberação automática',
       icon: DollarSign,
-      color: 'bg-indigo-100 text-indigo-600',
+      color: 'bg-blue-100 text-blue-600',
       nextAction: 'O pagamento será processado automaticamente após a aprovação',
       metrics: [
         { icon: Shield, label: 'Status', value: 'Processando' },
@@ -206,7 +206,7 @@ export function CampaignProgressPage({
             </div>
             <button
               onClick={() => setShowHelp(true)}
-              className="p-2.5 text-gray-400 hover:text-indigo-600 rounded-lg hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
+              className="p-2.5 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <Info className="h-5 w-5" />
             </button>
@@ -215,7 +215,7 @@ export function CampaignProgressPage({
           {/* Quick Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 py-4 border-y border-gray-100">
             {getStepDetails(step)?.metrics.map((metric, index) => (
-              <div key={index} className="bg-white rounded-xl p-4 border border-gray-200/80 hover:border-indigo-200 transition-all duration-200">
+              <div key={index} className="bg-white rounded-xl p-4 border border-gray-200/80 hover:border-blue-200 transition-all duration-200">
                 <div className="flex items-center justify-between mb-2">
                   <metric.icon className={`h-5 w-5 ${metric.color || 'text-gray-400'}`} />
                   <BarChart2 className="h-4 w-4 text-gray-300" />
@@ -291,8 +291,8 @@ export function CampaignProgressPage({
             <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <div>
-                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100">
-                  <Info className="h-6 w-6 text-indigo-600" />
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
+                  <Info className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="mt-3 text-center sm:mt-5">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -309,7 +309,7 @@ export function CampaignProgressPage({
               <div className="mt-5 sm:mt-6">
                 <button
                   type="button"
-                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm min-h-[var(--min-touch-target)]"
+                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm min-h-[var(--min-touch-target)]"
                   onClick={() => setShowHelp(false)}
                 >
                   Entendi

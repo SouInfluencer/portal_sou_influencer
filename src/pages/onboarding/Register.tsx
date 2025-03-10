@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KeyRound, Mail, AlertCircle, User, Building2, Info, ChevronRight } from 'lucide-react';
-import { authService } from '../services/auth';
+import { authService } from '../../services/auth.ts';
 
 // Add keyframes for animations
 const styles = `
@@ -152,28 +152,28 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
+        <div className={`absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
         <div className={`absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-purple-200 to-purple-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 delay-300 ${mounted ? 'translate-x-0 opacity-20' : '-translate-x-12 opacity-0'}`} />
         <div className={`absolute -bottom-40 right-1/3 w-96 h-96 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 delay-500 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className={`flex items-center justify-center transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg min-h-[44px] min-w-[44px]">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg min-h-[44px] min-w-[44px]">
             <Building2 className="h-7 w-7 text-white" />
           </div>
         </div>
-        <h2 className={`mt-6 text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-500 animate-gradient transition-all duration-1000 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+        <h2 className={`mt-6 text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-500 to-blue-500 animate-gradient transition-all duration-1000 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           Crie sua conta
         </h2>
         <p className={`mt-2 text-center text-gray-600 transition-all duration-1000 delay-400 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           Já tem uma conta?{' '}
           <button
             onClick={() => navigate('/login')}
-            className="font-medium text-indigo-600 hover:text-indigo-500 min-h-[44px] px-3 py-2 rounded-lg hover:bg-indigo-50 transition-all duration-200"
+            className="font-medium text-blue-600 hover:text-blue-500 min-h-[44px] px-3 py-2 rounded-lg hover:bg-blue-50 transition-all duration-200"
           >
             Faça login
           </button>
@@ -190,13 +190,13 @@ function Register() {
                   <div className="flex items-center">
                     <div className={`flex items-center justify-center h-8 w-8 rounded-full ${
                       step === s
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-blue-600 text-white'
                         : step === 'details' && s === 'username'
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-blue-600 text-white'
                         : step === 'details' && s === 'type'
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-blue-600 text-white'
                         : step === 'username' && s === 'type'
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-blue-600 text-white'
                         : 'bg-gray-200 text-gray-400'
                     }`}>
                       {i + 1}
@@ -238,12 +238,12 @@ function Register() {
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, type: 'influencer' })}
-                  className={`w-full p-4 text-left border rounded-lg hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 ${
-                    formData.type === 'influencer' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200'
+                  className={`w-full p-4 text-left border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
+                    formData.type === 'influencer' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
                   }`}
                 >
                   <div className="flex items-center">
-                    <User className="h-6 w-6 text-indigo-600" />
+                    <User className="h-6 w-6 text-blue-600" />
                     <div className="ml-3">
                       <p className="text-base font-medium text-gray-900">Sou Influenciador</p>
                       <p className="text-sm text-gray-500">Quero criar conteúdo e participar de campanhas</p>
@@ -253,12 +253,12 @@ function Register() {
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, type: 'advertiser' })}
-                  className={`w-full p-4 text-left border rounded-lg hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 ${
-                    formData.type === 'advertiser' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200'
+                  className={`w-full p-4 text-left border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
+                    formData.type === 'advertiser' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
                   }`}
                 >
                   <div className="flex items-center">
-                    <Building2 className="h-6 w-6 text-indigo-600" />
+                    <Building2 className="h-6 w-6 text-blue-600" />
                     <div className="ml-3">
                       <p className="text-base font-medium text-gray-900">Sou Anunciante</p>
                       <p className="text-sm text-gray-500">Quero encontrar influenciadores para minhas campanhas</p>
@@ -286,7 +286,7 @@ function Register() {
                       required
                       value={formData.username}
                       onChange={handleInputChange}
-                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
                       placeholder="seu_username"
                     />
                     <div className="flex items-center px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
@@ -317,7 +317,7 @@ function Register() {
                       required
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -334,7 +334,7 @@ function Register() {
                       required
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -352,7 +352,7 @@ function Register() {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -369,7 +369,7 @@ function Register() {
                       required
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -386,7 +386,7 @@ function Register() {
                       required
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -397,7 +397,7 @@ function Register() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] min-h-[44px]"
+                className="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] min-h-[44px]"
               >
                 {loading ? (
                   <>

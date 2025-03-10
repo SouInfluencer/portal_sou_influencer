@@ -27,7 +27,7 @@ export function About() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200/80">
               <div className="flex items-center justify-between mb-4">
-                <Users className="h-6 w-6 text-indigo-600" />
+                <Users className="h-6 w-6 text-blue-600" />
                 <span className="text-sm text-gray-500">Desde 2023</span>
               </div>
               <p className="text-2xl font-bold text-gray-900">15K+</p>
@@ -36,7 +36,7 @@ export function About() {
 
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200/80">
               <div className="flex items-center justify-between mb-4">
-                <Globe2 className="h-6 w-6 text-indigo-600" />
+                <Globe2 className="h-6 w-6 text-blue-600" />
                 <span className="text-sm text-gray-500">Em todo Brasil</span>
               </div>
               <p className="text-2xl font-bold text-gray-900">45K+</p>
@@ -45,7 +45,7 @@ export function About() {
 
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200/80">
               <div className="flex items-center justify-between mb-4">
-                <Star className="h-6 w-6 text-indigo-600" />
+                <Star className="h-6 w-6 text-blue-600" />
                 <span className="text-sm text-gray-500">Avaliação média</span>
               </div>
               <p className="text-2xl font-bold text-gray-900">4.9</p>
@@ -60,8 +60,8 @@ export function About() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-100">
-                      <CheckCircle className="h-6 w-6 text-indigo-600" />
+                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-100">
+                      <CheckCircle className="h-6 w-6 text-blue-600" />
                     </div>
                   </div>
                   <div className="ml-4">
@@ -74,8 +74,8 @@ export function About() {
 
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-100">
-                      <Shield className="h-6 w-6 text-indigo-600" />
+                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-100">
+                      <Shield className="h-6 w-6 text-blue-600" />
                     </div>
                   </div>
                   <div className="ml-4">
@@ -88,8 +88,8 @@ export function About() {
 
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-100">
-                      <Award className="h-6 w-6 text-indigo-600" />
+                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-100">
+                      <Award className="h-6 w-6 text-blue-600" />
                     </div>
                   </div>
                   <div className="ml-4">
@@ -102,8 +102,8 @@ export function About() {
 
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-100">
-                      <Users className="h-6 w-6 text-indigo-600" />
+                    <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-100">
+                      <Users className="h-6 w-6 text-blue-600" />
                     </div>
                   </div>
                   <div className="ml-4">

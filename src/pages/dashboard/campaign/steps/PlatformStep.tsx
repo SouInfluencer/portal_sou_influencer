@@ -140,18 +140,18 @@ export function PlatformStep({
                 onClick={() => onPlatformSelect(platform.id as Platform)}
                 className={`platform-card ${
                   selectedPlatform === platform.id
-                    ? 'border-indigo-500 ring-2 ring-indigo-200 bg-indigo-50/50'
+                    ? 'border-blue-500 ring-2 ring-blue-200 bg-blue-50/50'
                     : 'border-gray-300'
-                } relative rounded-xl border bg-white shadow-sm hover:shadow-lg flex items-center hover:border-indigo-400 focus:outline-none transition-all duration-200 transform hover:scale-[1.02] min-h-[var(--min-touch-target)]`}
+                } relative rounded-xl border bg-white shadow-sm hover:shadow-lg flex items-center hover:border-blue-400 focus:outline-none transition-all duration-200 transform hover:scale-[1.02] min-h-[var(--min-touch-target)]`}
               >
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
-                    <platform.icon className="h-6 w-6 text-indigo-600" />
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <platform.icon className="h-6 w-6 text-blue-600" />
                   </div>
                   <span className="ml-4 text-lg font-medium text-gray-900">{platform.id}</span>
                 </div>
                 {selectedPlatform === platform.id && (
-                  <Check className="h-6 w-6 text-indigo-600 absolute top-4 right-4" />
+                  <Check className="h-6 w-6 text-blue-600 absolute top-4 right-4" />
                 )}
               </button>
             ))}
@@ -174,19 +174,19 @@ export function PlatformStep({
                   onClick={() => onContentTypeSelect(type.id)}
                   className={`content-type-card ${
                     selectedContentType === type.id
-                      ? 'border-indigo-500 ring-2 ring-indigo-200 bg-indigo-50/50'
+                      ? 'border-blue-500 ring-2 ring-blue-200 bg-blue-50/50'
                       : 'border-gray-300'
-                  } relative rounded-xl border bg-white shadow-sm hover:shadow-lg hover:border-indigo-400 focus:outline-none transition-all duration-200 min-h-[var(--min-touch-target)]`}
+                  } relative rounded-xl border bg-white shadow-sm hover:shadow-lg hover:border-blue-400 focus:outline-none transition-all duration-200 min-h-[var(--min-touch-target)]`}
                 >
                   <div className="flex flex-col items-start">
-                    <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center">
-                      <type.icon className="h-5 w-5 text-indigo-600" />
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                      <type.icon className="h-5 w-5 text-blue-600" />
                     </div>
                     <span className="mt-3 text-base font-medium text-gray-900">{type.label}</span>
                     <p className="mt-1 text-sm text-gray-500">{type.description}</p>
                   </div>
                   {selectedContentType === type.id && (
-                    <Check className="h-5 w-5 text-indigo-600 absolute top-3 right-3" />
+                    <Check className="h-5 w-5 text-blue-600 absolute top-3 right-3" />
                   )}
                 </button>
               ))}
@@ -205,7 +205,7 @@ export function PlatformStep({
             type="button"
             onClick={onNext}
             disabled={!selectedPlatform || !selectedContentType}
-            className="px-6 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
+            className="px-6 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
           >
             Continuar
           </button>

@@ -101,7 +101,7 @@ export function CategoriesStep({ selectedCategories, onCategoriesSelect, onNext,
   return (
     <div className="max-w-3xl mx-auto container">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 mb-6 shadow-lg transform hover:scale-105 transition-transform duration-200">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 mb-6 shadow-lg transform hover:scale-105 transition-transform duration-200">
           <Tag className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-3">Selecione as Categorias</h2>
@@ -113,16 +113,16 @@ export function CategoriesStep({ selectedCategories, onCategoriesSelect, onNext,
       <div className="grid gap-6 categories-grid">
         <button
           onClick={() => onCategoriesSelect(['Tech', 'Lifestyle', 'Gadgets'])}
-          className="group relative rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl hover:border-indigo-400 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02] category-card"
+          className="group relative rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl hover:border-blue-400 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02] category-card"
         >
           <div className="absolute top-6 right-6">
-            <div className="flex items-center space-x-2 text-indigo-600">
+            <div className="flex items-center space-x-2 text-blue-600">
               <Sparkles className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300" />
             </div>
           </div>
           <div>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg mb-6">
               <Tag className="h-7 w-7 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Tecnologia</h3>
@@ -142,16 +142,16 @@ export function CategoriesStep({ selectedCategories, onCategoriesSelect, onNext,
 
         <button
           onClick={() => onCategoriesSelect(['Fashion', 'Beauty', 'Lifestyle'])}
-          className="group relative rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl hover:border-indigo-400 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02] category-card"
+          className="group relative rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-lg hover:shadow-xl hover:border-blue-400 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02] category-card"
         >
           <div className="absolute top-6 right-6">
-            <div className="flex items-center space-x-2 text-indigo-600">
+            <div className="flex items-center space-x-2 text-blue-600">
               <Sparkles className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300" />
             </div>
           </div>
           <div>
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center shadow-lg mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg mb-6">
               <Tag className="h-7 w-7 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Lifestyle</h3>
@@ -182,7 +182,7 @@ export function CategoriesStep({ selectedCategories, onCategoriesSelect, onNext,
           type="button"
           onClick={onNext}
           disabled={selectedCategories.length === 0}
-          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[var(--min-touch-target)] button"
+          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-h-[var(--min-touch-target)] button"
         >
           Continuar
           <ChevronRight className="ml-2 h-4 w-4" />

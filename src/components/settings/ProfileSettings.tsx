@@ -53,7 +53,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
       <div className="px-4 py-5 sm:p-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <ChartBar className="h-5 w-5 text-indigo-600 mr-2" />
+            <ChartBar className="h-5 w-5 text-blue-600 mr-2" />
             <h3 className="text-lg font-medium text-gray-900">Status do Cadastro</h3>
           </div>
           <span className="text-sm font-medium text-gray-500">
@@ -62,7 +62,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5">
           <div 
-            className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out"
+            className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${calculateProfileCompletion(formData)}%` }}
           />
         </div>
@@ -117,7 +117,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
               onClick={() => setActiveTab(tab.id)}
               className={`${
                 activeTab === tab.id
-                  ? 'border-indigo-500 text-indigo-600'
+                  ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center transition-colors duration-200`}
             >
@@ -152,7 +152,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     className={`block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200
                       ${formErrors.name 
                         ? 'border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50' 
-                        : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400'}`}
+                        : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400'}`}
                     placeholder="Digite seu nome completo"
                     aria-invalid={Boolean(formErrors.name)}
                     aria-describedby={formErrors.name ? 'name-error' : undefined}
@@ -178,7 +178,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     className={`block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200
                       ${formErrors.email 
                         ? 'border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50' 
-                        : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400'}`}
+                        : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400'}`}
                     placeholder="seu@email.com"
                     aria-invalid={Boolean(formErrors.email)}
                     aria-describedby={formErrors.email ? 'email-error' : undefined}
@@ -199,7 +199,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     type="text"
                     name="cpf"
                     id="cpf"
-                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                     placeholder="000.000.000-00"
                   />
                 </div>
@@ -218,7 +218,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     type="date"
                     name="birthDate"
                     id="birthDate"
-                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   />
                 </div>
               </div>
@@ -241,7 +241,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     className={`block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200
                       ${formErrors.phone 
                         ? 'border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50' 
-                        : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400'}`}
+                        : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400'}`}
                     placeholder="+55 (11) 99999-9999"
                     aria-invalid={Boolean(formErrors.phone)}
                     aria-describedby={formErrors.phone ? 'phone-error' : undefined}
@@ -276,7 +276,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     className={`block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200
                       ${formErrors.website 
                         ? 'border-red-300 focus:ring-red-500 focus:border-red-500 bg-red-50' 
-                        : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400'}`}
+                        : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400'}`}
                     placeholder="www.seusite.com.br"
                     aria-invalid={Boolean(formErrors.website)}
                     aria-describedby={formErrors.website ? 'website-error' : undefined}
@@ -311,7 +311,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     type="text"
                     name="cnpj"
                     id="cnpj"
-                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                     placeholder="00.000.000/0000-00"
                   />
                 </div>
@@ -329,7 +329,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     type="text"
                     name="companyName"
                     id="companyName"
-                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                     placeholder="Razão Social"
                   />
                 </div>
@@ -347,7 +347,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     type="text"
                     name="tradeName"
                     id="tradeName"
-                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                     placeholder="Nome Fantasia"
                   />
                 </div>
@@ -371,7 +371,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                     type="text"
                     name="cep"
                     id="cep"
-                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                    className="block w-full pl-10 pr-10 py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                     placeholder="00000-000"
                   />
                 </div>
@@ -386,7 +386,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   type="text"
                   name="street"
                   id="street"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   placeholder="Nome da rua"
                 />
               </div>
@@ -400,7 +400,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   type="text"
                   name="number"
                   id="number"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   placeholder="Número"
                 />
               </div>
@@ -414,7 +414,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   type="text"
                   name="neighborhood"
                   id="neighborhood"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   placeholder="Bairro"
                 />
               </div>
@@ -428,7 +428,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   type="text"
                   name="city"
                   id="city"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   placeholder="Cidade"
                 />
               </div>
@@ -441,7 +441,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                 <select
                   id="state"
                   name="state"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                 >
                   <option value="">Selecione...</option>
                   <option value="SP">São Paulo</option>
@@ -463,7 +463,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                 <select
                   id="bank"
                   name="bank"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                 >
                   <option value="">Selecione...</option>
                   <option value="001">Banco do Brasil</option>
@@ -481,7 +481,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                 <select
                   id="accountType"
                   name="accountType"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                 >
                   <option value="">Selecione...</option>
                   <option value="corrente">Conta Corrente</option>
@@ -499,7 +499,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   name="agency"
                   id="agency"
                   maxLength={4}
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   placeholder="0000"
                 />
               </div>
@@ -513,7 +513,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   type="text"
                   name="account"
                   id="account"
-                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400"
+                  className="block w-full py-2.5 sm:text-sm rounded-lg transition-colors duration-200 border-gray-300 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400"
                   placeholder="00000000-0"
                 />
               </div>
@@ -531,7 +531,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                 rows={4}
                 value={formData.bio}
                 onChange={onInputChange}
-                className="block w-full sm:text-sm border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 hover:border-gray-400 transition-colors duration-200 resize-none"
+                className="block w-full sm:text-sm border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition-colors duration-200 resize-none"
                 placeholder="Conte um pouco sobre você..."
               />
             </div>
@@ -559,7 +559,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
         <button
           type="submit"
           onClick={onSubmit}
-          className="inline-flex items-center justify-center py-2.5 px-6 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-[1.02]"
+          className="inline-flex items-center justify-center py-2.5 px-6 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-[1.02]"
         >
           <Check className="h-5 w-5 mr-2" />
           Salvar Alterações

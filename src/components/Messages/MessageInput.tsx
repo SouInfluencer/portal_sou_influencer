@@ -28,7 +28,7 @@ export function MessageInput({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition-all duration-200"
+          className="p-2 text-gray-400 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-all duration-200"
         >
           <Paperclip className="h-5 w-5" />
         </button>
@@ -46,7 +46,7 @@ export function MessageInput({
             onChange={(e) => onChange(e.target.value)}
             placeholder="Digite sua mensagem..."
             rows={1}
-            className="block w-full rounded-xl border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm resize-none px-4 py-3 placeholder-gray-400 transition-all duration-200 hover:border-gray-300"
+            className="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm resize-none px-4 py-3 placeholder-gray-400 transition-all duration-200 hover:border-gray-300"
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -59,7 +59,7 @@ export function MessageInput({
         <button
           type="submit"
           disabled={(!value.trim() && !attachments.length) || isSubmitting}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02]"
         >
           <Send className="h-5 w-5" />
         </button>

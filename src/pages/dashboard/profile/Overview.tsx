@@ -134,7 +134,7 @@ export function Overview({ profile }: OverviewProps) {
                   type="text"
                   value={editedBio.headline}
                   onChange={(e) => setEditedBio({ ...editedBio, headline: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 min-h-[44px]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-h-[44px]"
                 />
               </div>
               
@@ -146,7 +146,7 @@ export function Overview({ profile }: OverviewProps) {
                   type="text"
                   value={editedBio.tagline}
                   onChange={(e) => setEditedBio({ ...editedBio, tagline: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 min-h-[44px]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-h-[44px]"
                 />
               </div>
               
@@ -158,7 +158,7 @@ export function Overview({ profile }: OverviewProps) {
                   value={editedBio.description}
                   onChange={(e) => setEditedBio({ ...editedBio, description: e.target.value })}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 min-h-[88px]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-h-[88px]"
                 />
               </div>
               
@@ -170,7 +170,7 @@ export function Overview({ profile }: OverviewProps) {
                   {editedBio.specialties.map((specialty: string, index: number) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 min-h-[32px]"
+                      className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 min-h-[32px]"
                     >
                       {specialty}
                       <button
@@ -179,7 +179,7 @@ export function Overview({ profile }: OverviewProps) {
                           newSpecialties.splice(index, 1);
                           setEditedBio({ ...editedBio, specialties: newSpecialties });
                         }}
-                        className="ml-2 text-indigo-600 hover:text-indigo-800 p-0.5 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)] button"
+                        className="ml-2 text-blue-600 hover:text-blue-800 p-0.5 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)] button"
                       >
                         ×
                       </button>
@@ -188,7 +188,7 @@ export function Overview({ profile }: OverviewProps) {
                   <input 
                     type="text"
                     placeholder="Nova especialidade"
-                    className="inline-flex items-center px-3 py-1.5 rounded-full text-sm border border-dashed border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 min-h-[var(--min-touch-target)] input"
+                    className="inline-flex items-center px-3 py-1.5 rounded-full text-sm border border-dashed border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 min-h-[var(--min-touch-target)] input"
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
@@ -202,7 +202,7 @@ export function Overview({ profile }: OverviewProps) {
                         }
                       }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 min-h-[calc(var(--min-touch-target)*2)] input"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-h-[calc(var(--min-touch-target)*2)] input"
                   />
                 </div>
               </div>
@@ -218,7 +218,7 @@ export function Overview({ profile }: OverviewProps) {
                 {profile.bio.specialties.map((specialty: string, index: number) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 min-h-[32px]"
+                    className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 min-h-[32px]"
                   >
                     {specialty}
                   </span>

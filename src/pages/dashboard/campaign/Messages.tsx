@@ -170,7 +170,7 @@ export function CampaignMessages({ campaign }: CampaignMessagesProps) {
                 )}
                 <div className={`mx-2 ${
                   message.sender === 'Você'
-                    ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white'
+                    ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white'
                     : 'bg-white'
                 } rounded-xl px-4 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100 message-content`}>
                   {message.sender !== 'Você' && (
@@ -183,9 +183,9 @@ export function CampaignMessages({ campaign }: CampaignMessagesProps) {
                       className="mt-3 flex items-center p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200 group cursor-pointer attachment-preview"
                     >
                       {attachment.type === 'pdf' ? (
-                        <File className="h-5 w-5 mr-3 text-indigo-500" />
+                        <File className="h-5 w-5 mr-3 text-blue-500" />
                       ) : (
-                        <ImageIcon className="h-5 w-5 mr-3 text-indigo-500" />
+                        <ImageIcon className="h-5 w-5 mr-3 text-blue-500" />
                       )}
                       <div className="flex-1">
                         <p className="text-sm font-medium text-gray-900">
@@ -208,7 +208,7 @@ export function CampaignMessages({ campaign }: CampaignMessagesProps) {
                       })}
                     </span>
                     {message.isNew && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         Novo
                       </span>
                     )}
@@ -228,25 +228,25 @@ export function CampaignMessages({ campaign }: CampaignMessagesProps) {
             <button
               type="button"
               onClick={handleFileUpload}
-              className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
+              className="p-2 text-gray-400 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <Paperclip className="h-5 w-5" />
             </button>
             <button
               type="button"
-              className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
+              className="p-2 text-gray-400 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <Camera className="h-5 w-5" />
             </button>
             <button
               type="button"
-              className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
+              className="p-2 text-gray-400 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <Video className="h-5 w-5" />
             </button>
             <button
               type="button"
-              className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
+              className="p-2 text-gray-400 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <LinkIcon className="h-5 w-5" />
             </button>
@@ -262,7 +262,7 @@ export function CampaignMessages({ campaign }: CampaignMessagesProps) {
             <textarea
               rows={1}
               placeholder="Digite sua mensagem..."
-              className="block w-full rounded-xl border-gray-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm resize-none px-4 py-3 placeholder-gray-400 transition-all duration-200 hover:border-gray-300 min-h-[var(--min-touch-target)]"
+              className="block w-full rounded-xl border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm resize-none px-4 py-3 placeholder-gray-400 transition-all duration-200 hover:border-gray-300 min-h-[var(--min-touch-target)]"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={(e) => {
@@ -276,14 +276,14 @@ export function CampaignMessages({ campaign }: CampaignMessagesProps) {
           <div className="flex items-center space-x-2">
             <button
               type="button"
-              className="p-2 text-gray-400 hover:text-indigo-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
+              className="p-2 text-gray-400 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-all duration-200 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <Smile className="h-5 w-5" />
             </button>
             <button
               type="submit"
               disabled={!newMessage.trim() && attachments.length === 0}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] min-h-[var(--min-touch-target)]"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] min-h-[var(--min-touch-target)]"
             >
               <Send className="h-5 w-5" />
             </button>

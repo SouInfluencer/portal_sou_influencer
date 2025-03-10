@@ -73,7 +73,7 @@ export const getStepDetails = (step: string, campaign: Campaign) => {
           icon: CheckCircle, 
           label: 'Requisitos', 
           value: `${campaign.requirements.length} itens`,
-          color: 'text-indigo-600'
+          color: 'text-blue-600'
         }
       ],
       tasks: [
@@ -103,7 +103,7 @@ export const getStepDetails = (step: string, campaign: Campaign) => {
           icon: CheckCircle, 
           label: 'Requisitos', 
           value: '0/5 completos',
-          color: 'text-indigo-600'
+          color: 'text-blue-600'
         },
         { 
           icon: Eye, 
@@ -181,7 +181,7 @@ export const getStepDetails = (step: string, campaign: Campaign) => {
           icon: Shield, 
           label: 'Status', 
           value: 'Processando',
-          color: 'text-indigo-600'
+          color: 'text-blue-600'
         }
       ],
       tasks: [

@@ -18,10 +18,10 @@ export function Portfolio({ profile }: PortfolioProps) {
       {/* Portfolio Stats */}
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-          <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 hover:border-indigo-200 transition-all duration-200">
+          <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-white border border-blue-100 hover:border-blue-200 transition-all duration-200">
             <div className="flex items-center justify-between mb-2">
-              <TrendingUp className="h-5 w-5 text-indigo-500" />
-              <Sparkles className="h-4 w-4 text-indigo-400" />
+              <TrendingUp className="h-5 w-5 text-blue-500" />
+              <Sparkles className="h-4 w-4 text-blue-400" />
             </div>
             <p className="text-xl sm:text-2xl font-bold text-gray-900">45</p>
             <p className="text-sm text-gray-500">Campanhas Concluídas</p>
@@ -78,7 +78,7 @@ export function Portfolio({ profile }: PortfolioProps) {
                     <p className="text-sm text-gray-500">{campaign.brand}</p>
                   </div>
                 </div>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                   {campaign.type}
                 </span>
               </div>
@@ -104,7 +104,7 @@ export function Portfolio({ profile }: PortfolioProps) {
               <div className="mt-3 sm:mt-4 flex justify-end">
                 <button
                   onClick={() => setSelectedCampaign(campaign)}
-                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors duration-200 min-h-[44px]"
+                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200 min-h-[44px]"
                 >
                   Ver Detalhes
                   <ChevronRight className="ml-1 h-4 w-4" />

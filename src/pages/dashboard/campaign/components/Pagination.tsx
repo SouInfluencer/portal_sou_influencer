@@ -124,7 +124,7 @@ export function Pagination({
                   onClick={() => onPageChange(page)}
                   className={`relative inline-flex items-center justify-center px-4 py-2 border text-sm font-medium min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)] ${
                     page === currentPage
-                      ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                      ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
                       : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                   }`}
                 >

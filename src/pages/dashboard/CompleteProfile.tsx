@@ -173,16 +173,16 @@ export function CompleteProfile() {
                   setFormData({ ...formData, type: 'pf' });
                   handleNext();
                 }}
-                className={`relative rounded-xl border-2 p-6 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 ${
+                className={`relative rounded-xl border-2 p-6 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
                   formData.type === 'pf'
-                    ? 'border-indigo-500 bg-indigo-50'
+                    ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <div className="flex flex-col items-start text-left">
                   <div className="flex items-center justify-between w-full mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center">
-                      <User className="h-6 w-6 text-indigo-600" />
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                      <User className="h-6 w-6 text-blue-600" />
                     </div>
                     <ChevronRight className="h-5 w-5 text-gray-400" />
                   </div>
@@ -198,16 +198,16 @@ export function CompleteProfile() {
                   setFormData({ ...formData, type: 'pj' });
                   handleNext();
                 }}
-                className={`relative rounded-xl border-2 p-6 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 ${
+                className={`relative rounded-xl border-2 p-6 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
                   formData.type === 'pj'
-                    ? 'border-indigo-500 bg-indigo-50'
+                    ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <div className="flex flex-col items-start text-left">
                   <div className="flex items-center justify-between w-full mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center">
-                      <Building2 className="h-6 w-6 text-indigo-600" />
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                      <Building2 className="h-6 w-6 text-blue-600" />
                     </div>
                     <ChevronRight className="h-5 w-5 text-gray-400" />
                   </div>
@@ -243,7 +243,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.firstName
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.firstName && (
@@ -263,7 +263,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.lastName
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.lastName && (
@@ -283,7 +283,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.cpf
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                   placeholder="000.000.000-00"
                 />
@@ -304,7 +304,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.birthDate
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.birthDate && (
@@ -324,7 +324,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.phone
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                   placeholder="(00) 00000-0000"
                 />
@@ -351,7 +351,7 @@ export function CompleteProfile() {
                 className={`mt-1 block w-full rounded-lg shadow-sm ${
                   errors.cnpj
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                    : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                 }`}
                 placeholder="00.000.000/0000-00"
               />
@@ -372,7 +372,7 @@ export function CompleteProfile() {
                 className={`mt-1 block w-full rounded-lg shadow-sm ${
                   errors.companyName
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                    : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                 }`}
               />
               {errors.companyName && (
@@ -392,7 +392,7 @@ export function CompleteProfile() {
                 className={`mt-1 block w-full rounded-lg shadow-sm ${
                   errors.tradeName
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                    : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                    : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                 }`}
               />
               {errors.tradeName && (
@@ -418,7 +418,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.cep
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                   placeholder="00000-000"
                 />
@@ -439,7 +439,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.street
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.street && (
@@ -459,7 +459,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.number
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.number && (
@@ -479,7 +479,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.neighborhood
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.neighborhood && (
@@ -499,7 +499,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.city
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 />
                 {errors.city && (
@@ -518,7 +518,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.state
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 >
                   <option value="">Selecione...</option>
@@ -549,7 +549,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.bank
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 >
                   <option value="">Selecione o banco...</option>
@@ -573,7 +573,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.accountType
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                 >
                   <option value="">Selecione o tipo de conta...</option>
@@ -597,7 +597,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.agency
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                   placeholder="0000"
                 />
@@ -618,7 +618,7 @@ export function CompleteProfile() {
                   className={`mt-1 block w-full rounded-lg shadow-sm ${
                     errors.account
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500'
+                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
                   placeholder="00000000-0"
                 />
@@ -636,7 +636,7 @@ export function CompleteProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* Progress Steps */}
         <nav aria-label="Progress" className="mb-12">
@@ -648,14 +648,14 @@ export function CompleteProfile() {
               >
                 <div className="absolute inset-0 flex items-center" aria-hidden="true">
                   <div className={`h-0.5 w-full ${
-                    stepIdx < currentStep - 1 ? 'bg-indigo-600' : 'bg-gray-200'
+                    stepIdx < currentStep - 1 ? 'bg-blue-600' : 'bg-gray-200'
                   }`} />
                 </div>
                 <div className={`relative flex h-8 w-8 items-center justify-center rounded-full border-2 ${
                   stepIdx < currentStep - 1
-                    ? 'border-indigo-600 bg-indigo-600'
+                    ? 'border-blue-600 bg-blue-600'
                     : stepIdx === currentStep - 1
-                    ? 'border-indigo-600 bg-white'
+                    ? 'border-blue-600 bg-white'
                     : 'border-gray-300 bg-white'
                 }`}>
                   <step.icon
@@ -663,7 +663,7 @@ export function CompleteProfile() {
                       stepIdx < currentStep - 1
                         ? 'text-white'
                         : stepIdx === currentStep - 1
-                        ? 'text-indigo-600'
+                        ? 'text-blue-600'
                         : 'text-gray-500'
                     }`}
                   />
@@ -672,9 +672,9 @@ export function CompleteProfile() {
                 <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
                   <span className={`text-xs font-medium ${
                     stepIdx < currentStep - 1
-                      ? 'text-indigo-600'
+                      ? 'text-blue-600'
                       : stepIdx === currentStep - 1
-                      ? 'text-indigo-600'
+                      ? 'text-blue-600'
                       : 'text-gray-500'
                   }`}>
                     {step.title}
@@ -706,7 +706,7 @@ export function CompleteProfile() {
               type="button"
               onClick={handleNext}
               disabled={loading}
-              className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

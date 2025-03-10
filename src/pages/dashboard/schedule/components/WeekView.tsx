@@ -127,7 +127,7 @@ export function WeekView({
             <div className="relative" ref={datePickerRef}>
               <button
                 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
               >
                 <CalendarIcon className="h-4 w-4 mr-2 text-gray-400" />
                 {selectedMonth.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
@@ -170,9 +170,9 @@ export function WeekView({
                           className={`
                             p-2 text-sm rounded-lg transition-all duration-200
                             ${isSameMonth(day.date, selectedMonth) ? 'text-gray-900' : 'text-gray-400'}
-                            ${isToday(day.date) ? 'ring-2 ring-indigo-500 font-medium' : ''}
+                            ${isToday(day.date) ? 'ring-2 ring-blue-500 font-medium' : ''}
                             ${day.date.toDateString() === selectedDate.toDateString() 
-                              ? 'bg-indigo-100 text-indigo-700 font-medium' 
+                              ? 'bg-blue-100 text-blue-700 font-medium' 
                               : 'hover:bg-gray-100'}
                           `}
                         >
@@ -186,7 +186,7 @@ export function WeekView({
             </div>
             <button
               onClick={() => onWeekChange('today')}
-              className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors duration-200"
+              className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200"
             >
               Hoje
             </button>
@@ -209,18 +209,18 @@ export function WeekView({
               onClick={() => handleDateClick(day.date)}
               key={index}
               className={`
-                min-h-[140px] p-3 relative bg-white border border-gray-100 hover:border-indigo-200 cursor-pointer 
-                ${isSameDay(day.date, selectedDate) && selectedDate.getTime() !== 0 && hasUserSelection ? 'ring-2 ring-indigo-500' : ''}
-                ${day.isToday && !hasUserSelection ? 'ring-2 ring-indigo-500 bg-indigo-50/30' : ''}
+                min-h-[140px] p-3 relative bg-white border border-gray-100 hover:border-blue-200 cursor-pointer 
+                ${isSameDay(day.date, selectedDate) && selectedDate.getTime() !== 0 && hasUserSelection ? 'ring-2 ring-blue-500' : ''}
+                ${day.isToday && !hasUserSelection ? 'ring-2 ring-blue-500 bg-blue-50/30' : ''}
                 ${day.isPast ? 'bg-gray-50/50' : ''}
                 transition-colors duration-200
               `}
             >
               <div className={`flex items-center justify-center h-7 w-7 rounded-full text-sm font-medium ${
                 isSameDay(day.date, selectedDate) && selectedDate.getTime() !== 0 && hasUserSelection
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-blue-600 text-white'
                   : day.isToday && !hasUserSelection
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-blue-600 text-white'
                   : day.isPast
                     ? 'text-gray-500'
                     : 'text-gray-900'

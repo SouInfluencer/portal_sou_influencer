@@ -90,10 +90,10 @@ export function Terms() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 container">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30 container">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
+        <div className={`absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
         <div className={`absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-purple-200 to-purple-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 delay-300 ${mounted ? 'translate-x-0 opacity-20' : '-translate-x-12 opacity-0'}`} />
         <div className={`absolute -bottom-40 right-1/3 w-96 h-96 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 delay-500 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
       </div>
@@ -122,8 +122,8 @@ export function Terms() {
           {/* Introduction */}
           <div className="bg-white rounded-xl shadow-lg border border-gray-100 card">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="p-2 bg-indigo-100 rounded-lg">
-                <Shield className="h-5 w-5 text-indigo-600" />
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <Shield className="h-5 w-5 text-blue-600" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900">Introdução</h2>
             </div>
@@ -165,7 +165,7 @@ export function Terms() {
               </div>
               <h2 className="text-xl font-semibold text-gray-900">Responsabilidades do Usuário</h2>
             </div>
-            <div className="prose prose-indigo max-w-none">
+            <div className="prose prose-blue max-w-none">
               <p className="text-gray-600 mb-4">
                 Como usuário da plataforma, você concorda em:
               </p>
@@ -190,7 +190,7 @@ export function Terms() {
             <div className="space-y-4 text-gray-600">
               <p>
                 Nós levamos sua privacidade muito a sério. Ao utilizar nossos serviços, você concorda com nossa 
-                <button onClick={() => navigate('/privacy')} className="text-indigo-600 hover:text-indigo-500 font-medium mx-1">
+                <button onClick={() => navigate('/privacy')} className="text-blue-600 hover:text-blue-500 font-medium mx-1">
                   Política de Privacidade
                 </button>
                 que descreve como coletamos, usamos e protegemos seus dados.
@@ -253,7 +253,7 @@ export function Terms() {
           </div>
 
           {/* Contact Section */}
-          <div className="bg-gradient-to-br from-indigo-50 to-white rounded-xl shadow-lg border border-indigo-100 card">
+          <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg border border-blue-100 card">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Dúvidas?</h2>
             <p className="text-gray-600 mb-6">
               Se você tiver alguma dúvida sobre nossos termos e condições, entre em contato conosco:
@@ -261,7 +261,7 @@ export function Terms() {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => window.location.href = 'mailto:suporte@souinfluencer.com.br'}
-                className="inline-flex items-center justify-center border border-transparent text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 button"
+                className="inline-flex items-center justify-center border border-transparent text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 button"
               >
                 Enviar Email
               </button>
