@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { KeyRound, Mail, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/auth.ts';
+// import logoRect from '@/assets/logo_retangulo_light.svg';
+// import logoLetter from '@/assets/logo_letter_light.svg';
+
 
 // Add keyframes for animations
 const styles = `
@@ -105,22 +108,25 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className={`flex justify-center mb-8 transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+        <div
+            className={`flex justify-center mb-8 transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           <img width={280} alt="Logo" src="/assets/logo_letter_light.svg"/>
         </div>
         <p className={`mt-2 text-center text-sm text-gray-600 transition-all duration-1000 delay-400 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           Não tem uma conta?{' '}
           <button
-            onClick={() => navigate('/register')}
-            className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200"
+              onClick={() => navigate('/register')}
+              className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200"
           >
             Cadastre-se gratuitamente
           </button>
         </p>
       </div>
 
-      <div className={`mt-8 sm:mx-auto sm:w-full sm:max-w-md transition-all duration-1000 delay-600 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <div className="bg-white/90 backdrop-blur-sm py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-gray-100 relative overflow-hidden">
+      <div
+          className={`mt-8 sm:mx-auto sm:w-full sm:max-w-md transition-all duration-1000 delay-600 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+        <div
+            className="bg-white/90 backdrop-blur-sm py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-gray-100 relative overflow-hidden">
           {/* Card Glow Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
