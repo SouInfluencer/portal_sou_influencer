@@ -1,6 +1,9 @@
 import React from 'react';
 import { BarChart3, User, Users, Calendar, MessageSquare, Settings, Crown, CreditCard, UserCircle, PlusCircle, Share2, Building2, Bell, Search, ChevronDown, ChevronRight, LogOut, Menu, X, Sparkles } from 'lucide-react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { NotificationProvider } from '../components/Notifications/NotificationProvider';
+import { ProfileCompletionAlert } from '../components/ProfileCompletionAlert';
+import { NotificationBell } from '../components/Notifications/NotificationBell';
 import { authService } from '../services/auth';
 import { Campaigns } from './dashboard/Campaigns';
 import { Schedule } from './dashboard/Schedule';
@@ -27,6 +30,7 @@ export function Dashboard() {
   const [breadcrumbs, setBreadcrumbs] = React.useState<Array<{name: string; path: string}>>([]);
   const [activeRoute, setActiveRoute] = React.useState('');
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [showProfileAlert, setShowProfileAlert] = React.useState(true);
 
   // Update breadcrumbs when location changes
   React.useEffect(() => {
@@ -95,6 +99,12 @@ export function Dashboard() {
   
   return (
     <div className="h-screen flex overflow-hidden bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 relative">
+      <NotificationProvider>
+      {/* Profile Completion Alert */}
+      {showProfileAlert && (
+        <ProfileCompletionAlert onClose={() => setShowProfileAlert(false)} />
+      )}
+
       {/* Decorative Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full opacity-20 blur-[100px]" />
@@ -136,62 +146,77 @@ export function Dashboard() {
         </form>
 
         <div className="ml-4 flex items-center space-x-4">
-          <button className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-lg transition-all duration-200">
-            <span className="sr-only">Ver notificações</span>
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-white" />
-          </button>
+          <NotificationBell />
           
-          <div className="relative" ref={userMenuRef}>
-            <button
-              onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100/80 transition-all duration-200 group min-h-[44px] min-w-[44px]"
-            >
-              <img
-                className="h-8 w-8 rounded-full ring-2 ring-white shadow-sm group-hover:ring-indigo-200 transition-all duration-200"
-                src={user.imageUrl}
-                alt=""
-              />
-              <div className="hidden md:flex md:items-center">
-                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{user.name}</span>
-                <ChevronDown className="ml-2 h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors duration-200" />
-              </div>
-            </button>
+          <div className="relative inline-block text-left" ref={userMenuRef}>
+            <div>
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="group flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100/80 transition-all duration-200 min-h-[44px] min-w-[44px] relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/30 to-indigo-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="relative">
+                  <img
+                    className="h-8 w-8 rounded-full ring-2 ring-white shadow-sm group-hover:ring-indigo-200 transition-all duration-200"
+                    src={user.imageUrl}
+                    alt={user.name}
+                  />
+                  <div className="absolute -bottom-1 -right-1">
+                    <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-green-500 ring-2 ring-white" />
+                  </div>
+                </div>
+                <div className="hidden md:flex md:items-center">
+                  <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{user.name}</span>
+                  <ChevronDown className={`ml-2 h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
+                </div>
+              </button>
+            </div>
 
             {/* User Menu Dropdown */}
             {showUserMenu && (
-              <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-56 rounded-xl bg-white py-1 shadow-xl ring-1 ring-black/5 focus:outline-none transform opacity-0 scale-95 animate-in slide-in-from-top-1 duration-100 z-50">
-                <div className="px-4 py-3 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
+              <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 focus:outline-none z-50 animate-in slide-in-from-top-1 duration-100 overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-100/80">
+                  <div className="flex items-center space-x-3">
+                    <img
+                      src={user.imageUrl}
+                      alt={user.name}
+                      className="h-10 w-10 rounded-full ring-2 ring-white shadow-sm"
+                    />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  onClick={() => navigate('/dashboard/profile')}
-                  className="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <div className="flex items-center">
+                <div className="py-2">
+                  <button
+                    onClick={() => navigate('/dashboard/profile')}
+                    className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 group relative"
+                  >
                     <User className="h-4 w-4 mr-3 text-gray-400" />
-                    Seu Perfil
-                  </div>
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/settings')}
-                  className="block w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <div className="flex items-center">
+                    <span className="flex-1">Perfil</span>
+                    <ChevronRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/30 to-indigo-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/dashboard/settings')}
+                    className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 group relative"
+                  >
                     <Settings className="h-4 w-4 mr-3 text-gray-400" />
-                    Configurações
-                  </div>
-                </button>
+                    <span className="flex-1">Configurações</span>
+                    <ChevronRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/0 via-indigo-50/30 to-indigo-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                  </button>
+                </div>
                 <div className="border-t border-gray-100">
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
+                    className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 group relative"
                   >
-                    <div className="flex items-center">
-                      <LogOut className="h-4 w-4 mr-3 text-red-500" />
-                      Sair
-                    </div>
+                    <LogOut className="h-4 w-4 mr-3 text-red-500" />
+                    <span className="flex-1">Sair</span>
+                    <ChevronRight className="h-4 w-4 text-red-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-50/0 via-red-50/30 to-red-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                   </button>
                 </div>
               </div>
@@ -203,33 +228,43 @@ export function Dashboard() {
       {/* Mobile Sidebar */}
       <div 
         ref={mobileMenuRef}
-        className={`lg:hidden fixed inset-0 z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden fixed inset-0 z-[60] transform transition-all duration-300 ease-in-out ${
           showMobileMenu ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity duration-300" />
-        <div className="relative flex-1 flex flex-col max-w-xs w-full bg-white focus:outline-none">
+        <div 
+          className={`fixed inset-0 bg-gray-900/60 backdrop-blur-[3px] transition-all duration-500 ease-in-out ${
+            showMobileMenu ? 'opacity-100' : 'opacity-0'
+          }`} 
+          onClick={() => setShowMobileMenu(false)}
+        />
+        <div className={`relative flex-1 flex flex-col w-[85%] max-w-sm bg-white/95 backdrop-blur-sm focus:outline-none shadow-2xl transform transition-all duration-500 ease-out ${
+          showMobileMenu ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
+        }`}>
             <div className="absolute top-0 right-0 -mr-12 pt-4">
               <button
-                className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                className="ml-1 flex items-center justify-center h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                 onClick={() => setShowMobileMenu(false)}
               >
                 <span className="sr-only">Fechar menu</span>
                 <X className="h-6 w-6 text-white" />
               </button>
             </div>
-            <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-              <div className="flex-shrink-0 flex items-center px-4">
+            <div className="flex-1 h-[calc(100vh-8rem)] pt-6 pb-4 overflow-y-auto scrollbar-none overscroll-contain">
+              <div className="flex-shrink-0 flex items-center px-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group">
                     <Building2 className="h-6 w-6 text-white" />
+                    <div className="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur opacity-0 group-hover:opacity-30 transition duration-200" />
                   </div>
                   <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-indigo-700">
                     Sou Influencer
                   </span>
                 </div>
               </div>
-              <nav className="mt-8 space-y-2 px-4">
+              <nav className="mt-8 space-y-2.5 px-6">
+                <div className="pb-20">
                 {[
                   { name: 'Minha Página', icon: UserCircle, path: 'profile' },
                   { name: 'Campanhas', icon: Users, path: 'campaigns' },
@@ -247,35 +282,38 @@ export function Dashboard() {
                       navigate(item.path === 'new-campaign' ? '/dashboard/new-campaign' : `/dashboard/${item.path}`);
                       setShowMobileMenu(false);
                     }}
-                    className={`w-full ${
+                    className={`w-full group relative overflow-hidden transform transition-all duration-200 ${
                       location.pathname.endsWith(item.path)
-                        ? 'bg-indigo-50 text-indigo-600 border-indigo-100'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                    } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200`}
+                        ? 'bg-gradient-to-r from-indigo-50 to-indigo-50/50 text-indigo-600 shadow-sm border border-indigo-100/50 scale-[1.02]'
+                        : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
+                    } flex items-center px-4 py-3.5 text-sm font-medium rounded-xl hover:scale-[1.02] hover:shadow-sm active:scale-[0.98]`}
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-100/0 via-indigo-100/30 to-indigo-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                     <item.icon className="mr-3 h-5 w-5" />
                     {item.name}
                   </button>
                 ))}
+                </div>
               </nav>
             </div>
-            <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+            <div className="absolute bottom-0 left-0 right-0 flex-shrink-0 flex border-t border-gray-200/80 p-6 bg-gradient-to-b from-transparent to-white/80">
               <div className="flex items-center">
                 <div>
                   <img
-                    className="inline-block h-10 w-10 rounded-full"
+                    className="inline-block h-12 w-12 rounded-full ring-2 ring-white shadow-lg transform transition-transform duration-200 hover:scale-105"
                     src={user.imageUrl}
                     alt=""
                   />
                 </div>
-                <div className="ml-3">
+                <div className="ml-4">
                   <p className="text-base font-medium text-gray-700">{user.name}</p>
                   <button
                     onClick={handleLogout}
-                    className="text-sm font-medium text-red-600 hover:text-red-700 group flex items-center"
+                    className="mt-1 text-sm font-medium text-red-600 hover:text-red-700 group flex items-center px-3 py-1.5 rounded-lg hover:bg-red-50 transition-all duration-200 active:scale-95"
                   >
                     <LogOut className="mr-2 h-4 w-4" />
                     Sair
+                    <ChevronRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200" />
                   </button>
                 </div>
               </div>
@@ -397,6 +435,7 @@ export function Dashboard() {
            </Routes>
          </main>
        </div>
+      </NotificationProvider>
     </div>
   );
 }

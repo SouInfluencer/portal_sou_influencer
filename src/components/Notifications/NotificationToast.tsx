@@ -71,7 +71,7 @@ export function NotificationToast({ notification, onClose }: NotificationToastPr
   };
 
   return (
-    <div className={`max-w-sm w-full ${getBgColor()} border ${getBorderColor()} rounded-xl shadow-lg pointer-events-auto overflow-hidden`}>
+    <div className={`max-w-sm w-full ${getBgColor()} border ${getBorderColor()} rounded-xl shadow-lg pointer-events-auto overflow-hidden transform transition-all duration-300 hover:scale-[1.02]`}>
       <div className="p-4">
         <div className="flex items-start">
           <div className="flex-shrink-0">

@@ -5,6 +5,7 @@ import { PWAPrompt } from './components/PWAPrompt';
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { ResetPassword } from './pages/ResetPassword';
+import { CompleteProfile } from './pages/CompleteProfile';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { Dashboard } from './pages/Dashboard';
 import { InfluencerLanding } from './pages/InfluencerLanding';
@@ -71,12 +72,13 @@ function App() {
           )
         } />
         <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/redefinir-senha" element={<ResetPassword />} />
         <Route path="/login" element={<Login onLogin={(view) => {
           setIsAuthenticated(authService.isAuthenticated());
           navigate(`/${view}`);
         }} />} />
+        <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/redefinir-senha" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard/*" element={
           <ProtectedRoute>
             <Dashboard />

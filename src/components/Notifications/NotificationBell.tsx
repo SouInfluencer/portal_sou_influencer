@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Bell, X, Calendar, MessageSquare, DollarSign, Star, ChevronRight, CheckCircle, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useNotification } from './useNotification';
 
 interface Notification {
   id: string;
@@ -18,7 +16,6 @@ interface Notification {
 }
 
 export function NotificationBell() {
-  const navigate = useNavigate();
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([
@@ -106,7 +103,7 @@ export function NotificationBell() {
     <div className="relative">
       <button
         onClick={() => navigate('/dashboard/notifications')}
-        className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-lg transition-all duration-200 group"
+        className="relative p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-lg transition-all duration-200 group min-h-[44px] min-w-[44px]"
       >
         <span className="sr-only">Ver notificações</span>
         <Bell className="h-5 w-5" />

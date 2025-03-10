@@ -1,42 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Building2, AlertCircle } from 'lucide-react';
+import { KeyRound, Mail, AlertCircle, User, Building2, Info, ChevronRight } from 'lucide-react';
 import { authService } from '../services/auth';
 
 // Add keyframes for animations
 const styles = `
-/* Base styles */
-:root {
-  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
-  --container-padding: clamp(1rem, 5vw, 2rem);
-  --form-max-width: min(28rem, 100% - 2rem);
-  --input-height: clamp(2.75rem, 8vw, 3rem);
-  --font-size-base: clamp(0.875rem, 4vw, 1rem);
-  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
-  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
-  --spacing-base: clamp(1rem, 4vw, 1.5rem);
-  --border-radius: clamp(0.75rem, 3vw, 1rem);
-  --shadow-strength: 0.1;
-}
-
-/* Smooth scrolling for the whole page */
-html {
-  scroll-behavior: smooth;
-  font-size: 100%;
-}
-
-/* Hide scrollbar but keep functionality */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-/* Custom scrollbar for Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(107, 114, 128, 0.3) transparent;
-}
-
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -48,238 +16,40 @@ html {
   animation: gradient 8s ease infinite;
 }
 
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
 }
 
-/* Mobile-first responsive styles */
-@media (max-width: 480px) {
-  html {
-    font-size: 14px;
-  }
-
-  .container {
-    padding: var(--container-padding);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .form-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-base);
-  }
-  
-  .form-header {
-    font-size: var(--font-size-xl);
-    margin-bottom: var(--spacing-base);
-    padding: 0 var(--container-padding);
-  }
-
-  .form-subheader {
-    font-size: var(--font-size-base);
-    margin-bottom: calc(var(--spacing-base) * 1.5);
-    padding: 0 var(--container-padding);
-  }
-
-  .form-input {
-    min-height: var(--min-touch-target);
-    font-size: var(--font-size-base);
-    padding: calc(var(--spacing-base) * 0.75) var(--spacing-base);
-    border-radius: var(--border-radius);
-    width: 100%;
-    -webkit-appearance: none;
-    appearance: none;
-    transform: translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
-  }
-  
-  .form-button {
-    min-height: var(--min-touch-target);
-    padding: calc(var(--spacing-base) * 0.75) var(--spacing-base);
-    font-size: var(--font-size-base);
-    border-radius: var(--border-radius);
-    width: 100%;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .form-container {
-    margin: calc(var(--spacing-base) * 0.5);
-    padding: calc(var(--spacing-base) * 1.5);
-    border-radius: calc(var(--border-radius) * 1.25);
-    max-width: var(--form-max-width);
-    width: 100%;
-    margin-bottom: calc(var(--spacing-base) * 0.5);
-    user-select: none;
-  }
-
-  /* Improve touch feedback */
-  .form-input:active,
-  .form-button:active {
-    transform: scale(0.98);
-  }
-
-  /* Prevent zoom on iOS */
-  @supports (-webkit-touch-callout: none) {
-    .form-input,
-    .form-button {
-      font-size: 16px;
-    }
-  }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@media (min-width: 481px) and (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: calc(var(--spacing-base) * 1.25);
-  }
-
-  .form-container {
-    padding: calc(var(--spacing-base) * 2);
-    margin: calc(var(--spacing-base) * 1.5) auto;
-    max-width: calc(var(--form-max-width) + 4rem);
-  }
-
-  .form-header {
-    font-size: calc(var(--font-size-xl) * 1.1);
-  }
-
-  .form-input,
-  .form-button {
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: calc(var(--spacing-base) * 1.5);
-  }
-
-  .form-container {
-    padding: calc(var(--spacing-base) * 2.5);
-    margin: calc(var(--spacing-base) * 2) auto;
-    max-width: calc(var(--form-max-width) + 6rem);
-  }
-
-  .form-header {
-    font-size: calc(var(--font-size-xl) * 1.2);
-  }
-
-  /* Enhanced hover effects for desktop */
-  .form-input:hover,
-  .form-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-}
-
-@media (min-width: 1025px) {
-  .form-container {
-    padding: calc(var(--spacing-base) * 3);
-    margin: calc(var(--spacing-base) * 2.5) auto;
-    max-width: calc(var(--form-max-width) + 8rem);
-  }
-
-  .form-header {
-    font-size: calc(var(--font-size-xl) * 1.3);
-  }
-
-  /* Smooth transitions for larger screens */
-  .form-input,
-  .form-button {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .form-input:focus,
-  .form-button:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
 }
 `;
 
-export function Register() {
+function Register() {
   const navigate = useNavigate();
   const [mounted, setMounted] = React.useState(false);
+  const [step, setStep] = useState<'type' | 'username' | 'details'>('type');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
+    type: 'influencer' as 'influencer' | 'advertiser',
     firstName: '',
     lastName: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    setError(null);
-  };
-
-  const validateForm = () => {
-    if (!formData.firstName.trim()) {
-      setError('Nome é obrigatório');
-      return false;
-    }
-    if (!formData.lastName.trim()) {
-      setError('Sobrenome é obrigatório');
-      return false;
-    }
-    if (!formData.password) {
-      setError('Senha é obrigatória');
-      return false;
-    }
-    if (formData.password.length < 8) {
-      setError('A senha deve ter pelo menos 8 caracteres');
-      return false;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError('As senhas não coincidem');
-      return false;
-    }
-    return true;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await authService.register({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password
-      });
-
-      // User is now automatically logged in
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao criar conta. Tente novamente.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   React.useEffect(() => {
     // Add styles to document
@@ -295,8 +65,94 @@ export function Register() {
     };
   }, []);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    setError(null);
+  };
+
+  const validateForm = () => {
+    switch (step) {
+      case 'type':
+        if (!formData.type) {
+          setError('Selecione seu tipo de perfil');
+          return false;
+        }
+        break;
+      case 'username':
+        if (!formData.username.trim()) {
+          setError('Nome de usuário é obrigatório');
+          return false;
+        }
+        if (!/^[a-zA-Z0-9_]{3,20}$/.test(formData.username)) {
+          setError('Nome de usuário deve conter entre 3 e 20 caracteres e apenas letras, números e _');
+          return false;
+        }
+        break;
+      case 'details':
+        if (!formData.firstName.trim()) {
+          setError('Nome é obrigatório');
+          return false;
+        }
+        if (!formData.lastName.trim()) {
+          setError('Sobrenome é obrigatório');
+          return false;
+        }
+        if (!formData.password) {
+          setError('Senha é obrigatória');
+          return false;
+        }
+        if (formData.password.length < 8) {
+          setError('A senha deve ter pelo menos 8 caracteres');
+          return false;
+        }
+        if (formData.password !== formData.confirmPassword) {
+          setError('As senhas não coincidem');
+          return false;
+        }
+        break;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    if (step !== 'details') {
+      setStep(step === 'type' ? 'username' : 'details');
+      return;
+    }
+    
+    setLoading(true);
+    setError(null);
+
+    try {
+      await authService.register({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      });
+
+      // User is now automatically logged in
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao criar conta. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 flex flex-col justify-center relative overflow-y-auto overscroll-y-contain container">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-full opacity-20 blur-[100px] transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-20' : 'translate-y-12 opacity-0'}`} />
@@ -310,14 +166,14 @@ export function Register() {
             <Building2 className="h-7 w-7 text-white" />
           </div>
         </div>
-        <h2 className={`mt-6 text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-500 animate-gradient transition-all duration-1000 delay-200 form-header ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+        <h2 className={`mt-6 text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-500 to-indigo-500 animate-gradient transition-all duration-1000 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           Crie sua conta
         </h2>
-        <p className={`mt-2 text-center text-gray-600 transition-all duration-1000 delay-400 form-subheader ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+        <p className={`mt-2 text-center text-gray-600 transition-all duration-1000 delay-400 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           Já tem uma conta?{' '}
           <button
             onClick={() => navigate('/login')}
-            className="font-medium text-indigo-600 hover:text-indigo-500 min-h-[var(--min-touch-target)] px-3 py-2 rounded-lg hover:bg-indigo-50 transition-all duration-200 inline-flex items-center justify-center"
+            className="font-medium text-indigo-600 hover:text-indigo-500 min-h-[44px] px-3 py-2 rounded-lg hover:bg-indigo-50 transition-all duration-200"
           >
             Faça login
           </button>
@@ -325,7 +181,40 @@ export function Register() {
       </div>
 
       <div className={`mt-8 sm:mx-auto sm:w-full sm:max-w-md transition-all duration-1000 delay-600 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <div className="bg-white/90 backdrop-blur-sm py-6 sm:py-8 px-4 sm:px-6 md:px-8 shadow-xl sm:rounded-xl border border-gray-100 relative overflow-hidden form-container">
+        <div className="bg-white/90 backdrop-blur-sm py-8 px-4 shadow-xl sm:rounded-xl sm:px-10 border border-gray-100">
+          {/* Progress Steps */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between">
+              {['type', 'username', 'details'].map((s, i) => (
+                <React.Fragment key={s}>
+                  <div className="flex items-center">
+                    <div className={`flex items-center justify-center h-8 w-8 rounded-full ${
+                      step === s
+                        ? 'bg-indigo-600 text-white'
+                        : step === 'details' && s === 'username'
+                        ? 'bg-indigo-600 text-white'
+                        : step === 'details' && s === 'type'
+                        ? 'bg-indigo-600 text-white'
+                        : step === 'username' && s === 'type'
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-gray-200 text-gray-400'
+                    }`}>
+                      {i + 1}
+                    </div>
+                    <span className={`ml-2 text-sm font-medium ${
+                      step === s ? 'text-gray-900' : 'text-gray-500'
+                    }`}>
+                      {s === 'type' ? 'Perfil' : s === 'username' ? 'Username' : 'Detalhes'}
+                    </span>
+                  </div>
+                  {i < 2 && (
+                    <div className="hidden sm:block flex-1 mx-4 h-0.5 bg-gray-200" />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+
           {error && (
             <div className="mb-4 rounded-md bg-red-50 p-4">
               <div className="flex">
@@ -340,114 +229,187 @@ export function Register() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 form-grid">
-              <div>
-                <label htmlFor="firstName" className="block font-medium text-gray-700 form-label">
-                  Nome
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    required
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px] form-input"
-                  />
+            {step === 'type' && (
+              <div className="space-y-4">
+                <div className="text-center mb-6">
+                  <h3 className="text-lg font-medium text-gray-900">Escolha seu perfil</h3>
+                  <p className="mt-1 text-sm text-gray-500">Selecione como você deseja se cadastrar</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, type: 'influencer' })}
+                  className={`w-full p-4 text-left border rounded-lg hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 ${
+                    formData.type === 'influencer' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <User className="h-6 w-6 text-indigo-600" />
+                    <div className="ml-3">
+                      <p className="text-base font-medium text-gray-900">Sou Influenciador</p>
+                      <p className="text-sm text-gray-500">Quero criar conteúdo e participar de campanhas</p>
+                    </div>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, type: 'advertiser' })}
+                  className={`w-full p-4 text-left border rounded-lg hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 ${
+                    formData.type === 'advertiser' ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-center">
+                    <Building2 className="h-6 w-6 text-indigo-600" />
+                    <div className="ml-3">
+                      <p className="text-base font-medium text-gray-900">Sou Anunciante</p>
+                      <p className="text-sm text-gray-500">Quero encontrar influenciadores para minhas campanhas</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            )}
+
+            {step === 'username' && (
+              <div className="space-y-4">
+                <div className="text-center mb-6">
+                  <h3 className="text-lg font-medium text-gray-900">Escolha seu username</h3>
+                  <p className="mt-1 text-sm text-gray-500">Este será seu identificador único na plataforma e sua URL personalizada</p>
+                </div>
+                <div>
+                  <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                    Nome de usuário
+                  </label>
+                  <div className="mt-1 space-y-2">
+                    <input
+                      id="username"
+                      name="username"
+                      type="text"
+                      required
+                      value={formData.username}
+                      onChange={handleInputChange}
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                      placeholder="seu_username"
+                    />
+                    <div className="flex items-center px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
+                      <span className="text-sm text-gray-500">www.souinfluencer.com.br/</span>
+                      <span className="text-sm font-medium text-gray-900">{formData.username || 'seu_username'}</span>
+                    </div>
+                  </div>
+                  <p className="mt-2 text-sm text-gray-500">
+                    • Apenas letras, números e _ são permitidos<br />
+                    • Entre 3 e 20 caracteres<br />
+                    • Não pode conter espaços
+                  </p>
                 </div>
               </div>
+            )}
 
-              <div>
-                <label htmlFor="lastName" className="block font-medium text-gray-700 form-label">
-                  Sobrenome
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    required
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px] form-input"
-                  />
+            {step === 'details' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                    Nome
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      required
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                    Sobrenome
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      required
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Senha
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      required
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                    Confirme sua senha
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      required
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block font-medium text-gray-700 form-label">
-                Email
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px] form-input"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block font-medium text-gray-700 form-label">
-                Senha
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px] form-input"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block font-medium text-gray-700 form-label">
-                Confirme sua senha
-              </label>
-              <div className="mt-1">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px] form-input"
-                />
-              </div>
-            </div>
+            )}
 
             <div>
               <button
                 type="submit"
                 disabled={loading}
-                className="relative w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group min-h-[44px] form-button"
+                className="w-full inline-flex items-center justify-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] min-h-[44px]"
               >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg blur opacity-0 group-hover:opacity-30 transition duration-200" />
-                <div className="relative">
                 {loading ? (
-                  <div className="flex items-center">
+                  <>
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     Criando conta...
-                  </div>
+                  </>
                 ) : (
-                  'Criar conta'
+                  step === 'details' ? 'Criar conta' : 'Continuar'
                 )}
-                </div>
               </button>
             </div>
           </form>
@@ -456,3 +418,5 @@ export function Register() {
     </div>
   );
 }
+
+export { Register };
