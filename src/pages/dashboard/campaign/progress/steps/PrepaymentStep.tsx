@@ -2,6 +2,66 @@ import React from 'react';
 import { ShieldCheck, CreditCard, CheckCircle, Clock, Plus, AlertTriangle } from 'lucide-react';
 import type { Campaign } from '../../../../../types';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .payment-card {
+    padding: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .payment-card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .payment-card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
 interface PrepaymentStepProps {
   campaign: Campaign;
   onNext?: () => void;
@@ -22,6 +82,21 @@ export function PrepaymentStep({ campaign, onNext, onComplete }: PrepaymentStepP
   const [showNewCardForm, setShowNewCardForm] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   // Mock saved cards
   const savedCards: SavedCard[] = [
@@ -75,250 +150,58 @@ export function PrepaymentStep({ campaign, onNext, onComplete }: PrepaymentStepP
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 container">
       {/* Step Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Pré-Pagamento</h2>
-        <p className="mt-1 text-sm text-gray-500">
-          Selecione um cartão de crédito para realizar o pré-pagamento da campanha.
-        </p>
-      </div>
-
-      {error && (
-        <div className="rounded-md bg-red-50 p-4">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <AlertTriangle className="h-5 w-5 text-red-400" />
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-green-50 to-white border border-green-100 flex items-center justify-center">
+              <DollarSign className="h-8 w-8 text-green-600" />
             </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">{error}</h3>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Pré-Pagamento</h2>
+              <p className="text-gray-500">Selecione um cartão de crédito para realizar o pré-pagamento da campanha.</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Shield className="h-5 w-5 text-indigo-600" />
+            <span className="text-sm font-medium text-gray-600">Pagamento Seguro</span>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid gap-4 sm:gap-6 card-grid">
+          <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+            <div className="flex items-center justify-between mb-2">
+              <DollarSign className="h-6 w-6 text-indigo-600" />
             </div>
           </div>
         </div>
-      )}
 
-      {/* Payment Amount */}
-      <div className="bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg font-medium text-gray-900">Valor do Pré-Pagamento</h3>
-          <div className="mt-5">
-            <div className="rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-center sm:justify-between">
-              <div className="sm:flex sm:items-center">
-                <div className="flex-shrink-0">
-                  <CreditCard className="h-8 w-8 text-gray-400" />
-                </div>
-                <div className="mt-3 sm:mt-0 sm:ml-4">
-                  <div className="text-sm font-medium text-gray-900">Total a pagar</div>
-                  <div className="mt-1 text-3xl font-bold text-gray-900">
-                    R$ {campaign.budget.toLocaleString()}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 sm:mt-0">
-                <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                  <ShieldCheck className="h-4 w-4 mr-1" />
-                  Pagamento Seguro
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Saved Cards */}
-      <div className="bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Cartões Salvos</h3>
-          <div className="space-y-4">
-            {savedCards.map((card) => (
-              <div
-                key={card.id}
-                onClick={() => {
-                  setSelectedCard(card.id);
-                  setShowNewCardForm(false);
-                }}
-                className={`relative rounded-lg border p-4 cursor-pointer transition-all duration-200 ${
-                  selectedCard === card.id
-                    ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                    : 'border-gray-200 hover:border-indigo-200'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <img
-                      src={`/card-brands/${card.brand}.svg`}
-                      alt={card.brand}
-                      className="h-8 w-8"
-                    />
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-900">
-                        •••• {card.last4}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Expira em {card.expMonth.toString().padStart(2, '0')}/{card.expYear}
-                      </p>
-                    </div>
-                  </div>
-                  {selectedCard === card.id && (
-                    <CheckCircle className="h-5 w-5 text-indigo-600" />
-                  )}
-                </div>
-              </div>
-            ))}
-
-            <button
-              onClick={() => {
-                setShowNewCardForm(true);
-                setSelectedCard(null);
-              }}
-              className={`relative w-full rounded-lg border-2 border-dashed p-4 hover:border-indigo-300 transition-colors duration-200 ${
-                showNewCardForm ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300'
-              }`}
-            >
-              <div className="flex items-center justify-center">
-                <Plus className="h-5 w-5 text-gray-400 mr-2" />
-                <span className="text-sm font-medium text-gray-900">
-                  Adicionar novo cartão
-                </span>
-              </div>
-            </button>
-          </div>
-
-          {/* New Card Form */}
-          {showNewCardForm && (
-            <div className="mt-6 space-y-4">
-              <div>
-                <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700">
-                  Número do Cartão
-                </label>
-                <input
-                  type="text"
-                  id="cardNumber"
-                  value={newCard.number}
-                  onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="1234 5678 9012 3456"
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <label htmlFor="expMonth" className="block text-sm font-medium text-gray-700">
-                    Mês
-                  </label>
-                  <input
-                    type="text"
-                    id="expMonth"
-                    value={newCard.expMonth}
-                    onChange={(e) => setNewCard({ ...newCard, expMonth: e.target.value })}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="MM"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="expYear" className="block text-sm font-medium text-gray-700">
-                    Ano
-                  </label>
-                  <input
-                    type="text"
-                    id="expYear"
-                    value={newCard.expYear}
-                    onChange={(e) => setNewCard({ ...newCard, expYear: e.target.value })}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="AAAA"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="cvc" className="block text-sm font-medium text-gray-700">
-                    CVC
-                  </label>
-                  <input
-                    type="text"
-                    id="cvc"
-                    value={newCard.cvc}
-                    onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="123"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="holderName" className="block text-sm font-medium text-gray-700">
-                  Nome no Cartão
-                </label>
-                <input
-                  type="text"
-                  id="holderName"
-                  value={newCard.holderName}
-                  onChange={(e) => setNewCard({ ...newCard, holderName: e.target.value })}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="NOME COMO ESTÁ NO CARTÃO"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Payment Security */}
-      <div className="bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg font-medium text-gray-900">Segurança do Pagamento</h3>
-          <div className="mt-5">
-            <div className="space-y-6">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <ShieldCheck className="h-6 w-6 text-green-500" />
-                </div>
-                <div className="ml-3">
-                  <h4 className="text-sm font-medium text-gray-900">Pagamento Seguro</h4>
-                  <p className="text-sm text-gray-500">
-                    Todas as transações são processadas com criptografia de ponta a ponta
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <CreditCard className="h-6 w-6 text-green-500" />
-                </div>
-                <div className="ml-3">
-                  <h4 className="text-sm font-medium text-gray-900">Garantia de Entrega</h4>
-                  <p className="text-sm text-gray-500">
-                    O pagamento só é liberado após a aprovação do conteúdo
-                  </p>
-                </div>
+        {/* Payment Method */}
+        <div className="bg-white shadow rounded-lg payment-card">
+          <div className="px-4 py-5 sm:p-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Método de Pagamento</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setShowNewCardForm(false)}
+                  className="mt-3 w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:text-sm min-h-[var(--min-touch-target)] button"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:text-sm min-h-[var(--min-touch-target)] button"
+                  onClick={() => setShowNewCardForm(false)}
+                >
+                  Desconectar
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex justify-end space-x-4">
-        <button
-          onClick={handlePayment}
-          disabled={status !== 'pending'}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {status === 'processing' ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
-              Processando...
-            </>
-          ) : status === 'completed' ? (
-            <>
-              <CheckCircle className="h-5 w-5 mr-2" />
-              Pagamento Concluído
-            </>
-          ) : (
-            <>
-              <CreditCard className="h-5 w-5 mr-2" />
-              Realizar Pagamento
-            </>
-          )}
-        </button>
       </div>
     </div>
   );

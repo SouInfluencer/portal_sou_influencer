@@ -1,6 +1,67 @@
-import React from 'react';
-import { TrendingUp, CheckCircle, Clock, AlertCircle, Eye, Heart, MessageSquare, Share2, Image as ImageIcon, Copy, X, Info, AtSign, Download, Hourglass } from 'lucide-react';
+import React, { useState } from 'react';
+import { TrendingUp, Users, Star, Info, Award, Clock, CheckCircle, Instagram, Youtube, Video, BarChart2, Heart, MessageSquare, Eye, Download, Copy, Hourglass } from 'lucide-react';
 import type { Campaign } from '../../../../../types';
+
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .preview-card {
+    margin: 0 calc(var(--container-padding) * -1);
+    border-radius: 0;
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .preview-card {
+    margin: 0;
+    border-radius: var(--border-radius);
+  }
+}
+
+@media (min-width: 769px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .preview-card {
+    margin: 0;
+    border-radius: var(--border-radius);
+  }
+}
+`;
 
 interface ProductionStepProps {
   campaign: Campaign;
@@ -9,27 +70,17 @@ interface ProductionStepProps {
   onComplete?: () => void;
 }
 
-export function ProductionStep({ campaign, userType = 's', onNext, onComplete }: ProductionStepProps) {
+export function ProductionStep({ campaign, userType = 'influencer', onNext, onComplete }: ProductionStepProps) {
   const [progress, setProgress] = React.useState({
     materialsDownloaded: false,
     briefingReviewed: false,
     contentInProduction: false,
     finalReview: false
   });
-
-  const [showAlert, setShowAlert] = React.useState(false);
-
-  const handleComplete = () => {
-    // Call both onComplete and onNext to advance to the delivery step
-    onComplete?.('in_production');
-    onNext?.();
-  };
-  const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
-  const [caption, setCaption] = React.useState('');
+  const [mounted, setMounted] = React.useState(false);
   const [showPreview, setShowPreview] = React.useState(true);
-  const [hashtags, setHashtags] = React.useState<string[]>([]);
-  const [mentions, setMentions] = React.useState<string[]>([]);
   const [downloading, setDownloading] = React.useState(false);
+  const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [copied, setCopied] = React.useState<{
     caption: boolean;
     hashtags: boolean;
@@ -39,6 +90,26 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
     hashtags: false,
     mentions: false
   });
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
+  const handleComplete = () => {
+    // Call both onComplete and onNext to advance to the delivery step
+    onComplete?.('in_production');
+    onNext?.();
+  };
 
   const handleDownloadImage = async () => {
     try {
@@ -86,30 +157,50 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 container">
       {/* Step Header */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Material da Postagem</h2>
-        <p className="mt-1 text-sm text-gray-500">Copie o material necessário para sua postagem</p>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 flex items-center justify-center">
+              <TrendingUp className="h-8 w-8 text-indigo-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Material da Postagem</h2>
+              <p className="text-gray-500">Copie o material necessário para sua postagem</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid gap-4 mb-8 stats-grid">
+          <div className="bg-gradient-to-br from-indigo-50 to-white p-6 rounded-xl border border-indigo-100">
+            <div className="flex items-center justify-between mb-2">
+              <Users className="h-6 w-6 text-indigo-600" />
+              <BarChart2 className="h-4 w-4 text-indigo-400" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900">45K+</p>
+            <p className="text-sm text-gray-500">Alcance Estimado</p>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
+      {/* Content Grid */}
+      <div className="grid gap-8 grid-cols-2">
         {/* Preview */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+        <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-900">Visualização do Post</h3>
             <button
               onClick={() => setShowPreview(!showPreview)}
-              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 min-h-[var(--min-touch-target)] button"
             >
               <Eye className="h-4 w-4 mr-1.5" />
               {showPreview ? 'Ocultar Preview' : 'Mostrar Preview'}
             </button>
           </div>
-
           {showPreview && (
             <div className="border rounded-xl overflow-hidden bg-white">
-              {/* Instagram Header */}
               <div className="flex items-center p-4 border-b">
                 <img
                   src={campaign.brand.logo}
@@ -121,8 +212,6 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
                   <p className="text-xs text-gray-500">Patrocinado</p>
                 </div>
               </div>
-
-              {/* Post Image */}
               <div className="aspect-square w-full bg-gray-50">
                 <img
                   src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=800&fit=crop"
@@ -130,17 +219,12 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
                   className="w-full h-full object-cover"
                 />
               </div>
-
-              {/* Post Actions */}
               <div className="p-4 border-t">
                 <div className="flex items-center space-x-4">
                   <Heart className="h-6 w-6 text-gray-800" />
                   <MessageSquare className="h-6 w-6 text-gray-800" />
-                  <Share2 className="h-6 w-6 text-gray-800" />
                 </div>
               </div>
-
-              {/* Caption Preview */}
               <div className="p-4 border-t">
                 <p className="text-sm">
                   <span className="font-semibold">{campaign.brand.name}</span>{' '}
@@ -157,17 +241,13 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
         {/* Content Copy Section */}
         <div className="space-y-6">
           {/* Image */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">Imagem</h3>
               <button
                 onClick={handleDownloadImage}
                 disabled={downloading}
-                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  downloading
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[var(--min-touch-target)] button"
               >
                 <Download className="h-4 w-4 mr-2" />
                 {downloading ? 'Baixando...' : 'Baixar Imagem'}
@@ -183,16 +263,12 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
           </div>
 
           {/* Caption */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">Legenda</h3>
               <button
                 onClick={() => handleCopy('caption', campaign.description)}
-                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  copied.caption
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[var(--min-touch-target)] button"
               >
                 <Copy className="h-4 w-4 mr-2" />
                 {copied.caption ? 'Copiado!' : 'Copiar Legenda'}
@@ -206,16 +282,12 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
           </div>
 
           {/* Hashtags */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">Hashtags</h3>
               <button
                 onClick={() => handleCopy('hashtags', hashtags.join(' '))}
-                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  copied.hashtags
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[var(--min-touch-target)] button"
               >
                 <Copy className="h-4 w-4 mr-2" />
                 {copied.hashtags ? 'Copiado!' : 'Copiar Hashtags'}
@@ -229,16 +301,12 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
           </div>
 
           {/* Mentions */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">Marcações</h3>
               <button
                 onClick={() => handleCopy('mentions', '@techcorp @techbrasil')}
-                className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  copied.mentions
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 min-h-[var(--min-touch-target)] button"
               >
                 <Copy className="h-4 w-4 mr-2" />
                 {copied.mentions ? 'Copiado!' : 'Copiar Marcações'}
@@ -257,7 +325,7 @@ export function ProductionStep({ campaign, userType = 's', onNext, onComplete }:
       <div className="flex justify-end space-x-4">
         <button
           onClick={handleComplete}
-          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200"
+          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           <CheckCircle className="h-5 w-5 mr-2" />
           Prosseguir para Entrega

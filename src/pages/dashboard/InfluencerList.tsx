@@ -2,6 +2,78 @@ import React, { useState } from 'react';
 import { Search, Filter, Users, MapPin, ChevronRight, DollarSign, Star, Info, Award, Clock, CheckCircle, Instagram, Youtube, Video, BarChart2, Heart, MessageSquare, X, Sliders } from 'lucide-react';
 import type { Influencer } from '../../types';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .influencer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .search-bar {
+    flex-direction: column;
+    gap: var(--spacing-base);
+  }
+  
+  .filter-panel {
+    grid-template-columns: 1fr;
+  }
+  
+  .influencer-card {
+    padding: var(--spacing-base);
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .influencer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filter-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 769px) {
+  .influencer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .filter-panel {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+`;
+
 interface Filters {
   platform: string[];
   categories: string[];
@@ -78,6 +150,7 @@ interface InfluencerListProps {
 export function InfluencerList({ onViewProfile }: InfluencerListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const [filters, setFilters] = useState<Filters>({
     platform: [] as string[],
     categories: [] as string[],
@@ -117,9 +190,23 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
     return num.toString();
   };
 
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
   return (
-    <div className="py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+    <div className="py-6 container">
+      <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Influenciadores</h1>
@@ -130,8 +217,8 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
         </div>
 
         {/* Search and Filters */}
-        <div className="mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200/80">
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
+        <div className="mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200/80 search-bar">
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch">
             {/* Search */}
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -139,19 +226,19 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
-                placeholder="Buscar influenciadores..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm min-h-[var(--min-touch-target)]"
+                placeholder="Buscar influenciadores..."
               />
             </div>
 
             {/* Sort */}
             <div className="flex items-center space-x-2">
               <select
+                className="block w-full sm:w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg min-h-[var(--min-touch-target)]"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'followers' | 'engagement' | 'price')}
-                className="block w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
               >
                 <option value="followers">Seguidores</option>
                 <option value="engagement">Engajamento</option>
@@ -159,7 +246,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
               </select>
               <button
                 onClick={() => setSortOrder(order => order === 'asc' ? 'desc' : 'asc')}
-                className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
+                className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
               >
                 <Sliders className={`h-5 w-5 transform ${sortOrder === 'desc' ? 'rotate-180' : ''}`} />
               </button>
@@ -168,7 +255,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
             {/* Filter Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 min-h-[var(--min-touch-target)]"
             >
               <Filter className="h-4 w-4 mr-2" />
               Filtros
@@ -183,7 +270,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
             {(Object.values(filters).some(arr => Array.isArray(arr) ? arr.length > 0 : Object.keys(arr).length > 0) || searchTerm) && (
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-red-600 bg-red-50 hover:bg-red-100"
+                className="inline-flex items-center justify-center px-3 py-1 border border-transparent text-sm font-medium rounded-lg text-red-600 bg-red-50 hover:bg-red-100 min-h-[var(--min-touch-target)]"
               >
                 <X className="h-4 w-4 mr-1" />
                 Limpar
@@ -337,11 +424,11 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
         </div>
 
         {/* Influencers Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 influencer-grid">
           {mockInfluencers.map((influencer) => (
             <div
               key={influencer.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-200 overflow-hidden"
+              className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-200 overflow-hidden influencer-card"
             >
               <div className="p-6">
                 {/* Header */}
@@ -373,7 +460,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                 </div>
 
                 {/* Metrics */}
-                <div className="grid grid-cols-3 gap-4 py-4 border-y border-gray-100">
+                <div className="grid gap-4 py-4 border-y border-gray-100 metrics-grid">
                   <div className="text-center">
                     <Users className="h-5 w-5 text-gray-400 mx-auto mb-1" />
                     <p className="text-sm font-medium text-gray-900">{formatNumber(influencer.followers)}</p>
@@ -409,7 +496,7 @@ export function InfluencerList({ onViewProfile }: InfluencerListProps) {
                 <div className="mt-6">
                   <button
                     onClick={() => onViewProfile(influencer.id)}
-                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 min-h-[var(--min-touch-target)]"
                   >
                     Ver Perfil
                     <ChevronRight className="ml-2 h-4 w-4" />

@@ -2,6 +2,76 @@ import React from 'react';
 import { CheckCircle, TrendingUp, ShieldCheck, Upload, FileCheck, CreditCard, ArrowLeft, ThumbsUp, ThumbsDown, AlertTriangle } from 'lucide-react';
 import type { Campaign } from '../../../types';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .step-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-base);
+  }
+  
+  .step-title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .step-description {
+    font-size: var(--font-size-base);
+  }
+  
+  .step-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .step-card {
+    padding: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .step-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .step-card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .step-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .step-card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
 interface ProgressStepProps {
   campaign: Campaign;
   step: 'proposal' | 'production' | 'prepayment' | 'delivery' | 'validation' | 'payment';
@@ -12,6 +82,21 @@ interface ProgressStepProps {
 
 export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejectProposal }: ProgressStepProps) {
   const [showRejectConfirm, setShowRejectConfirm] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const steps = {
     proposal: {
@@ -19,7 +104,7 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
       description: 'O influenciador aceitou a proposta da campanha',
       icon: CheckCircle,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-6 container">
           <div className="bg-indigo-50 rounded-lg p-4">
             <div className="flex">
               <div className="flex-shrink-0">
@@ -35,17 +120,17 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end space-x-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4 sm:space-x-4">
             <button
               onClick={() => setShowRejectConfirm(true)}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+              className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 min-h-[var(--min-touch-target)] button"
             >
               <ThumbsDown className="h-5 w-5 mr-2 text-red-500" />
               Recusar Proposta
             </button>
             <button
               onClick={onAcceptProposal}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 min-h-[var(--min-touch-target)] button"
             >
               <ThumbsUp className="h-5 w-5 mr-2" />
               Aceitar Proposta
@@ -56,7 +141,7 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
             <div className="px-4 py-5 sm:p-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">Detalhes da Proposta</h3>
               <div className="mt-5">
-                <dl className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <dl className="grid grid-cols-1 gap-5 sm:grid-cols-2 step-grid">
                   <div className="px-4 py-5 bg-gray-50 shadow rounded-lg overflow-hidden sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Valor Acordado</dt>
                     <dd className="mt-1 text-3xl font-semibold text-gray-900">
@@ -106,7 +191,7 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
       description: 'O influenciador está produzindo o conteúdo',
       icon: TrendingUp,
       content: (
-        <div className="space-y-6">
+        <div className="space-y-6 container">
           <div className="bg-blue-50 rounded-lg p-4">
             <div className="flex">
               <div className="flex-shrink-0">
@@ -168,7 +253,7 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
             <div className="px-4 py-5 sm:p-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">Cronograma</h3>
               <div className="mt-5">
-                <dl className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                <dl className="grid grid-cols-1 gap-5 sm:grid-cols-3 step-grid">
                   <div className="px-4 py-5 bg-gray-50 shadow rounded-lg overflow-hidden sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Início da Produção</dt>
                     <dd className="mt-1 text-2xl font-semibold text-gray-900">
@@ -515,20 +600,20 @@ export function ProgressStep({ campaign, step, onBack, onAcceptProposal, onRejec
   const currentStep = steps[step];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 container">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 step-header">
         <div className="flex items-center space-x-4">
           <button
             onClick={onBack}
-            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 min-h-[var(--min-touch-target)] px-3 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-200 button"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
             Voltar
           </button>
           <div>
-            <h2 className="text-xl font-bold text-gray-900">{currentStep.title}</h2>
-            <p className="text-sm text-gray-500">{currentStep.description}</p>
+            <h2 className="text-xl font-bold text-gray-900 step-title">{currentStep.title}</h2>
+            <p className="text-sm text-gray-500 step-description">{currentStep.description}</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">

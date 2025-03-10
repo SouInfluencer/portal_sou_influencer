@@ -1,14 +1,90 @@
 import React from 'react';
-import { Check, Crown, Star, Zap, X, ArrowDown } from 'lucide-react';
+import { Check, Crown, Star, Zap, X, ArrowDown, Users, BarChart2 } from 'lucide-react';
 import { ManagePlan } from './plan/ManagePlan';
 import { ChoosePlan } from './plan/ChoosePlan';
 import { DowngradeFlow } from './plan/DowngradeFlow';
+
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .plan-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .plan-card {
+    padding: var(--spacing-base);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .plan-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 769px) {
+  .plan-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+`;
 
 export function Plan() {
   const [currentPlan, setCurrentPlan] = React.useState('starter');
   const [showUpgradeConfirm, setShowUpgradeConfirm] = React.useState(false);
   const [view, setView] = React.useState<'plans' | 'manage' | 'choose' | 'downgrade'>('plans');
   const [selectedPlan, setSelectedPlan] = React.useState<string | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
   
   const plans = [
     {
@@ -76,8 +152,8 @@ export function Plan() {
   };
 
   return (
-    <div className="py-6">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-6 container">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {view === 'manage' ? (
           <ManagePlan onBack={() => setView('plans')} /> 
         ) : view === 'choose' ? (
@@ -105,7 +181,7 @@ export function Plan() {
 
             <div className="py-4">
               {/* Current Plan Status */}
-              <div className="bg-gradient-to-br from-indigo-50 via-white to-white rounded-2xl shadow-lg border border-indigo-100/50 p-8 mb-12">
+              <div className="bg-gradient-to-br from-indigo-50/50 to-white rounded-2xl shadow-lg border border-indigo-100/50 p-4 sm:p-6 lg:p-8 mb-8 sm:mb-12 plan-card">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
@@ -118,42 +194,14 @@ export function Plan() {
                       <p className="text-sm text-gray-500">Ativo até 15 de Maio, 2024</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                      Ativo
-                    </span>
-                    <button
-                      onClick={() => setView(currentPlan === 'starter' ? 'choose' : 'downgrade')}
-                      className={`inline-flex items-center px-4 py-2 border ${
-                        currentPlan === 'starter'
-                          ? 'border-transparent text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl'
-                          : 'border-gray-300 text-red-600 hover:text-red-700 hover:bg-red-50'
-                      } text-sm font-medium rounded-lg transition-all duration-200`}
-                    >
-                      {currentPlan === 'starter' ? (
-                        <>
-                          <Crown className="h-4 w-4 mr-2" />
-                          Upgrade para Pro
-                        </>
-                      ) : (
-                        <>
-                          <ArrowDown className="h-4 w-4 mr-2" />
-                          Fazer Downgrade
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={() => setView('manage')}
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                    >
-                      Gerenciar Pagamento
-                    </button>
-                  </div>
                 </div>
 
-                {/* Usage Stats */}
-                <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                  <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                <div className="grid gap-4 mt-6 sm:mt-8 stats-grid">
+                  <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <Users className="h-5 w-5 text-gray-400" />
+                      <BarChart2 className="h-4 w-4 text-gray-300" />
+                    </div>
                     <h3 className="text-sm font-medium text-gray-500">Campanhas do Mês</h3>
                     <p className="mt-2 text-3xl font-semibold text-gray-900">7</p>
                     <p className="text-xs text-gray-500 mt-1">+40% que mês anterior</p>
@@ -161,7 +209,11 @@ export function Plan() {
                       <div className="h-2 bg-indigo-600 rounded-full" style={{ width: '35%' }} />
                     </div>
                   </div>
-                  <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                  <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <Users className="h-5 w-5 text-gray-400" />
+                      <BarChart2 className="h-4 w-4 text-gray-300" />
+                    </div>
                     <h3 className="text-sm font-medium text-gray-500">Taxa de Aprovação</h3>
                     <p className="mt-2 text-3xl font-semibold text-gray-900">98%</p>
                     <p className="text-xs text-gray-500 mt-1">+5% que mês anterior</p>
@@ -169,7 +221,11 @@ export function Plan() {
                       <div className="h-2 bg-indigo-600 rounded-full" style={{ width: '98%' }} />
                     </div>
                   </div>
-                  <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                  <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <Users className="h-5 w-5 text-gray-400" />
+                      <BarChart2 className="h-4 w-4 text-gray-300" />
+                    </div>
                     <h3 className="text-sm font-medium text-gray-500">Ganhos do Mês</h3>
                     <p className="mt-2 text-3xl font-semibold text-gray-900">R$ 12.5K</p>
                     <p className="text-xs text-gray-500 mt-1">+25% que mês anterior</p>
@@ -178,9 +234,9 @@ export function Plan() {
                     </div>
                   </div>
                 </div>
-            
+
                 {/* Benefits Summary */}
-                <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-indigo-100">
+                <div className="mt-6 sm:mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-indigo-100">
                   <h3 className="text-sm font-medium text-indigo-900">Benefícios do seu plano este mês</h3>
                   <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="flex items-center">
@@ -212,63 +268,55 @@ export function Plan() {
               </div>
 
               {/* Available Plans */}
-              <div>
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900">Planos Disponíveis</h2>
-                  <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-                    Escolha o plano ideal para impulsionar sua carreira como influenciador
-                  </p>
-                </div>
-                <div className="grid gap-8 lg:grid-cols-2 max-w-5xl mx-auto">
-                  {plans.map((plan) => {
-                    const Icon = plan.icon;
-                    return (
-                      <div
-                        key={plan.name}
-                        className={`relative rounded-lg border ${
-                          currentPlan === plan.name.toLowerCase()
-                            ? 'border-indigo-500 ring-2 ring-indigo-200 bg-gradient-to-br from-indigo-50 to-white'
-                            : 'border-gray-200 bg-white hover:border-indigo-300'
-                        } p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]`}
-                      >
-                        {plan.popular && (
-                          <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                            <span className="inline-flex items-center rounded-full bg-indigo-600 px-4 py-1 text-xs font-medium text-white">
-                              Popular
-                            </span>
-                          </div>
-                        )}
-                        <div className={`inline-flex rounded-lg ${plan.bgColor} p-3`}>
-                          <Icon className={`h-6 w-6 ${plan.color}`} />
+              <div className="grid gap-6 sm:gap-8 plan-grid max-w-5xl mx-auto">
+                {plans.map((plan) => {
+                  const Icon = plan.icon;
+                  return (
+                    <div
+                      key={plan.name}
+                      className={`relative rounded-lg border ${
+                        currentPlan === plan.name.toLowerCase()
+                          ? 'border-indigo-500 ring-2 ring-indigo-200 bg-gradient-to-br from-indigo-50 to-white shadow-lg'
+                          : 'border-gray-200 bg-white hover:border-indigo-300'
+                      } p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]`}
+                    >
+                      {plan.popular && (
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                          <span className="inline-flex items-center rounded-full bg-indigo-600 px-4 py-1 text-xs font-medium text-white">
+                            Popular
+                          </span>
                         </div>
-                        <h3 className="mt-4 text-2xl font-bold text-gray-900">{plan.name}</h3>
-                        <p className="mt-2 text-sm text-gray-500">{plan.description}</p>
-                        <p className="mt-4 text-3xl font-bold text-gray-900">{plan.price}</p>
-                    
-                        <ul className="mt-8 space-y-4">
-                          {plan.features.map((feature) => (
-                            <li key={feature} className="flex items-start">
-                              <Check className="h-5 w-5 text-green-500 mt-0.5" />
-                              <span className="ml-3 text-sm text-gray-500">{feature}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <button
-                          className={`mt-8 w-full rounded-xl px-6 py-3 text-sm font-medium ${
-                            currentPlan === plan.name.toLowerCase()
-                              ? 'bg-green-100 text-green-700 cursor-default'
-                              : 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]'
-                          }`}
-                          onClick={() => handleUpgrade(plan.name)}
-                          disabled={currentPlan === plan.name.toLowerCase() || plan.name.toLowerCase() === 'starter'}
-                        >
-                          {currentPlan === plan.name.toLowerCase() ? 'Plano Atual' : 'Escolher Plano'}
-                        </button>
+                      )}
+                      <div className={`inline-flex rounded-lg ${plan.bgColor} p-3 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]`}>
+                        <Icon className={`h-6 w-6 ${plan.color}`} />
                       </div>
-                    );
-                  })}
-                </div>
+                      <h3 className="mt-4 text-2xl font-bold text-gray-900">{plan.name}</h3>
+                      <p className="mt-2 text-sm text-gray-500">{plan.description}</p>
+                      <p className="mt-4 text-3xl font-bold text-gray-900">{plan.price}</p>
+                  
+                      <ul className="mt-8 space-y-4">
+                        {plan.features.map((feature) => (
+                          <li key={feature} className="flex items-start">
+                            <Check className="h-5 w-5 text-green-500 mt-0.5" />
+                            <span className="ml-3 text-sm text-gray-500">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <button
+                        className={`mt-8 w-full rounded-xl px-6 py-3 text-sm font-medium ${
+                          currentPlan === plan.name.toLowerCase()
+                            ? 'bg-green-100 text-green-700 cursor-default min-h-[var(--min-touch-target)]'
+                            : 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200'
+                        }`}
+                        onClick={() => handleUpgrade(plan.name)}
+                        disabled={currentPlan === plan.name.toLowerCase() || plan.name.toLowerCase() === 'starter'}
+                      >
+                        {currentPlan === plan.name.toLowerCase() ? 'Plano Atual' : 'Escolher Plano'}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -1,6 +1,73 @@
 import React from 'react';
 import { ArrowLeft, CreditCard, CheckCircle, AlertTriangle, Calendar, DollarSign, Receipt, Shield, X } from 'lucide-react';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-base);
+  }
+  
+  .card {
+    padding: var(--spacing-base);
+    margin-bottom: var(--spacing-base);
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
 interface ManagePlanProps {
   onBack: () => void;
 }
@@ -9,6 +76,21 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
   const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
   const [showNewCardForm, setShowNewCardForm] = React.useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const savedCards = [
     {
@@ -51,7 +133,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
   ];
 
   return (
-    <div className="py-6">
+    <div className="py-6 container">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -59,7 +141,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
             onClick={onBack}
             className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-4"
           >
-            <ArrowLeft className="h-4 w-4 mr-1" />
+            <ArrowLeft className="h-4 w-4 mr-2 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]" />
             Voltar para planos
           </button>
           <h1 className="text-2xl font-semibold text-gray-900">Gerenciar Assinatura</h1>
@@ -69,7 +151,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
         </div>
 
         {/* Current Plan Status */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center">
@@ -95,7 +177,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
         </div>
 
         {/* Payment Method */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
           <h3 className="text-lg font-medium text-gray-900 mb-6">Método de Pagamento</h3>
           <div className="space-y-4">
             {savedCards.map((card) => (
@@ -103,7 +185,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                 key={card.id}
                 onClick={() => setSelectedCard(card.id)}
                 className={`relative rounded-lg border p-4 cursor-pointer transition-all duration-200 ${
-                  selectedCard === card.id
+                  selectedCard === card.id 
                     ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
                     : 'border-gray-200 hover:border-indigo-200'
                 }`}
@@ -144,7 +226,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
         </div>
 
         {/* Billing History */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-medium text-gray-900">Histórico de Faturas</h3>
             <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
@@ -152,7 +234,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
             </button>
           </div>
           <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className="min-w-full divide-y divide-gray-200 hidden sm:table">
               <thead>
                 <tr>
                   <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -192,14 +274,37 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                 ))}
               </tbody>
             </table>
+            {/* Mobile Invoice List */}
+            <div className="sm:hidden space-y-4">
+              {invoices.map((invoice) => (
+                <div key={invoice.id} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-sm font-medium text-gray-900">
+                      {new Date(invoice.date).toLocaleDateString()}
+                    </div>
+                    <div className="text-sm font-medium text-gray-900">
+                      R$ {invoice.amount.toFixed(2)}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Pago
+                    </span>
+                    <button className="text-indigo-600 hover:text-indigo-900">
+                      <Receipt className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Cancel Subscription */}
-        <div className="mt-8">
+        <div className="mt-8 flex justify-center sm:justify-start">
           <button
             onClick={() => setShowCancelConfirm(true)}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-red-600 bg-white hover:bg-red-50"
+            className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-red-600 bg-white hover:bg-red-50 min-h-[var(--min-touch-target)] button"
           >
             Cancelar assinatura
           </button>
@@ -207,7 +312,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
       </div>
 
       {/* Cancel Confirmation Modal */}
-      {showCancelConfirm && (
+      {showCancelConfirm && mounted && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -231,14 +336,14 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
               <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
                   onClick={() => setShowCancelConfirm(false)}
                 >
                   Cancelar Assinatura
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
                   onClick={() => setShowCancelConfirm(false)}
                 >
                   Voltar

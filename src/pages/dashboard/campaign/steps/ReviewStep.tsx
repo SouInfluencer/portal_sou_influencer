@@ -3,6 +3,68 @@ import { Check, ChevronRight, DollarSign, Calendar, Hash, Image as ImageIcon, Us
 import type { CampaignForm } from '../types';
 import { formatCurrency } from '../utils';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-base);
+  }
+  
+  .review-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .review-card {
+    padding: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .review-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .review-card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .review-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .review-card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
 interface ReviewStepProps {
   formData: CampaignForm;
   onBack: () => void;
@@ -11,6 +73,21 @@ interface ReviewStepProps {
 
 export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
   const [error, setError] = React.useState<string | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const handleSubmit = () => {
     if (!formData.budget || formData.budget <= 0) {
@@ -22,7 +99,7 @@ export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto container">
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 mb-6 shadow-lg">
           <Check className="h-8 w-8 text-white" />
@@ -44,12 +121,12 @@ export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
 
       <div className="space-y-8">
         {/* Campaign Type and Budget */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden review-card">
           <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
             <h3 className="text-lg font-medium text-gray-900">Informações Gerais</h3>
           </div>
           <div className="px-6 py-5">
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <dl className="grid gap-x-4 gap-y-6 review-grid">
               <div>
                 <dt className="text-sm font-medium text-gray-500">Tipo de Campanha</dt>
                 <dd className="mt-1 text-lg text-gray-900 capitalize">
@@ -84,12 +161,12 @@ export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
         </div>
 
         {/* Platform and Content */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden review-card">
           <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
             <h3 className="text-lg font-medium text-gray-900">Detalhes do Conteúdo</h3>
           </div>
           <div className="px-6 py-5">
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <dl className="grid gap-x-4 gap-y-6 review-grid">
               <div>
                 <dt className="text-sm font-medium text-gray-500">Plataforma</dt>
                 <dd className="mt-1 text-lg text-gray-900">{formData.platform}</dd>
@@ -126,12 +203,12 @@ export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
 
         {/* Influencer Details */}
         {formData.type === 'single' && formData.influencer && (
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden review-card">
             <div className="px-6 py-5 border-b border-gray-200 bg-gray-50">
               <h3 className="text-lg font-medium text-gray-900">Influenciador Selecionado</h3>
             </div>
             <div className="px-6 py-5">
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                 <img
                   src={formData.influencer.avatar}
                   alt={formData.influencer.name}
@@ -166,18 +243,18 @@ export function ReviewStep({ formData, onBack, onSubmit }: ReviewStepProps) {
         )}
 
         {/* Action Buttons */}
-        <div className="flex justify-end space-x-4 pt-6">
+        <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-3 pt-6">
           <button
             type="button"
             onClick={onBack}
-            className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200"
+            className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200 min-h-[var(--min-touch-target)] button"
           >
             Voltar e Editar
           </button>
           <button
             type="button"
             onClick={handleSubmit}
-            className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg hover:shadow-xl transition-all duration-200"
+            className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[var(--min-touch-target)] button"
           >
             Criar Campanha
             <ChevronRight className="ml-2 h-4 w-4" />

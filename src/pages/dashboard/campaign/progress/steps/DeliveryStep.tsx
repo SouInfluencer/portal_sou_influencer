@@ -2,6 +2,48 @@ import React, { useState } from 'react';
 import { Link as LinkIcon, AlertTriangle, Info, X } from 'lucide-react';
 import type { Campaign } from '../../../../../types';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+`;
+
 interface DeliveryStepProps {
   campaign: Campaign;
   onNext?: () => void;
@@ -18,6 +60,21 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
       [req]: false
     }), {})
   );
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     // e.preventDefault();
@@ -127,7 +184,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 container">
       {showError && (
         <div className="rounded-md bg-red-50 p-4">
           <div className="flex">
@@ -153,13 +210,13 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
       )}
 
       {/* Post URL Section */}
-      <div className="bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
+      <div className="bg-white shadow rounded-lg">
+        <div className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-900">Link da Publicação</h3>
             <button
               onClick={() => setShowHelpModal(true)}
-              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 transition-colors duration-200"
+              className="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 transition-colors duration-200 min-h-[var(--min-touch-target)]"
             >
               <Info className="h-4 w-4 mr-1.5" />
               Como encontrar o link?
@@ -178,7 +235,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
                   setPostUrl(e.target.value);
                   setShowError(false);
                 }}
-                className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-lg min-h-[var(--min-touch-target)] input"
                 placeholder={`https://${campaign.platform.toLowerCase()}.com/...`}
               />
             </div>
@@ -190,8 +247,8 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
       </div>
 
       {/* Requirements Checklist */}
-      <div className="bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
+      <div className="bg-white shadow rounded-lg">
+        <div className="p-4 sm:p-6">
           <h3 className="text-lg font-medium text-gray-900">Checklist de Requisitos</h3>
           <p className="mt-1 text-sm text-gray-500">
             Confirme cada item antes de enviar o link da publicação
@@ -199,7 +256,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
           <div className="mt-5">
             <div className="space-y-4">
               {campaign.requirements.map((requirement, index) => (
-                <div key={index} className="relative flex items-start py-4">
+                <div key={index} className="relative flex items-start p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
                   <div className="min-w-0 flex-1 text-sm">
                     <div className="flex items-center mb-1">
                       <input
@@ -212,7 +269,7 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
                           }));
                           setShowError(false);
                         }}
-                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded min-h-[var(--min-touch-target)]"
                       />
                       <label className="ml-3 font-medium text-gray-700">{requirement}</label>
                     </div>
@@ -225,10 +282,10 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-end space-x-4">
+      <div className="flex flex-col sm:flex-row justify-end gap-4">
         <button
           onClick={handleSubmit}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 min-h-[var(--min-touch-target)] button"
         >
           <LinkIcon className="h-5 w-5 mr-2" />
           Enviar Link

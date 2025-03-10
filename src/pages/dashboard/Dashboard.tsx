@@ -6,12 +6,19 @@ export function Dashboard() {
    const [showUserMenu, setShowUserMenu] = React.useState(false);
    const [showMobileMenu, setShowMobileMenu] = React.useState(false);
    const userMenuRef = React.useRef<HTMLDivElement>(null);
+   const [activeMenuItem, setActiveMenuItem] = React.useState('profile');
  
    const handleLogout = () => {
      authService.logout();
      navigate('/login');
    };
  
+   React.useEffect(() => {
+     // Set active menu item based on current path
+     const path = location.pathname.split('/').pop() || 'profile';
+     setActiveMenuItem(path);
+   }, [location]);
+
    React.useEffect(() => {
      function handleClickOutside(event: MouseEvent) {
        if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
@@ -153,11 +160,12 @@ export function Dashboard() {
                   <button
                     key={item.path}
                     onClick={() => {
-                      navigate(item.path);
+                      navigate(`/dashboard/${item.path}`);
+                      setActiveMenuItem(item.path);
                       setShowMobileMenu(false);
                     }}
                     className={`w-full ${
-                      location.pathname.endsWith(item.path)
+                      activeMenuItem === item.path
                         ? 'bg-indigo-50 text-indigo-600 border-indigo-100'
                         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                     } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200`}
@@ -228,7 +236,7 @@ export function Dashboard() {
                    <button
                      onClick={() => navigate('profile')}
                      className={`w-full text-left ${
-                       location.pathname.endsWith('profile') || location.pathname === '/dashboard/'
+                       activeMenuItem === 'profile'
                          ? 'bg-gradient-to-r from-indigo-50 to-indigo-50/50 text-indigo-600 shadow-sm border border-indigo-100/50 scale-[1.02]'
                          : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
                      } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
@@ -249,6 +257,16 @@ export function Dashboard() {
          <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gradient-to-br from-gray-50 via-white to-indigo-50/30">
            <Routes>
              <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
+             <Route path="profile" element={<Profile />} />
+             <Route path="/" element={<Profile />} />
+             <Route path="new-campaign" element={<NewCampaign onBack={() => navigate('/dashboard/campaigns')} />} />
+             <Route path="schedule" element={<Schedule onSelectCampaign={handleSelectCampaign} />} />
+             <Route path="messages" element={<Messages />} />
+             <Route path="settings" element={<SettingsPage />} />
+             <Route path="plan" element={<Plan />} />
+             <Route path="social-networks" element={<SocialNetworks />} />
+             <Route path="payments" element={<Payments />} />
+             <Route path="influencers" element={<InfluencerList onViewProfile={handleViewProfile} />} />
            </Routes>
          </main>
        </div>

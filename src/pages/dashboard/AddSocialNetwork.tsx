@@ -1,6 +1,67 @@
 import React, { useState } from 'react';
 import { Instagram, Youtube, Video, ArrowLeft, Shield, AlertCircle, CheckCircle, Info, X, Image, Upload, Loader2, Camera, AtSign, Copy, Download, Link as LinkIcon, HelpCircle } from 'lucide-react';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .platform-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .platform-card {
+    padding: var(--spacing-base);
+  }
+  
+  .form-input {
+    min-height: var(--min-touch-target);
+    font-size: var(--font-size-base);
+  }
+  
+  .button {
+    min-height: var(--min-touch-target);
+    width: 100%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .platform-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .platform-card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .platform-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .platform-card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
 interface Platform {
   id: 'instagram' | 'youtube' | 'tiktok';
   name: string;
@@ -26,6 +87,17 @@ export function AddSocialNetwork() {
     caption: '#SouInfluencer #Verificação\n\nEste post confirma que sou eu mesmo(a) conectando minha conta à plataforma Sou Influencer.'
   });
   const [postUrl, setPostUrl] = useState('');
+  
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const platforms: Platform[] = [
     {
@@ -144,20 +216,20 @@ export function AddSocialNetwork() {
   const selectedPlatformData = selectedPlatform ? platforms.find(p => p.id === selectedPlatform) : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white container">
+      <div className="max-w-4xl mx-auto py-6 sm:py-8">
         <div className="mb-8">
           {connectStep !== 'select' && (
             <button
               onClick={handleBack}
-              className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-4"
+              className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-4 min-h-[var(--min-touch-target)] px-3 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-200 button"
             >
               <ArrowLeft className="h-4 w-4 mr-1" />
               Voltar
             </button>
           )}
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Conectar Redes Sociais</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Conectar Redes Sociais</h1>
+          <p className="text-base sm:text-lg text-gray-600">
             Integre suas redes sociais para:
             <span className="block mt-2 text-sm text-gray-500">
               • Gerenciar campanhas e métricas em um só lugar • Receber propostas personalizadas • Aumentar sua visibilidade
@@ -166,7 +238,7 @@ export function AddSocialNetwork() {
         </div>
 
         {error && (
-          <div className="mb-6 rounded-lg bg-red-50 p-4">
+          <div className="mb-6 rounded-lg bg-red-50 p-4 card">
             <div className="flex">
               <div className="flex-shrink-0">
                 <AlertCircle className="h-5 w-5 text-red-400" />
@@ -189,26 +261,26 @@ export function AddSocialNetwork() {
         )}
 
         {connectStep === 'select' && (
-          <div className="grid gap-6">
+          <div className="grid gap-6 platform-grid">
             {platforms.map((platform) => (
               <div
                 key={platform.id}
-                className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] platform-card"
               >
-                <div className="p-6">
+                <div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className={`p-3 rounded-xl ${platform.bgColor}`}>
                         <platform.icon className={`h-6 w-6 ${platform.color}`} />
                       </div>
                       <div>
-                        <h3 className="text-lg font-medium text-gray-900">{platform.name}</h3>
+                        <h3 className="text-base sm:text-lg font-medium text-gray-900">{platform.name}</h3>
                         <p className="text-sm text-gray-500">{platform.description}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => handleConnect(platform.id)}
-                      className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105"
+                      className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105 min-h-[var(--min-touch-target)] button"
                     >
                       Conectar
                     </button>

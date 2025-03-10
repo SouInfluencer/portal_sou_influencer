@@ -1,6 +1,81 @@
 import React, { useState } from 'react';
 import { CreditCard, CheckCircle, Shield, AlertTriangle, Calendar, DollarSign, X } from 'lucide-react';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-base);
+  }
+  
+  .title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .description {
+    font-size: var(--font-size-base);
+  }
+  
+  .card {
+    padding: var(--spacing-base);
+    margin-bottom: var(--spacing-base);
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
 interface PaymentFlowProps {
   onBack: () => void;
   onSuccess: () => void;
@@ -12,6 +87,21 @@ export function PaymentFlow({ onBack, onSuccess, planPrice }: PaymentFlowProps) 
   const [showNewCardForm, setShowNewCardForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   // Mock saved cards
   const savedCards = [
@@ -69,13 +159,13 @@ export function PaymentFlow({ onBack, onSuccess, planPrice }: PaymentFlowProps) 
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto container">
       <div className="text-center mb-12">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 mb-6 shadow-lg">
           <CreditCard className="h-8 w-8 text-white" />
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">Pagamento</h2>
-        <p className="text-lg text-gray-600">
+        <h2 className="text-3xl font-bold text-gray-900 mb-3 title">Pagamento</h2>
+        <p className="text-lg text-gray-600 description">
           Escolha um método de pagamento para continuar
         </p>
       </div>
@@ -90,7 +180,7 @@ export function PaymentFlow({ onBack, onSuccess, planPrice }: PaymentFlowProps) 
       )}
 
       {/* Payment Amount */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mb-8">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 card">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
@@ -111,7 +201,7 @@ export function PaymentFlow({ onBack, onSuccess, planPrice }: PaymentFlowProps) 
       </div>
 
       {/* Saved Cards */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mb-8">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 card">
         <h3 className="text-lg font-medium text-gray-900 mb-6">Cartões Salvos</h3>
         <div className="space-y-4">
           {savedCards.map((card) => (
@@ -245,7 +335,7 @@ export function PaymentFlow({ onBack, onSuccess, planPrice }: PaymentFlowProps) 
       </div>
 
       {/* Payment Security */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mb-8">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 card">
         <h3 className="text-lg font-medium text-gray-900">Segurança do Pagamento</h3>
         <div className="mt-5">
           <div className="space-y-6">
@@ -277,17 +367,17 @@ export function PaymentFlow({ onBack, onSuccess, planPrice }: PaymentFlowProps) 
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-end space-x-4">
+      <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-3">
         <button
           onClick={onBack}
-          className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200"
+          className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           Voltar
         </button>
         <button
           onClick={handleSubmit}
           disabled={processing}
-          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           {processing ? (
             <>

@@ -123,6 +123,12 @@ export function InfluencerStep({
   const itemsPerPage = 6;
   const totalPages = Math.ceil(mockInfluencers.length / itemsPerPage);
   const [hoveredInfluencer, setHoveredInfluencer] = React.useState<Influencer | null>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Trigger mount animation
+    setMounted(true);
+  }, []);
 
   const paginatedInfluencers = mockInfluencers.slice(
     (currentPage - 1) * itemsPerPage,
@@ -135,10 +141,10 @@ export function InfluencerStep({
   }, [contentType, platform]);
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto container">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-medium text-gray-900">Escolha o Influenciador</h2>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 search-bar">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
@@ -147,13 +153,13 @@ export function InfluencerStep({
               type="text"
               value={searchTerm}
               onChange={(e) => onSearch(e.target.value)}
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm min-h-[var(--min-touch-target)] search-input"
               placeholder="Buscar influenciadores..."
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 min-h-[var(--min-touch-target)] filters-button"
           >
             <Filter className="h-4 w-4 mr-2" />
             Filtros
@@ -174,7 +180,7 @@ export function InfluencerStep({
         />
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 influencer-grid">
         {paginatedInfluencers.map((influencer) => (
           <button
             key={influencer.id}
@@ -185,16 +191,15 @@ export function InfluencerStep({
               }
             }}
             onMouseEnter={() => setHoveredInfluencer(influencer)}
-            onMouseLeave={() => setHoveredInfluencer(null)}
-            className={`relative rounded-xl border ${
+            className={`relative rounded-xl border influencer-card ${
               selectedInfluencer === influencer.id
                 ? 'border-indigo-500 ring-2 ring-indigo-200 bg-indigo-50/50'
                 : 'border-gray-200 bg-white hover:border-indigo-300'
-            } p-6 shadow-sm hover:shadow-lg focus:outline-none transition-all duration-200 transform hover:scale-[1.02]`}
+            } shadow-sm hover:shadow-lg focus:outline-none transition-all duration-200 transform hover:scale-[1.02]`}
           >
             <div className="flex flex-col space-y-6">
               {/* Header */}
-              <div className="flex items-start justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <div className="flex items-center space-x-4">
                   <img 
                     src={influencer.avatar}
@@ -269,8 +274,8 @@ export function InfluencerStep({
                 </span>
               </div>
 
-              {/* Performance Metrics */}
-              <div className="grid grid-cols-4 gap-3 pt-4 border-t border-gray-100">
+              {/* Metrics */}
+              <div className="grid gap-3 pt-4 border-t border-gray-100 metrics-grid">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-1">
                     <Clock className="h-4 w-4 text-indigo-500" />
@@ -317,11 +322,12 @@ export function InfluencerStep({
         </div>
       )}
 
-      <div className="flex justify-between mt-8">
+      {/* Navigation */}
+      <div className="flex flex-col sm:flex-row justify-between mt-8 gap-4 sm:gap-3 navigation-buttons">
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200"
+          className="px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           Voltar
         </button>
@@ -329,7 +335,7 @@ export function InfluencerStep({
           type="button"
           onClick={() => selectedInfluencer && onInfluencerSelect(mockInfluencers.find(i => i.id === selectedInfluencer)!)}
           disabled={!selectedInfluencer}
-          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-h-[var(--min-touch-target)] button"
         >
           Continuar
           <ChevronRight className="ml-2 h-4 w-4" />

@@ -50,6 +50,7 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   
   React.useEffect(() => {
     // Add styles to document
@@ -176,8 +177,12 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
+                  onFocus={() => setIsPasswordFocused(true)}
+                  onBlur={() => setIsPasswordFocused(false)}
                   required
-                  className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px]"
+                  className={`block w-full pl-10 pr-12 py-3 border rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
+                    isPasswordFocused ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-gray-300'
+                  }`}
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleInputChange}
@@ -198,7 +203,7 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
               <div className="flex items-center">
                 <input
                   id="remember-me"
-                  name="remember-me"
+                  name="remember"
                   type="checkbox"
                   checked={formData.remember}
                   onChange={handleInputChange}
@@ -212,7 +217,8 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
               <div className="text-sm">
                 <button
                   onClick={() => navigate('/forgot-password')}
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  type="button" 
+                  className="inline-flex items-center px-3 py-1.5 font-medium text-indigo-600 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Esqueceu sua senha?
                 </button>

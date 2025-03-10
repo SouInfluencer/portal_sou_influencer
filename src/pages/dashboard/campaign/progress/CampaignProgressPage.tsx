@@ -120,6 +120,17 @@ const getStepDetails = (step: string) => {
   return details[step as keyof typeof details];
 };
 
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
 export function CampaignProgressPage({
   campaign,
   step,
@@ -175,158 +186,105 @@ export function CampaignProgressPage({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 px-4 sm:px-6 lg:px-8">
       {/* Current Task Overview */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100/80 overflow-hidden">
-        <div className="p-6">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100/80 overflow-hidden transition-all duration-300">
+        <div className="p-4 sm:p-6 lg:p-8">
           <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
               <div className={`p-3 rounded-xl ${getStepDetails(step)?.color}`}>
                 {React.createElement(getStepDetails(step)?.icon || Sparkles, {
                   className: "h-6 w-6"
                 })}
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">{getStepDetails(step)?.title}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">{getStepDetails(step)?.title}</h2>
                 <p className="text-gray-600 text-lg">
                   {getStepDetails(step)?.description}
                 </p>
               </div>
             </div>
             <button
-              onClick={() => setShowHelpModal(true)}
-              className="p-2.5 text-gray-400 hover:text-indigo-600 rounded-lg hover:bg-gray-100 transition-all duration-200 transform hover:scale-105"
+              onClick={() => setShowHelp(true)}
+              className="p-2.5 text-gray-400 hover:text-indigo-600 rounded-lg hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]"
             >
               <Info className="h-5 w-5" />
             </button>
           </div>
 
-          {/* Current Tasks */}
-          <div className="mt-6">
-            {/* Next Action Card */}
-            <div className="bg-gradient-to-br from-indigo-50/50 to-white rounded-xl border border-indigo-100/50 p-6 mb-6">
-              <div className="flex items-center mb-4">
-                <div className="p-2 bg-indigo-100 rounded-lg">
-                  <Sparkles className="h-5 w-5 text-indigo-600" />
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 py-4 border-y border-gray-100">
+            {getStepDetails(step)?.metrics.map((metric, index) => (
+              <div key={index} className="bg-white rounded-xl p-4 border border-gray-200/80 hover:border-indigo-200 transition-all duration-200">
+                <div className="flex items-center justify-between mb-2">
+                  <metric.icon className={`h-5 w-5 ${metric.color || 'text-gray-400'}`} />
+                  <BarChart2 className="h-4 w-4 text-gray-300" />
                 </div>
-                <h3 className="ml-3 text-sm font-medium text-indigo-900">Próxima Ação</h3>
+                <p className="text-base sm:text-lg font-medium text-gray-900">{metric.value}</p>
+                <p className="text-xs text-gray-500">{metric.label}</p>
               </div>
-              <p className="text-lg font-medium text-indigo-700">
-                {getStepDetails(step)?.nextAction}
-              </p>
-            </div>
-
-            {/* Metrics Grid */}
-            <div className="grid grid-cols-3 gap-4">
-              {getStepDetails(step)?.metrics.map((metric, index) => (
-                <div key={index} className="bg-white rounded-xl p-4 border border-gray-200/80 hover:border-indigo-200 transition-all duration-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <metric.icon className="h-5 w-5 text-gray-400" />
-                    <BarChart2 className="h-4 w-4 text-gray-300" />
-                  </div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {metric.value.replace('{budget}', campaign.budget.toLocaleString())
-                      .replace('{deadline}', campaign.deadline.toLocaleDateString())}
-                  </p>
-                  <p className="text-xs text-gray-500">{metric.label}</p>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Progress Steps */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <div className="relative">
-          {/* Progress Line */}
-          <div className="absolute left-4 inset-y-0 transform -translate-x-1/2 w-0.5 bg-gray-200" />
-          
-          <div className="space-y-8 relative">
-            {steps.map((s, index) => {
-              const status = getStepStatus(index);
-              return (
-                <div key={s.id} className="flex items-center">
-                  <div className={`relative flex items-center justify-center flex-shrink-0 h-8 w-8 rounded-full ${
-                    status === 'completed'
-                      ? 'bg-green-500'
-                      : status === 'current'
-                      ? 'bg-blue-500'
-                      : 'bg-gray-200'
-                  } shadow-sm`}>
-                    {status === 'completed' ? (
-                      <CheckCircle className="h-5 w-5 text-white" />
-                    ) : (
-                      <s.icon className="h-5 w-5 text-white" />
-                    )}
-                    {/* Connecting Line */}
-                    {index < steps.length - 1 && (
-                      <div className={`absolute top-8 left-1/2 transform -translate-x-1/2 w-0.5 h-8 ${
-                        status === 'completed' ? 'bg-green-500' : 'bg-gray-200'
-                      }`} />
-                    )}
-                  </div>
-                  <div className="ml-4 min-w-0 flex-1">
-                    <div className="flex items-center justify-between">
-                      <p className={`text-sm font-medium ${
-                        status === 'completed'
-                          ? 'text-green-600'
-                          : status === 'current'
-                          ? 'text-blue-600'
-                          : 'text-gray-500'
-                      }`}>
-                        {s.title}
-                      </p>
-                      {status === 'completed' && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          Concluído
-                        </span>
-                      )}
-                      {status === 'current' && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          Em Andamento
-                        </span>
-                      )}
-                      {status === 'current' && (
-                        <div className="mt-2 grid grid-cols-2 gap-2">
-                          {s.tasks.map((task, taskIndex) => (
-                            <div key={taskIndex} className="flex items-center text-xs text-gray-500">
-                              <div className="h-3 w-3 rounded-full border border-gray-300 mr-2" />
-                              {task}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-sm text-gray-500">{s.description}</p>
-                  </div>
-                </div>
-              );
-            })}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Left Column - Progress and Tasks */}
+        <div className="col-span-2 space-y-6">
+          {/* Progress Steps */}
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Progresso da Campanha</h3>
+            <StepProgress steps={steps} currentStep={currentStep} />
+          </div>
+
+          {/* Current Tasks */}
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+            <TaskList
+              step={currentStep}
+              campaign={campaign}
+              onTaskComplete={(index) => {
+                // TODO: Implement task completion
+                console.log('Complete task:', index);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Right Column - Next Action and Metrics */}
+        <div className="space-y-6">
+          {/* Next Action */}
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+            <NextAction
+              step={currentStep}
+              campaign={campaign}
+              onAction={() => {
+                // TODO: Implement next action
+                console.log('Execute next action');
+              }}
+            />
+          </div>
+
+          {/* Step Metrics */}
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-6">Métricas</h3>
+            <StepMetrics step={currentStep} campaign={campaign} />
           </div>
         </div>
       </div>
 
       {/* Step Content */}
       {StepComponent && (
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mt-6">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4 sm:p-6 mt-6">
           <StepComponent
             campaign={campaign}
-            onComplete={handleStepComplete}
-            onNext={() => {
-              switch (step) {
-                case 'production':
-                  setStep('delivery');
-                  break;
-                // Add other cases as needed
-              }
-            }}
+            onComplete={(nextStatus) => handleStepComplete(nextStatus)}
           />
         </div>
       )}
 
       {/* Help Modal */}
-      {showHelpModal && (
+      {showHelp && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -351,8 +309,8 @@ export function CampaignProgressPage({
               <div className="mt-5 sm:mt-6">
                 <button
                   type="button"
-                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                  onClick={() => setShowHelpModal(false)}
+                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm min-h-[var(--min-touch-target)]"
+                  onClick={() => setShowHelp(false)}
                 >
                   Entendi
                 </button>

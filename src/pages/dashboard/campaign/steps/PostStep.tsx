@@ -3,6 +3,72 @@ import { Upload, Image as ImageIcon, Camera, AtSign, Plus, X, Sparkles, Wand2, H
 import type { Platform, ContentType } from '../types';
 import { HashtagDialog } from '../components/HashtagDialog';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .preview-card {
+    margin: 0 calc(var(--container-padding) * -1);
+    border-radius: 0;
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+  
+  .hashtag-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-base);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hashtag-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 769px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hashtag-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+`;
+
 interface PostStepProps {
   platform: Platform;
   contentType: ContentType;
@@ -17,6 +83,21 @@ export function PostStep({ platform, contentType, onNext, onBack, onContentChang
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [showHashtagDialog, setShowHashtagDialog] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const suggestedHashtags = [
     '#TechReview',
@@ -112,7 +193,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto container">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Preview */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200/80">
@@ -209,7 +290,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
               <h3 className="text-lg font-medium text-gray-900">Legenda</h3>
               <button
                 onClick={generateCaption}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 min-h-[var(--min-touch-target)] button"
               >
                 <Wand2 className="h-4 w-4 mr-2" />
                 Gerar Legenda
@@ -237,7 +318,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                   rows={4}
                   value={caption}
                   onChange={handleCaptionChange}
-                  className="w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-400 hover:border-gray-400 transition-colors duration-200 font-mono"
+                  className="w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 placeholder-gray-400 hover:border-gray-400 transition-colors duration-200 font-mono min-h-[var(--min-touch-target)] input"
                   placeholder="💡 Comece com uma introdução chamativa...
 
 📝 Desenvolva o conteúdo em parágrafos curtos...
@@ -279,7 +360,7 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
                   ))}
                   <button
                     onClick={() => setShowHashtagDialog(true)}
-                    className="inline-flex items-center px-3 py-1.5 rounded-full border-2 border-dashed border-gray-300 text-gray-600 hover:border-indigo-500 hover:text-indigo-500 hover:bg-indigo-50/50 transition-all duration-200"
+                    className="inline-flex items-center px-3 py-1.5 rounded-full border-2 border-dashed border-gray-300 text-gray-600 hover:border-indigo-500 hover:text-indigo-500 hover:bg-indigo-50/50 transition-all duration-200 min-h-[var(--min-touch-target)] button"
                   >
                     <Plus className="h-4 w-4 mr-1" />
                     Adicionar
@@ -309,18 +390,18 @@ E aí, o que vocês mais querem saber sobre esse lançamento? Me conta aqui nos 
           />
 
           {/* Navigation Buttons */}
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-4 sm:gap-3">
             <button
               type="button"
               onClick={onBack}
-              className="px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200"
+              className="px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200 min-h-[var(--min-touch-target)] button"
             >
               Voltar
             </button>
             <button
               type="button"
               onClick={onNext}
-              className="px-6 py-2.5 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200"
+              className="px-6 py-2.5 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 min-h-[var(--min-touch-target)] button"
             >
               Continuar
             </button>

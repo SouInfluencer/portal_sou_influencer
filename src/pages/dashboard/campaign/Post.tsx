@@ -2,6 +2,82 @@ import React, { useState } from 'react';
 import { Upload, Download, Copy, Heart, MessageSquare, Send, Image as ImageIcon, Camera, AtSign, Plus, X } from 'lucide-react';
 import type { Campaign } from '../../../types';
 
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .preview-card {
+    margin: 0 calc(var(--container-padding) * -1);
+    border-radius: 0;
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+  
+  .emoji-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-base);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .preview-card {
+    margin: 0;
+    border-radius: var(--border-radius);
+  }
+  
+  .emoji-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 769px) {
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .preview-card {
+    margin: 0;
+    border-radius: var(--border-radius);
+  }
+  
+  .emoji-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+`;
+
 interface CampaignPostProps {
   campaign: Campaign;
 }
@@ -20,6 +96,21 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
       reader.readAsDataURL(file);
     }
   };
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const generateCaption = () => {
     const defaultCaption = `✨ Confira o novo lançamento! 🚀\n\n${campaign.description}\n\n${campaign.brand.name}\n\n#TechCorpBR #NovoProduto #Tecnologia #Inovacao #TechReview #Gadgets`;
@@ -27,7 +118,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 container">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-medium text-gray-900">Layout do Post</h3>
         <div className="flex space-x-3">
@@ -42,7 +133,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                 document.body.removeChild(link);
               }
             }}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 min-h-[var(--min-touch-target)] button"
             disabled={!selectedImage}
           >
             <Download className="h-4 w-4 mr-2" />
@@ -56,7 +147,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                 generateCaption();
               }
             }}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 min-h-[var(--min-touch-target)] button"
           >
             <Copy className="h-4 w-4 mr-2" />
             {caption ? 'Copiar Legenda' : 'Gerar Legenda'}
@@ -64,9 +155,9 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid gap-6 sm:gap-8 content-grid">
         {/* Visual Layout Preview */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200/80">
+        <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Visualização do Post</h3>
           <div className="space-y-4">
             {/* Instagram Post Preview */}
@@ -145,7 +236,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
         {/* Caption and Tags */}
         <div className="space-y-6">
           {/* Caption Section */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Legenda</h3>
             <div className="space-y-4">
               <div>
@@ -156,7 +247,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                   rows={4}
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 min-h-[var(--min-touch-target)] input"
                   placeholder="Digite a legenda do seu post..."
                 />
               </div>
@@ -164,7 +255,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Emojis Sugeridos
                 </label>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid gap-2 emoji-grid">
                   <button className="inline-flex items-center px-3 py-1 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200">
                     🚀
                   </button>
@@ -183,7 +274,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
           </div>
 
           {/* Tags Section */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Marcações</h3>
             <div className="space-y-4">
               <div>
@@ -207,7 +298,7 @@ export function CampaignPost({ campaign }: CampaignPostProps) {
           </div>
 
           {/* Hashtags Section */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          <div className="bg-white p-6 shadow-sm border border-gray-200/80 preview-card">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Hashtags</h3>
             <div className="space-y-4">
               <div>
