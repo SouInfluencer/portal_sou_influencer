@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Camera, MapPin, Link as LinkIcon, Instagram, Youtube, Video, Edit2, AtSign, Users, Globe2, Heart, MessageSquare, Globe, Award, ChevronRight, Star, BarChart2, Sparkles, Crown } from 'lucide-react';
+import { Camera, MapPin, Link as LinkIcon, Instagram, Youtube, Video, Edit2, AtSign, Users, Globe2, Heart, MessageSquare, Globe, Award, ChevronRight, Star, BarChart2, Sparkles, Crown, X } from 'lucide-react';
 import { AddSocialNetwork } from './AddSocialNetwork';
 import { Overview } from './profile/Overview';
 import { Portfolio } from './profile/Portfolio';
@@ -156,12 +156,78 @@ export function Profile() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Cover Image */}
       <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden">
+        <div className="absolute inset-0 bg-black/30 opacity-0 hover:opacity-100 transition-opacity duration-200 z-10">
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            <label
+              htmlFor="cover-upload"
+              className="inline-flex items-center px-4 py-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-200 group min-h-[44px]"
+            >
+              <Camera className="h-5 w-5 text-gray-600 mr-2" />
+              <span className="text-sm font-medium text-gray-700">Alterar Capa</span>
+              <input
+                type="file"
+                id="cover-upload"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    // Validate file size (max 10MB)
+                    if (file.size > 10 * 1024 * 1024) {
+                      alert('A imagem deve ter no máximo 10MB');
+                      return;
+                    }
+                    
+                    // Validate file type
+                    if (!file.type.startsWith('image/')) {
+                      alert('Por favor, selecione uma imagem válida');
+                      return;
+                    }
+                    
+                    // Create preview URL
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setProfile(prev => ({
+                        ...prev,
+                        coverImage: reader.result as string
+                      }));
+                    };
+                    reader.onerror = () => {
+                      alert('Erro ao carregar a imagem. Tente novamente.');
+                    };
+                    reader.readAsDataURL(file);
+                    
+                    // TODO: Implement actual upload to server
+                    console.log('Uploading cover image:', file);
+                  }
+                }}
+              />
+            </label>
+            <button
+              onClick={() => {
+                setProfile(prev => ({
+                  ...prev,
+                  coverImage: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2940&q=80'
+                }));
+              }}
+              className="p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg hover:bg-white/95 transition-colors duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              title="Remover capa"
+            >
+              <X className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
+          <div className="absolute bottom-4 left-4">
+            <p className="text-xs text-white/90 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1.5">
+              Tamanho recomendado: 1920x400px • Máximo: 10MB
+            </p>
+          </div>
+        </div>
         <img
           src={profile.coverImage}
           alt="Cover"
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 relative z-0"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent pointer-events-none z-[1]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-24 md:-mt-32 relative z-10">
@@ -176,6 +242,44 @@ export function Profile() {
                     alt={profile.name}
                     className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 rounded-2xl object-cover ring-4 ring-white shadow-lg transform group-hover:scale-105 transition-transform duration-300"
                   />
+                  <label
+                    htmlFor="avatar-upload"
+                    className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+                  >
+                    <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-200">
+                      <Camera className="h-5 w-5 text-gray-600" />
+                      <span className="sr-only">Alterar foto de perfil</span>
+                    </div>
+                    <input
+                      type="file"
+                      id="avatar-upload"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          // Validate file size (max 2MB)
+                          if (file.size > 2 * 1024 * 1024) {
+                            alert('A imagem deve ter no máximo 2MB');
+                            return;
+                          }
+                          
+                          // Create preview URL
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setProfile(prev => ({
+                              ...prev,
+                              avatar: reader.result as string
+                            }));
+                          };
+                          reader.readAsDataURL(file);
+                          
+                          // TODO: Implement avatar upload
+                          console.log('Uploading avatar:', file);
+                        }
+                      }}
+                    />
+                  </label>
                   {profile.verified && (
                     <div className="absolute -bottom-3 -right-3">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-lg">

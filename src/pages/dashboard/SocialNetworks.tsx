@@ -54,6 +54,29 @@ export function SocialNetworks() {
   return (
     <div className="py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        {/* Empty State */}
+        {connectedNetworks.length === 0 && (
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 text-center mb-8">
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
+              <Share2 className="h-6 w-6 text-indigo-600" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Conecte suas redes sociais
+            </h3>
+            <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">
+              Para começar a receber propostas de campanhas, conecte pelo menos uma rede social.
+              Quanto mais redes conectadas, mais oportunidades você terá!
+            </p>
+            <button
+              onClick={() => setShowAddNetwork(true)}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              Conectar Rede Social
+            </button>
+          </div>
+        )}
+
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Redes Sociais</h1>
