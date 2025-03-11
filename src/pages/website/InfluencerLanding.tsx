@@ -215,9 +215,7 @@ export function InfluencerLanding() {
               </div>
               <h1 className={`text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-8 transition-all duration-1000 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 <span className="block mb-2">Do micro ao macro</span>
-                <span className="block bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-gradient">
-                todo criador tem espaço
-              </span>
+                <span className="block text-blue-600">todo influencer tem valor</span>
               </h1>
               <p className={`max-w-2xl mx-auto text-xl text-gray-600 leading-relaxed mb-12 transition-all duration-1000 delay-400 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 Conectamos você com as anunciantes ideais, independente do seu número de seguidores.
