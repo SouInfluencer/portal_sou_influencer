@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Building2, Home, Ban as Bank, ChevronRight, ArrowLeft, AlertCircle } from 'lucide-react';
+import InputMask from 'react-input-mask';
 
 interface FormData {
   type: 'pf' | 'pj' | '';
@@ -239,7 +240,7 @@ export function CompleteProfile() {
                       type="text"
                       id="firstName"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, firstName: e.target.value})}
                       className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                           errors.firstName
                               ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -258,7 +259,7 @@ export function CompleteProfile() {
                   type="text"
                   id="lastName"
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, lastName: e.target.value })}
                   className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.lastName
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -274,11 +275,10 @@ export function CompleteProfile() {
                 <label htmlFor="cpf" className="block text-sm font-medium text-gray-700">
                   CPF
                 </label>
-                <input
-                  type="text"
-                  id="cpf"
+                <InputMask
+                  mask="999.999.999-99"
                   value={formData.cpf}
-                  onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, cpf: e.target.value })}
                   className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.cpf
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -295,12 +295,11 @@ export function CompleteProfile() {
                 <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700">
                   Data de Nascimento
                 </label>
-                <input
-                  type="text"
-                  id="birthDate"
+                <InputMask
+                  mask="99/99/9999"
                   placeholder="24/12/2025"
                   value={formData.birthDate}
-                  onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, birthDate: e.target.value })}
                   className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.birthDate
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -316,11 +315,10 @@ export function CompleteProfile() {
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   Telefone
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
+                <InputMask
+                  mask="(99) 9.9999-9999"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, phone: e.target.value })}
                   className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.phone
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -343,11 +341,10 @@ export function CompleteProfile() {
               <label htmlFor="cnpj" className="block text-sm font-medium text-gray-700">
                 CNPJ
               </label>
-              <input
-                type="text"
-                id="cnpj"
+              <InputMask
+                mask="99.999.999/9999-99"
                 value={formData.cnpj}
-                onChange={(e) => setFormData({ ...formData, cnpj: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, cnpj: e.target.value })}
                 className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                   errors.cnpj
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -368,7 +365,7 @@ export function CompleteProfile() {
                 type="text"
                 id="companyName"
                 value={formData.companyName}
-                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, companyName: e.target.value })}
                 className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                   errors.companyName
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
@@ -410,18 +407,25 @@ export function CompleteProfile() {
                 <label htmlFor="cep" className="block text-sm font-medium text-gray-700">
                   CEP
                 </label>
-                <input
-                  type="text"
-                  id="cep"
+                <InputMask
+                  mask="99999-999"
                   value={formData.cep}
-                  onChange={(e) => setFormData({ ...formData, cep: e.target.value })}
-                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
-                    errors.cep
-                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
-                  }`}
-                  placeholder="00000-000"
-                />
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, cep: e.target.value })}
+                >
+                  {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="cep"
+                      className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
+                        errors.cep
+                          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                          : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                      }`}
+                      placeholder="00000-000"
+                    />
+                  )}
+                </InputMask>
                 {errors.cep && (
                   <p className="mt-1 text-sm text-red-600">{errors.cep}</p>
                 )}
