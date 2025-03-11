@@ -1,10 +1,14 @@
 export interface User {
   id: string;
   profile: 'INFLUENCER' | 'ADVERTISER' | 'ADMIN';
-  name: string;
+  owner: boolean;
+  firstName: string;
+  lastName: string;
+  status: string;
   email: string;
   avatar?: string;
   username: string;
+  imageUrl?: string;
 }
 
 export interface SocialAccount {

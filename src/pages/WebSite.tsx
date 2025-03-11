@@ -22,6 +22,7 @@ export function WebSite() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(authService.isAuthenticated());
+  const [user] = React.useState<ReturnType<typeof authService.getUser>>(authService.getUser());
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
   const userMenuRef = React.useRef<HTMLDivElement>(null);
@@ -46,8 +47,6 @@ export function WebSite() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement search functionality
-    console.log('Search:', searchQuery);
   };
 
   const handleLogout = () => {
@@ -78,12 +77,6 @@ export function WebSite() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const user = {
-    name: 'João Silva',
-    email: 'joao@example.com',
-    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  };
 
   const navigationItems = [
     { name: 'Minha Página', icon: UserCircle, path: 'profile' },
@@ -149,15 +142,15 @@ export function WebSite() {
                     <div className="relative">
                       <img
                           className="h-8 w-8 rounded-full ring-2 ring-white shadow-sm group-hover:ring-blue-200 transition-all duration-200"
-                          src={user.imageUrl}
-                          alt={user.name}
+                          src={user?.imageUrl ?? 'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'}
+                          alt={user?.firstName ?? ''}
                       />
                       <div className="absolute -bottom-1 -right-1">
                         <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-green-500 ring-2 ring-white" />
                       </div>
                     </div>
                     <div className="hidden md:flex md:items-center">
-                      <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{user.name}</span>
+                      <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{user?.firstName ?? ''}</span>
                       <ChevronDown className={`ml-2 h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
                     </div>
                   </button>
@@ -169,13 +162,13 @@ export function WebSite() {
                       <div className="px-4 py-3 border-b border-gray-100/80">
                         <div className="flex items-center space-x-3">
                           <img
-                              src={user.imageUrl}
-                              alt={user.name}
+                              src={user?.imageUrl ?? 'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'}
+                              alt={user?.firstName ?? ''}
                               className="h-10 w-10 rounded-full ring-2 ring-white shadow-sm"
                           />
                           <div className="min-w-0">
-                            <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                            <p className="text-sm font-medium text-gray-900 truncate">{user?.firstName ?? ''}</p>
+                            <p className="text-xs text-gray-500 truncate">{user?.email ?? ''}</p>
                           </div>
                         </div>
                       </div>
@@ -286,12 +279,12 @@ export function WebSite() {
                   <div>
                     <img
                         className="inline-block h-12 w-12 rounded-full ring-2 ring-white shadow-lg transform transition-transform duration-200 hover:scale-105"
-                        src={user.imageUrl}
+                        src={user?.imageUrl || 'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'}
                         alt=""
                     />
                   </div>
                   <div className="ml-4">
-                    <p className="text-base font-medium text-gray-700">{user.name}</p>
+                    <p className="text-base font-medium text-gray-700">{user?.firstName || ''}</p>
                     <button
                         onClick={handleLogout}
                         className="mt-1 text-sm font-medium text-red-600 hover:text-red-700 group flex items-center px-3 py-1.5 rounded-lg hover:bg-red-50 transition-all duration-200 active:scale-95"
@@ -321,13 +314,13 @@ export function WebSite() {
                 <div className="mt-10 flex-grow flex flex-col">
                   <div className="px-6 mb-8">
                     <div className="flex items-center">
-                      <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt=""/>
+                      <img className="h-10 w-10 rounded-full" src={user?.imageUrl || 'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'} alt=""/>
                       <div className="ml-3">
                         <button
                             onClick={() => navigate('profile')}
                             className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 focus:outline-none group"
                         >
-                          {user.name}
+                          {user?.firstName || 'Usuário'}
                           <div className="h-0.5 w-0 bg-blue-600 group-hover:w-full transition-all duration-200"></div>
                         </button>
                         <p className="text-xs text-gray-500 mt-0.5">Influenciador</p>
