@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, User, Building2 } from 'lucide-react';
-import { authService } from '../../services/auth.ts';
+import { authService } from '../../services/authService.ts';
+import { userService } from '../../services/userService.ts';
 
 // Add keyframes for animations
 const styles = `
@@ -42,7 +43,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    type: 'influencer' as 'influencer' | 'advertiser',
+    type: 'INFLUENCER' as 'INFLUENCER' | 'ADVERTISER',
     firstName: '',
     lastName: '',
     username: '',
@@ -74,7 +75,7 @@ function Register() {
     setError(null);
   };
 
-  const validateForm = () => {
+  const validateForm = async () => {
     switch (step) {
       case 'type':
         if (!formData.type) {
@@ -89,6 +90,18 @@ function Register() {
         }
         if (!/^[a-zA-Z0-9_]{3,20}$/.test(formData.username)) {
           setError('Nome de usuário deve conter entre 3 e 20 caracteres e apenas letras, números e _');
+          return false;
+        }
+
+        // Verifica disponibilidade do nome de usuário
+        try {
+          const isAvailable = await userService.checkUsernameAvailability(formData.username);
+          if (!isAvailable) {
+            setError('Este nome de usuário já está em uso. Tente outro.');
+            return false;
+          }
+        } catch {
+          setError('Erro ao verificar disponibilidade do nome de usuário.');
           return false;
         }
         break;
@@ -121,7 +134,8 @@ function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    const isValid = await validateForm(); // Aguarda validação
+    if (!isValid) {
       return;
     }
 
@@ -139,13 +153,13 @@ function Register() {
         lastName: formData.lastName,
         username: formData.username,
         email: formData.email,
-        password: formData.password
+        password: formData.password,
+        profile: formData.type
       });
 
-      // User is now automatically logged in
       navigate('/dashboard');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao criar conta. Tente novamente.');
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Erro ao criar conta. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -233,9 +247,9 @@ function Register() {
                     </div>
                     <button
                         type="button"
-                        onClick={() => setFormData({ ...formData, type: 'influencer' })}
+                        onClick={() => setFormData({ ...formData, type: 'INFLUENCER' })}
                         className={`w-full p-4 text-left border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
-                            formData.type === 'influencer' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                            formData.type === 'INFLUENCER' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
                         }`}
                     >
                       <div className="flex items-center">
@@ -248,9 +262,9 @@ function Register() {
                     </button>
                     <button
                         type="button"
-                        onClick={() => setFormData({ ...formData, type: 'advertiser' })}
+                        onClick={() => setFormData({ ...formData, type: 'ADVERTISER' })}
                         className={`w-full p-4 text-left border rounded-lg hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
-                            formData.type === 'advertiser' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
+                            formData.type === 'ADVERTISER' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'
                         }`}
                     >
                       <div className="flex items-center">

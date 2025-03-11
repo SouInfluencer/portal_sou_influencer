@@ -13,7 +13,7 @@ import { CampaignDetails } from './pages/dashboard/CampaignDetails';
 import { LandingPage } from './pages/website/LandingPage.tsx';
 import { SocialMetrics } from './pages/dashboard/profile/SocialMetrics';
 import { Notifications } from './pages/dashboard/Notifications';
-import { authService } from './services/auth';
+import { authService } from './services/authService.ts';
 import {Login} from "./pages/onboarding/Login.tsx";
 import {Terms} from "./pages/website/Terms.tsx";
 

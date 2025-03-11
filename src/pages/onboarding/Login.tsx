@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { KeyRound, Mail, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/auth.ts';
+import { authService } from '../../services/authService.ts';
 import logoLetter from '@/assets/logo_letter_light.svg';
 
 

@@ -6,7 +6,7 @@ import { ProductionStep } from './campaign/progress/steps/ProductionStep';
 import { DeliveryStep } from './campaign/progress/steps/DeliveryStep';
 import { ValidationStep } from './campaign/progress/steps/ValidationStep';
 import { PaymentStep } from './campaign/progress/steps/PaymentStep';
-import { authService } from '../../services/auth';
+import { authService } from '../../services/authService.ts';
 import { StepProgress } from './campaign/components/StepProgress';
 import { NextAction } from './campaign/components/NextAction';
 import { StepMetrics } from './campaign/components/StepMetrics';

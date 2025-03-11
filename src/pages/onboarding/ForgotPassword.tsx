@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/auth.ts';
+import { authService } from '../../services/authService.ts';
 
 // Add keyframes for animations
 const styles = `

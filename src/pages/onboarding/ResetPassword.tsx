@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { KeyRound, ArrowLeft, AlertCircle, CheckCircle } from 'lucide-react';
-import { authService } from '../../services/auth.ts';
+import { authService } from '../../services/authService.ts';
 
 // Add keyframes for animations and responsive styles
 const styles = `
