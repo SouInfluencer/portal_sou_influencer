@@ -16,6 +16,7 @@ import { Notifications } from './pages/dashboard/Notifications';
 import { authService } from './services/authService.ts';
 import {Login} from "./pages/onboarding/Login.tsx";
 import {Terms} from "./pages/website/Terms.tsx";
+import {ConfirmeEmail} from "./pages/onboarding/ConfirmeEmail.tsx";
 
 function App() {
   const location = useLocation();
@@ -77,6 +78,7 @@ function App() {
         }} />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/redefinir-senha" element={<ResetPassword />} />
+        <Route path="/verificar-email" element={<ConfirmeEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/dashboard/*" element={

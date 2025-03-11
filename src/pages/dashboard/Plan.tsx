@@ -85,7 +85,7 @@ export function Plan() {
       document.head.removeChild(styleSheet);
     };
   }, []);
-  
+
   const plans = [
     {
       name: 'Starter',
@@ -132,8 +132,8 @@ export function Plan() {
         'Múltiplos perfis de usuário'
       ],
       icon: Crown,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100',
+      color: 'text-indigo-600',
+      bgColor: 'bg-indigo-100',
       popular: true,
     },
   ];
@@ -141,6 +141,14 @@ export function Plan() {
   const handleUpgrade = (planName: string) => {
     setSelectedPlan(planName);
     setView('choose');
+  };
+
+  const handleDowngrade = () => {
+    setView('downgrade');
+  };
+
+  const handleManageSubscription = () => {
+    setView('manage');
   };
 
   const confirmUpgrade = () => {
@@ -152,220 +160,229 @@ export function Plan() {
   };
 
   return (
-    <div className="py-6 container">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {view === 'manage' ? (
-          <ManagePlan onBack={() => setView('plans')} /> 
-        ) : view === 'choose' ? (
-          <ChoosePlan
-            onBack={() => setView('plans')}
-            onUpgrade={(planId) => {
-              setCurrentPlan(planId);
-              setView('plans');
-            }}
-          />
-        ) : view === 'downgrade' ? (
-          <DowngradeFlow
-            onBack={() => setView('plans')}
-            onConfirm={() => {
-              setCurrentPlan('starter');
-              setView('plans');
-            }}
-          />
-        ) : ( 
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Meu Plano</h1>
-            <p className="mt-1 text-sm text-gray-500">
-              Gerencie sua assinatura e recursos disponíveis
-            </p>
+      <div className="py-6 container">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {view === 'manage' ? (
+              <ManagePlan onBack={() => setView('plans')} />
+          ) : view === 'choose' ? (
+              <ChoosePlan
+                  onBack={() => setView('plans')}
+                  onUpgrade={(planId) => {
+                    setCurrentPlan(planId);
+                    setView('plans');
+                  }}
+              />
+          ) : view === 'downgrade' ? (
+              <DowngradeFlow
+                  onBack={() => setView('plans')}
+                  onConfirm={() => {
+                    setCurrentPlan('starter');
+                    setView('plans');
+                  }}
+              />
+          ) : (
+              <div>
+                <h1 className="text-2xl font-semibold text-gray-900">Meu Plano</h1>
+                <p className="mt-1 text-sm text-gray-500">
+                  Gerencie sua assinatura e recursos disponíveis
+                </p>
 
-            <div className="py-4">
-              {/* Current Plan Status */}
-              <div className="bg-gradient-to-br from-blue-50/50 to-white rounded-2xl shadow-lg border border-blue-100/50 p-4 sm:p-6 lg:p-8 mb-8 sm:mb-12 plan-card">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <Star className="h-8 w-8 text-gray-600" />
+                <div className="py-4">
+                  {/* Current Plan Status */}
+                  <div className="bg-gradient-to-br from-indigo-50/50 to-white rounded-2xl shadow-lg border border-indigo-100/50 p-4 sm:p-6 lg:p-8 mb-8 sm:mb-12 plan-card">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h2 className="text-lg font-medium text-gray-900">Plano {currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)}</h2>
+                        <p className="text-sm text-gray-500">Próxima cobrança em 15 de Abril, 2024</p>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <button
+                            onClick={handleManageSubscription}
+                            className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
+                        >
+                          Gerenciar Assinatura
+                        </button>
+                        {currentPlan === 'pro' && (
+                            <button
+                                onClick={handleDowngrade}
+                                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-red-600 bg-white hover:bg-red-50 transition-all duration-200"
+                            >
+                              Fazer Downgrade
+                            </button>
+                        )}
+                      </div>
                     </div>
-                    <div className="ml-4">
-                      <h2 className="text-lg font-medium text-gray-900">
-                        Plano {currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)}
-                      </h2>
-                      <p className="text-sm text-gray-500">Ativo até 15 de Maio, 2024</p>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="grid gap-4 mt-6 sm:mt-8 stats-grid">
-                  <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-200 transition-all duration-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <Users className="h-5 w-5 text-gray-400" />
-                      <BarChart2 className="h-4 w-4 text-gray-300" />
+                    <div className="grid gap-4 mt-6 sm:mt-8 stats-grid">
+                      <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <Users className="h-5 w-5 text-gray-400" />
+                          <BarChart2 className="h-4 w-4 text-gray-300" />
+                        </div>
+                        <h3 className="text-sm font-medium text-gray-500">Campanhas do Mês</h3>
+                        <p className="mt-2 text-3xl font-semibold text-gray-900">7</p>
+                        <p className="text-xs text-gray-500 mt-1">+40% que mês anterior</p>
+                        <div className="mt-2 h-2 bg-gray-200 rounded-full">
+                          <div className="h-2 bg-indigo-600 rounded-full" style={{ width: '35%' }} />
+                        </div>
+                      </div>
+                      <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <Users className="h-5 w-5 text-gray-400" />
+                          <BarChart2 className="h-4 w-4 text-gray-300" />
+                        </div>
+                        <h3 className="text-sm font-medium text-gray-500">Taxa de Aprovação</h3>
+                        <p className="mt-2 text-3xl font-semibold text-gray-900">98%</p>
+                        <p className="text-xs text-gray-500 mt-1">+5% que mês anterior</p>
+                        <div className="mt-2 h-2 bg-gray-200 rounded-full">
+                          <div className="h-2 bg-indigo-600 rounded-full" style={{ width: '98%' }} />
+                        </div>
+                      </div>
+                      <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-indigo-200 transition-all duration-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <Users className="h-5 w-5 text-gray-400" />
+                          <BarChart2 className="h-4 w-4 text-gray-300" />
+                        </div>
+                        <h3 className="text-sm font-medium text-gray-500">Ganhos do Mês</h3>
+                        <p className="mt-2 text-3xl font-semibold text-gray-900">R$ 12.5K</p>
+                        <p className="text-xs text-gray-500 mt-1">+25% que mês anterior</p>
+                        <div className="mt-2 h-2 bg-gray-200 rounded-full">
+                          <div className="h-2 bg-indigo-600 rounded-full" style={{ width: '60%' }} />
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-sm font-medium text-gray-500">Campanhas do Mês</h3>
-                    <p className="mt-2 text-3xl font-semibold text-gray-900">7</p>
-                    <p className="text-xs text-gray-500 mt-1">+40% que mês anterior</p>
-                    <div className="mt-2 h-2 bg-gray-200 rounded-full">
-                      <div className="h-2 bg-blue-600 rounded-full" style={{ width: '35%' }} />
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-200 transition-all duration-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <Users className="h-5 w-5 text-gray-400" />
-                      <BarChart2 className="h-4 w-4 text-gray-300" />
-                    </div>
-                    <h3 className="text-sm font-medium text-gray-500">Taxa de Aprovação</h3>
-                    <p className="mt-2 text-3xl font-semibold text-gray-900">98%</p>
-                    <p className="text-xs text-gray-500 mt-1">+5% que mês anterior</p>
-                    <div className="mt-2 h-2 bg-gray-200 rounded-full">
-                      <div className="h-2 bg-blue-600 rounded-full" style={{ width: '98%' }} />
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-200 transition-all duration-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <Users className="h-5 w-5 text-gray-400" />
-                      <BarChart2 className="h-4 w-4 text-gray-300" />
-                    </div>
-                    <h3 className="text-sm font-medium text-gray-500">Ganhos do Mês</h3>
-                    <p className="mt-2 text-3xl font-semibold text-gray-900">R$ 12.5K</p>
-                    <p className="text-xs text-gray-500 mt-1">+25% que mês anterior</p>
-                    <div className="mt-2 h-2 bg-gray-200 rounded-full">
-                      <div className="h-2 bg-blue-600 rounded-full" style={{ width: '60%' }} />
-                    </div>
-                  </div>
-                </div>
 
-                {/* Benefits Summary */}
-                <div className="mt-6 sm:mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-blue-100">
-                  <h3 className="text-sm font-medium text-blue-900">Benefícios do seu plano este mês</h3>
-                  <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div className="flex items-center">
-                      <Check className="h-5 w-5 text-blue-600" />
-                      <span className="ml-2 text-sm text-blue-700">
+                    {/* Benefits Summary */}
+                    <div className="mt-6 sm:mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-indigo-100">
+                      <h3 className="text-sm font-medium text-indigo-900">Benefícios do seu plano este mês</h3>
+                      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <div className="flex items-center">
+                          <Check className="h-5 w-5 text-indigo-600" />
+                          <span className="ml-2 text-sm text-indigo-700">
                         Economia de R$ 450 em taxas
                       </span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-5 w-5 text-blue-600" />
-                      <span className="ml-2 text-sm text-blue-700">
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="h-5 w-5 text-indigo-600" />
+                          <span className="ml-2 text-sm text-indigo-700">
                         15 matches premium com marcas
                       </span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-5 w-5 text-blue-600" />
-                      <span className="ml-2 text-sm text-blue-700">
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="h-5 w-5 text-indigo-600" />
+                          <span className="ml-2 text-sm text-indigo-700">
                         2 consultorias de growth realizadas
                       </span>
-                    </div>
-                    <div className="flex items-center">
-                      <Check className="h-5 w-5 text-blue-600" />
-                      <span className="ml-2 text-sm text-blue-700">
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="h-5 w-5 text-indigo-600" />
+                          <span className="ml-2 text-sm text-indigo-700">
                         Prioridade em 5 campanhas especiais
                       </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Available Plans */}
-              <div className="grid gap-6 sm:gap-8 plan-grid max-w-5xl mx-auto">
-                {plans.map((plan) => {
-                  const Icon = plan.icon;
-                  return (
-                    <div
-                      key={plan.name}
-                      className={`relative rounded-lg border ${
-                        currentPlan === plan.name.toLowerCase()
-                          ? 'border-blue-500 ring-2 ring-blue-200 bg-gradient-to-br from-blue-50 to-white shadow-lg'
-                          : 'border-gray-200 bg-white hover:border-blue-300'
-                      } p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]`}
-                    >
-                      {plan.popular && (
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                          <span className="inline-flex items-center rounded-full bg-blue-600 px-4 py-1 text-xs font-medium text-white">
+                  {/* Available Plans */}
+                  <div className="grid gap-6 sm:gap-8 plan-grid max-w-5xl mx-auto">
+                    {plans.map((plan) => {
+                      const Icon = plan.icon;
+                      return (
+                          <div
+                              key={plan.name}
+                              className={`relative rounded-lg border ${
+                                  currentPlan === plan.name.toLowerCase()
+                                      ? 'border-indigo-500 ring-2 ring-indigo-200 bg-gradient-to-br from-indigo-50 to-white shadow-lg'
+                                      : 'border-gray-200 bg-white hover:border-indigo-300'
+                              } p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]`}
+                          >
+                            {plan.popular && (
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                          <span className="inline-flex items-center rounded-full bg-indigo-600 px-4 py-1 text-xs font-medium text-white">
                             Popular
                           </span>
-                        </div>
-                      )}
-                      <div className={`inline-flex rounded-lg ${plan.bgColor} p-3 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]`}>
-                        <Icon className={`h-6 w-6 ${plan.color}`} />
-                      </div>
-                      <h3 className="mt-4 text-2xl font-bold text-gray-900">{plan.name}</h3>
-                      <p className="mt-2 text-sm text-gray-500">{plan.description}</p>
-                      <p className="mt-4 text-3xl font-bold text-gray-900">{plan.price}</p>
-                  
-                      <ul className="mt-8 space-y-4">
-                        {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-start">
-                            <Check className="h-5 w-5 text-green-500 mt-0.5" />
-                            <span className="ml-3 text-sm text-gray-500">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
+                                </div>
+                            )}
+                            <div className={`inline-flex rounded-lg ${plan.bgColor} p-3 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]`}>
+                              <Icon className={`h-6 w-6 ${plan.color}`} />
+                            </div>
+                            <h3 className="mt-4 text-2xl font-bold text-gray-900">{plan.name}</h3>
+                            <p className="mt-2 text-sm text-gray-500">{plan.description}</p>
+                            <p className="mt-4 text-3xl font-bold text-gray-900">{plan.price}</p>
 
-                      <button
-                        className={`mt-8 w-full rounded-xl px-6 py-3 text-sm font-medium ${
-                          currentPlan === plan.name.toLowerCase()
-                            ? 'bg-green-100 text-green-700 cursor-default min-h-[var(--min-touch-target)]'
-                            : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200'
-                        }`}
-                        onClick={() => handleUpgrade(plan.name)}
-                        disabled={currentPlan === plan.name.toLowerCase() || plan.name.toLowerCase() === 'starter'}
-                      >
-                        {currentPlan === plan.name.toLowerCase() ? 'Plano Atual' : 'Escolher Plano'}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Upgrade Confirmation Modal */}
-      {showUpgradeConfirm && selectedPlan && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <div className="sm:flex sm:items-start">
-                <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <Crown className="h-6 w-6 text-blue-600" />
-                </div>
-                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Upgrade para {selectedPlan}
-                  </h3>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Tem certeza que deseja fazer upgrade para o plano {selectedPlan}? 
-                      Você terá acesso imediato a todos os recursos do novo plano.
-                    </p>
+                            <ul className="mt-8 space-y-4">
+                              {plan.features.map((feature) => (
+                                  <li key={feature} className="flex items-start">
+                                    <Check className="h-5 w-5 text-green-500 mt-0.5" />
+                                    <span className="ml-3 text-sm text-gray-500">{feature}</span>
+                                  </li>
+                              ))}
+                            </ul>
+
+                            <button
+                                className={`mt-8 w-full rounded-xl px-6 py-3 text-sm font-medium ${
+                                    currentPlan === plan.name.toLowerCase()
+                                        ? 'bg-green-100 text-green-700 cursor-default min-h-[var(--min-touch-target)]'
+                                        : 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl transition-all duration-200'
+                                }`}
+                                onClick={() => handleUpgrade(plan.name)}
+                                disabled={currentPlan === plan.name.toLowerCase() || plan.name.toLowerCase() === 'starter'}
+                            >
+                              {currentPlan === plan.name.toLowerCase() ? 'Plano Atual' : 'Escolher Plano'}
+                            </button>
+                          </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
-              <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                <button
-                  type="button"
-                  onClick={confirmUpgrade}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  Confirmar Upgrade
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowUpgradeConfirm(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
-                >
-                  Cancelar
-                </button>
+          )}
+        </div>
+
+        {/* Upgrade Confirmation Modal */}
+        {showUpgradeConfirm && selectedPlan && (
+            <div className="fixed z-10 inset-0 overflow-y-auto">
+              <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                  <div className="sm:flex sm:items-start">
+                    <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <Crown className="h-6 w-6 text-indigo-600" />
+                    </div>
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        Upgrade para {selectedPlan}
+                      </h3>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Tem certeza que deseja fazer upgrade para o plano {selectedPlan}?
+                          Você terá acesso imediato a todos os recursos do novo plano.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                    <button
+                        type="button"
+                        onClick={confirmUpgrade}
+                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    >
+                      Confirmar Upgrade
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setShowUpgradeConfirm(false)}
+                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
   );
 }
