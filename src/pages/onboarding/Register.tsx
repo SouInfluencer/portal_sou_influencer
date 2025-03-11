@@ -83,6 +83,7 @@ function Register() {
           return false;
         }
         break;
+
       case 'username':
         if (!formData.username.trim()) {
           setError('Nome de usuário é obrigatório');
@@ -93,7 +94,6 @@ function Register() {
           return false;
         }
 
-        // Verifica disponibilidade do nome de usuário
         try {
           const isAvailable = await userService.checkUsernameAvailability(formData.username);
           if (!isAvailable) {
@@ -105,15 +105,26 @@ function Register() {
           return false;
         }
         break;
+
       case 'details':
         if (!formData.firstName.trim()) {
           setError('Nome é obrigatório');
           return false;
         }
+        if (!/^[a-zA-ZÀ-ú\s]+$/.test(formData.firstName)) {
+          setError('O nome deve conter apenas letras e espaços.');
+          return false;
+        }
+
         if (!formData.lastName.trim()) {
           setError('Sobrenome é obrigatório');
           return false;
         }
+        if (!/^[a-zA-ZÀ-ú\s]+$/.test(formData.lastName)) {
+          setError('O sobrenome deve conter apenas letras e espaços.');
+          return false;
+        }
+
         if (!formData.password) {
           setError('Senha é obrigatória');
           return false;
@@ -128,6 +139,7 @@ function Register() {
         }
         break;
     }
+
     return true;
   };
 
