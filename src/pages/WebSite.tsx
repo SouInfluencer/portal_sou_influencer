@@ -15,6 +15,8 @@ import { Plan } from './dashboard/Plan';
 import { Payments } from './dashboard/Payments';
 import { SocialNetworks } from './dashboard/SocialNetworks';
 import { InfluencerList } from './dashboard/InfluencerList';
+import logoRetangulo from '@/assets/logo_retangulo_light.svg';
+import logoLetter from '@/assets/logo_letter_light.svg';
 
 export function WebSite() {
   const navigate = useNavigate();
@@ -94,346 +96,336 @@ export function WebSite() {
     { name: 'Meu Plano', icon: Crown, path: 'plan' },
     { name: 'Configurações', icon: Settings, path: 'settings' }
   ];
-  
+
   return (
-    <div className="h-screen flex overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50/30 relative">
-      <NotificationProvider>
-      {/* Profile Completion Alert */}
-      {showProfileAlert && (
-        <ProfileCompletionAlert onClose={() => setShowProfileAlert(false)} />
-      )}
+      <div className="h-screen flex overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50/30 relative">
+        <NotificationProvider>
+          {/* Profile Completion Alert */}
+          {showProfileAlert && (
+              <ProfileCompletionAlert onClose={() => setShowProfileAlert(false)} />
+          )}
 
-      {/* Decorative Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full opacity-20 blur-[100px]" />
-        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-purple-200 to-purple-300 rounded-full opacity-20 blur-[100px]" />
-        <div className="absolute -bottom-40 right-1/3 w-96 h-96 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full opacity-20 blur-[100px]" />
-      </div>
-
-      {/* Top Bar */}
-      <div className="fixed top-0 right-0 left-0 lg:left-80 h-16 bg-white/80 backdrop-blur-sm border-b border-gray-100/80 z-50 flex items-center px-4 lg:px-8 shadow-sm">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setShowMobileMenu(!showMobileMenu)}
-          className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100/80 transition-colors duration-200 min-h-[44px] min-w-[44px]"
-        >
-          {showMobileMenu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-
-        {/* Mobile Logo */}
-        <div className="lg:hidden flex items-center ml-3 mr-auto">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-md">
-            <Building2 className="h-5 w-5 text-white" />
+          {/* Decorative Background */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full opacity-20 blur-[100px]" />
+            <div className="absolute top-1/2 -left-40 w-96 h-96 bg-gradient-to-br from-purple-200 to-purple-300 rounded-full opacity-20 blur-[100px]" />
+            <div className="absolute -bottom-40 right-1/3 w-96 h-96 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full opacity-20 blur-[100px]" />
           </div>
-        </div>
 
-        {/* Mobile Search Toggle */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-lg mx-auto hidden lg:block">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+          {/* Top Bar */}
+          <div className="fixed top-0 right-0 left-0 lg:left-80 h-16 bg-white/80 backdrop-blur-sm border-b border-gray-100/80 z-50 flex items-center px-4 lg:px-8 shadow-sm">
+            {/* Mobile Menu Button */}
+            <button
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100/80 transition-colors duration-200 min-h-[44px] min-w-[44px]"
+            >
+              {showMobileMenu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+
+            {/* Mobile Logo */}
+            <div className="lg:hidden flex items-center ml-3 mr-auto">
+              <div className="flex items-center space-x-3">
+              </div>
             </div>
-            <input
-              type="search"
-              placeholder="Buscar..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200"
-            />
-          </div>
-        </form>
 
-        <div className="ml-4 flex items-center space-x-4">
-          <NotificationBell />
-          
-          <div className="relative inline-block text-left" ref={userMenuRef}>
-            <div>
-              <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="group flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100/80 transition-all duration-200 min-h-[44px] min-w-[44px] relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-blue-50/30 to-blue-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                <div className="relative">
-                  <img
-                    className="h-8 w-8 rounded-full ring-2 ring-white shadow-sm group-hover:ring-blue-200 transition-all duration-200"
-                    src={user.imageUrl}
-                    alt={user.name}
-                  />
-                  <div className="absolute -bottom-1 -right-1">
-                    <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-green-500 ring-2 ring-white" />
+            {/* Mobile Search Toggle */}
+            <form onSubmit={handleSearch} className="flex-1 max-w-lg mx-auto hidden lg:block">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-5 w-5 text-gray-400"/>
+                </div>
+                <input
+                    type="search"
+                    placeholder="Buscar..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200"
+                />
+              </div>
+            </form>
+
+            <div className="ml-4 flex items-center space-x-4">
+              <NotificationBell />
+
+              <div className="relative inline-block text-left" ref={userMenuRef}>
+                <div>
+                  <button
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      className="group flex items-center space-x-3 p-1.5 rounded-lg hover:bg-gray-100/80 transition-all duration-200 min-h-[44px] min-w-[44px] relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-blue-50/30 to-blue-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <div className="relative">
+                      <img
+                          className="h-8 w-8 rounded-full ring-2 ring-white shadow-sm group-hover:ring-blue-200 transition-all duration-200"
+                          src={user.imageUrl}
+                          alt={user.name}
+                      />
+                      <div className="absolute -bottom-1 -right-1">
+                        <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-green-500 ring-2 ring-white" />
+                      </div>
+                    </div>
+                    <div className="hidden md:flex md:items-center">
+                      <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{user.name}</span>
+                      <ChevronDown className={`ml-2 h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
+                    </div>
+                  </button>
+                </div>
+
+                {/* User Menu Dropdown */}
+                {showUserMenu && (
+                    <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 focus:outline-none z-50 animate-in slide-in-from-top-1 duration-100 overflow-hidden">
+                      <div className="px-4 py-3 border-b border-gray-100/80">
+                        <div className="flex items-center space-x-3">
+                          <img
+                              src={user.imageUrl}
+                              alt={user.name}
+                              className="h-10 w-10 rounded-full ring-2 ring-white shadow-sm"
+                          />
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
+                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="py-2">
+                        <button
+                            onClick={() => navigate('/dashboard/profile')}
+                            className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 group relative"
+                        >
+                          <User className="h-4 w-4 mr-3 text-gray-400" />
+                          <span className="flex-1">Perfil</span>
+                          <ChevronRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-blue-50/30 to-blue-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                        </button>
+                        <button
+                            onClick={() => navigate('/dashboard/settings')}
+                            className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 group relative"
+                        >
+                          <Settings className="h-4 w-4 mr-3 text-gray-400" />
+                          <span className="flex-1">Configurações</span>
+                          <ChevronRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-blue-50/30 to-blue-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                        </button>
+                      </div>
+                      <div className="border-t border-gray-100">
+                        <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 group relative"
+                        >
+                          <LogOut className="h-4 w-4 mr-3 text-red-500" />
+                          <span className="flex-1">Sair</span>
+                          <ChevronRight className="h-4 w-4 text-red-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-red-50/0 via-red-50/30 to-red-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                        </button>
+                      </div>
+                    </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Sidebar */}
+          <div
+              ref={mobileMenuRef}
+              className={`lg:hidden fixed inset-0 z-[60] transform transition-all duration-300 ease-in-out ${
+                  showMobileMenu ? 'translate-x-0' : '-translate-x-full'
+              }`}
+          >
+            <div
+                className={`fixed inset-0 bg-gray-900/60 backdrop-blur-[3px] transition-all duration-500 ease-in-out ${
+                    showMobileMenu ? 'opacity-100' : 'opacity-0'
+                }`}
+                onClick={() => setShowMobileMenu(false)}
+            />
+            <div className={`relative flex-1 flex flex-col w-[85%] max-w-sm bg-white/95 backdrop-blur-sm focus:outline-none shadow-2xl transform transition-all duration-500 ease-out ${
+                showMobileMenu ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
+            }`}>
+              <div className="absolute top-0 right-0 -mr-12 pt-4">
+                <button
+                    className="ml-1 flex items-center justify-center h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    onClick={() => setShowMobileMenu(false)}
+                >
+                  <span className="sr-only">Fechar menu</span>
+                  <X className="h-6 w-6 text-white" />
+                </button>
+              </div>
+              <div className="flex-1 h-[calc(100vh-8rem)] pt-6 pb-4 overflow-y-auto scrollbar-none overscroll-contain">
+                <div className="flex-shrink-0 flex items-center px-6">
+                  <div className="flex items-center space-x-3">
+                    <img width={40} alt="Logo" src={logoRetangulo}/>
+                    <img width={150} alt="Logo" src={logoLetter}/>
                   </div>
                 </div>
-                <div className="hidden md:flex md:items-center">
-                  <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">{user.name}</span>
-                  <ChevronDown className={`ml-2 h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-transform duration-200 ${showUserMenu ? 'rotate-180' : ''}`} />
-                </div>
-              </button>
-            </div>
-
-            {/* User Menu Dropdown */}
-            {showUserMenu && (
-              <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 focus:outline-none z-50 animate-in slide-in-from-top-1 duration-100 overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-100/80">
-                  <div className="flex items-center space-x-3">
+                <nav className="mt-8 space-y-2.5 px-6">
+                  <div className="pb-20">
+                    {[
+                      {name: 'Minha Página', icon: UserCircle, path: 'profile'},
+                      { name: 'Campanhas', icon: Users, path: 'campaigns' },
+                      { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
+                      { name: 'Nova Campanha', icon: PlusCircle, path: 'new-campaign' },
+                      { name: 'Agenda', icon: Calendar, path: 'schedule' },
+                      { name: 'Mensagens', icon: MessageSquare, path: 'messages' },
+                      { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
+                      { name: 'Meu Plano', icon: Crown, path: 'plan' },
+                      { name: 'Configurações', icon: Settings, path: 'settings' }
+                    ].map((item) => (
+                        <button
+                            key={item.path}
+                            onClick={() => {
+                              navigate(item.path === 'new-campaign' ? '/dashboard/new-campaign' : `/dashboard/${item.path}`);
+                              setShowMobileMenu(false);
+                            }}
+                            className={`w-full group relative overflow-hidden transform transition-all duration-200 ${
+                                location.pathname.endsWith(item.path)
+                                    ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
+                                    : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
+                            } flex items-center px-4 py-3.5 text-sm font-medium rounded-xl hover:scale-[1.02] hover:shadow-sm active:scale-[0.98]`}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                          <item.icon className="mr-3 h-5 w-5" />
+                          {item.name}
+                        </button>
+                    ))}
+                  </div>
+                </nav>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 flex-shrink-0 flex border-t border-gray-200/80 p-6 bg-gradient-to-b from-transparent to-white/80">
+                <div className="flex items-center">
+                  <div>
                     <img
-                      src={user.imageUrl}
-                      alt={user.name}
-                      className="h-10 w-10 rounded-full ring-2 ring-white shadow-sm"
+                        className="inline-block h-12 w-12 rounded-full ring-2 ring-white shadow-lg transform transition-transform duration-200 hover:scale-105"
+                        src={user.imageUrl}
+                        alt=""
                     />
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-base font-medium text-gray-700">{user.name}</p>
+                    <button
+                        onClick={handleLogout}
+                        className="mt-1 text-sm font-medium text-red-600 hover:text-red-700 group flex items-center px-3 py-1.5 rounded-lg hover:bg-red-50 transition-all duration-200 active:scale-95"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sair
+                      <ChevronRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden lg:flex lg:flex-shrink-0">
+            {/* Sidebar */}
+            <div className="flex flex-col w-80 bg-white/95 backdrop-blur-sm border-r border-gray-100/80 shadow-lg">
+              <div className="flex flex-col flex-grow pt-8 pb-4 overflow-y-auto">
+                <div className="flex items-center flex-shrink-0 px-6">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center space-x-3">
+                      <img width={40} alt="Logo" src={logoRetangulo}/>
+                      <img width={150} alt="Logo" src={logoLetter}/>
                     </div>
                   </div>
                 </div>
-                <div className="py-2">
-                  <button
-                    onClick={() => navigate('/dashboard/profile')}
-                    className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 group relative"
-                  >
-                    <User className="h-4 w-4 mr-3 text-gray-400" />
-                    <span className="flex-1">Perfil</span>
-                    <ChevronRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-blue-50/30 to-blue-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </button>
-                  <button
-                    onClick={() => navigate('/dashboard/settings')}
-                    className="w-full flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 group relative"
-                  >
-                    <Settings className="h-4 w-4 mr-3 text-gray-400" />
-                    <span className="flex-1">Configurações</span>
-                    <ChevronRight className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-50/0 via-blue-50/30 to-blue-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </button>
-                </div>
-                <div className="border-t border-gray-100">
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 group relative"
-                  >
-                    <LogOut className="h-4 w-4 mr-3 text-red-500" />
-                    <span className="flex-1">Sair</span>
-                    <ChevronRight className="h-4 w-4 text-red-400 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-200" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-red-50/0 via-red-50/30 to-red-50/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Sidebar */}
-      <div 
-        ref={mobileMenuRef}
-        className={`lg:hidden fixed inset-0 z-[60] transform transition-all duration-300 ease-in-out ${
-          showMobileMenu ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div 
-          className={`fixed inset-0 bg-gray-900/60 backdrop-blur-[3px] transition-all duration-500 ease-in-out ${
-            showMobileMenu ? 'opacity-100' : 'opacity-0'
-          }`} 
-          onClick={() => setShowMobileMenu(false)}
-        />
-        <div className={`relative flex-1 flex flex-col w-[85%] max-w-sm bg-white/95 backdrop-blur-sm focus:outline-none shadow-2xl transform transition-all duration-500 ease-out ${
-          showMobileMenu ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
-        }`}>
-            <div className="absolute top-0 right-0 -mr-12 pt-4">
-              <button
-                className="ml-1 flex items-center justify-center h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-                onClick={() => setShowMobileMenu(false)}
-              >
-                <span className="sr-only">Fechar menu</span>
-                <X className="h-6 w-6 text-white" />
-              </button>
-            </div>
-            <div className="flex-1 h-[calc(100vh-8rem)] pt-6 pb-4 overflow-y-auto scrollbar-none overscroll-contain">
-              <div className="flex-shrink-0 flex items-center px-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group">
-                    <Building2 className="h-6 w-6 text-white" />
-                    <div className="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur opacity-0 group-hover:opacity-30 transition duration-200" />
+                <div className="mt-10 flex-grow flex flex-col">
+                  <div className="px-6 mb-8">
+                    <div className="flex items-center">
+                      <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt=""/>
+                      <div className="ml-3">
+                        <button
+                            onClick={() => navigate('profile')}
+                            className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 focus:outline-none group"
+                        >
+                          {user.name}
+                          <div className="h-0.5 w-0 bg-blue-600 group-hover:w-full transition-all duration-200"></div>
+                        </button>
+                        <p className="text-xs text-gray-500 mt-0.5">Influenciador</p>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
-                    Sou Influencer
-                  </span>
-                </div>
-              </div>
-              <nav className="mt-8 space-y-2.5 px-6">
-                <div className="pb-20">
-                {[
-                  { name: 'Minha Página', icon: UserCircle, path: 'profile' },
-                  { name: 'Campanhas', icon: Users, path: 'campaigns' },
-                  { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
-                  { name: 'Nova Campanha', icon: PlusCircle, path: 'new-campaign' },
-                  { name: 'Agenda', icon: Calendar, path: 'schedule' },
-                  { name: 'Mensagens', icon: MessageSquare, path: 'messages' },
-                  { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
-                  { name: 'Meu Plano', icon: Crown, path: 'plan' },
-                  { name: 'Configurações', icon: Settings, path: 'settings' }
-                ].map((item) => (
-                  <button
-                    key={item.path}
-                    onClick={() => {
-                      navigate(item.path === 'new-campaign' ? '/dashboard/new-campaign' : `/dashboard/${item.path}`);
-                      setShowMobileMenu(false);
-                    }}
-                    className={`w-full group relative overflow-hidden transform transition-all duration-200 ${
-                      location.pathname.endsWith(item.path)
-                        ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
-                        : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
-                    } flex items-center px-4 py-3.5 text-sm font-medium rounded-xl hover:scale-[1.02] hover:shadow-sm active:scale-[0.98]`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                    <item.icon className="mr-3 h-5 w-5" />
-                    {item.name}
-                  </button>
-                ))}
-                </div>
-              </nav>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 flex-shrink-0 flex border-t border-gray-200/80 p-6 bg-gradient-to-b from-transparent to-white/80">
-              <div className="flex items-center">
-                <div>
-                  <img
-                    className="inline-block h-12 w-12 rounded-full ring-2 ring-white shadow-lg transform transition-transform duration-200 hover:scale-105"
-                    src={user.imageUrl}
-                    alt=""
-                  />
-                </div>
-                <div className="ml-4">
-                  <p className="text-base font-medium text-gray-700">{user.name}</p>
-                  <button
-                    onClick={handleLogout}
-                    className="mt-1 text-sm font-medium text-red-600 hover:text-red-700 group flex items-center px-3 py-1.5 rounded-lg hover:bg-red-50 transition-all duration-200 active:scale-95"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sair
-                    <ChevronRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-
-      <div className="hidden lg:flex lg:flex-shrink-0">
-        {/* Sidebar */}
-        <div className="flex flex-col w-80 bg-white/95 backdrop-blur-sm border-r border-gray-100/80 shadow-lg">
-          <div className="flex flex-col flex-grow pt-8 pb-4 overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-6">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group cursor-pointer">
-                  <Building2 className="h-6 w-6 text-white" />
-                  <Sparkles className="absolute h-3 w-3 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                </div>
-                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-700">
-                  Sou Influencer
-                </span>
-              </div>
-            </div>
-            <div className="mt-10 flex-grow flex flex-col">
-              <div className="px-6 mb-8">
-                <div className="flex items-center">
-                  <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
-                  <div className="ml-3">
+                  <nav className="flex-1 px-4 space-y-2">
                     <button
-                      onClick={() => navigate('profile')}
-                      className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 focus:outline-none group"
-                    >
-                      {user.name}
-                      <div className="h-0.5 w-0 bg-blue-600 group-hover:w-full transition-all duration-200"></div>
-                    </button>
-                    <p className="text-xs text-gray-500 mt-0.5">Influenciador</p>
-                  </div>
-                </div>
-              </div>
-              <nav className="flex-1 px-4 space-y-2">
-                  <button
-                    onClick={() => navigate('profile')}
-                    className={`w-full text-left ${
-                      location.pathname.includes('profile') || location.pathname === '/dashboard/'
-                        ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
-                        : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
-                    } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                    <UserCircle className="mr-3 flex-shrink-0 h-5 w-5" />
-                    Minha Página
-                  </button>
-                  {navigationItems.slice(1).map((item) => (
-                    <button
-                      key={item.path}
-                      onClick={() => navigate(`/dashboard/${item.path}`)}
-                      className={`w-full text-left ${
-                        location.pathname.includes(item.path)
-                          ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
-                          : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
-                      } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
+                        onClick={() => navigate('profile')}
+                        className={`w-full text-left ${
+                            location.pathname.includes('profile') || location.pathname === '/dashboard/'
+                                ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
+                                : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
+                        } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                      <item.icon className="mr-3 flex-shrink-0 h-5 w-5" />
-                      {item.name}
+                      <UserCircle className="mr-3 flex-shrink-0 h-5 w-5" />
+                      Minha Página
                     </button>
-                  ))}
-              </nav>
+                    {navigationItems.slice(1).map((item) => (
+                        <button
+                            key={item.path}
+                            onClick={() => navigate(`/dashboard/${item.path}`)}
+                            className={`w-full text-left ${
+                                location.pathname.includes(item.path)
+                                    ? 'bg-gradient-to-r from-blue-50 to-blue-50/50 text-blue-600 shadow-sm border border-blue-100/50 scale-[1.02]'
+                                    : 'text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 border border-transparent hover:border-gray-200'
+                            } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                          <item.icon className="mr-3 flex-shrink-0 h-5 w-5" />
+                          {item.name}
+                        </button>
+                    ))}
+                  </nav>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col overflow-hidden pt-16 relative w-full">
+            <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+              {/* Breadcrumbs */}
+              {breadcrumbs.length > 0 && (
+                  <nav className="bg-white/50 backdrop-blur-sm border-b border-gray-100/80 px-4 sm:px-6 lg:px-8 py-3">
+                    <ol className="flex items-center space-x-4">
+                      <li>
+                        <button
+                            onClick={() => navigate('/dashboard')}
+                            className="text-gray-400 hover:text-gray-500"
+                        >
+                          Dashboard
+                        </button>
+                      </li>
+                      {breadcrumbs.map((item, index) => (
+                          <li key={item.path} className="flex items-center">
+                            <ChevronRight className="h-5 w-5 text-gray-400" />
+                            <button
+                                onClick={() => navigate(item.path)}
+                                className={`ml-4 ${
+                                    index === breadcrumbs.length - 1
+                                        ? 'text-blue-600 font-medium'
+                                        : 'text-gray-500 hover:text-gray-700'
+                                }`}
+                            >
+                              {item.name}
+                            </button>
+                          </li>
+                      ))}
+                    </ol>
+                  </nav>
+              )}
+
+              <Routes>
+                <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
+                <Route path="new-campaign" element={<NewCampaign onBack={() => navigate('/dashboard/campaigns')} />} />
+                <Route path="schedule" element={<Schedule onSelectCampaign={handleSelectCampaign} />} />
+                <Route path="messages" element={<Messages />} />
+                <Route path="settings" element={<SettingsPage />} />
+                <Route path="plan" element={<Plan />} />
+                <Route path="social-networks" element={<SocialNetworks />} />
+                <Route path="payments" element={<Payments />} />
+                <Route path="influencers" element={<InfluencerList onViewProfile={handleViewProfile} />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="/" element={<Profile />} />
+              </Routes>
+            </main>
+          </div>
+        </NotificationProvider>
       </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden pt-16 relative w-full">
-         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
-           {/* Breadcrumbs */}
-           {breadcrumbs.length > 0 && (
-             <nav className="bg-white/50 backdrop-blur-sm border-b border-gray-100/80 px-4 sm:px-6 lg:px-8 py-3">
-               <ol className="flex items-center space-x-4">
-                 <li>
-                   <button
-                     onClick={() => navigate('/dashboard')}
-                     className="text-gray-400 hover:text-gray-500"
-                   >
-                     Dashboard
-                   </button>
-                 </li>
-                 {breadcrumbs.map((item, index) => (
-                   <li key={item.path} className="flex items-center">
-                     <ChevronRight className="h-5 w-5 text-gray-400" />
-                     <button
-                       onClick={() => navigate(item.path)}
-                       className={`ml-4 ${
-                         index === breadcrumbs.length - 1
-                           ? 'text-blue-600 font-medium'
-                           : 'text-gray-500 hover:text-gray-700'
-                       }`}
-                     >
-                       {item.name}
-                     </button>
-                   </li>
-                 ))}
-               </ol>
-             </nav>
-           )}
-
-           <Routes>
-             <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
-            <Route path="new-campaign" element={<NewCampaign onBack={() => navigate('/dashboard/campaigns')} />} />
-             <Route path="schedule" element={<Schedule onSelectCampaign={handleSelectCampaign} />} />
-             <Route path="messages" element={<Messages />} />
-             <Route path="settings" element={<SettingsPage />} />
-             <Route path="plan" element={<Plan />} />
-             <Route path="social-networks" element={<SocialNetworks />} />
-             <Route path="payments" element={<Payments />} />
-             <Route path="influencers" element={<InfluencerList onViewProfile={handleViewProfile} />} />
-             <Route path="profile" element={<Profile />} />
-             <Route path="/" element={<Profile />} />
-           </Routes>
-         </main>
-       </div>
-      </NotificationProvider>
-    </div>
   );
 }
