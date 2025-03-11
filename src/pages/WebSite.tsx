@@ -1,5 +1,26 @@
 import React from 'react';
-import { User, Users, Calendar, MessageSquare, Settings, Crown, CreditCard, UserCircle, PlusCircle, Share2, Building2, Bell, Search, ChevronDown, ChevronRight, LogOut, Menu, X, Sparkles } from 'lucide-react';
+import {
+  User,
+  Users,
+  Calendar,
+  MessageSquare,
+  Settings,
+  Crown,
+  CreditCard,
+  UserCircle,
+  PlusCircle,
+  Share2,
+  Building2,
+  Bell,
+  Search,
+  ChevronDown,
+  ChevronRight,
+  LogOut,
+  Menu,
+  X,
+  Sparkles,
+  UserRoundPlusIcon, Edit
+} from 'lucide-react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationProvider } from '../components/Notifications/NotificationProvider';
 import { ProfileCompletionAlert } from '../components/ProfileCompletionAlert';
@@ -17,9 +38,8 @@ import { SocialNetworks } from './dashboard/SocialNetworks';
 import { InfluencerList } from './dashboard/InfluencerList';
 import logoRetangulo from '@/assets/logo_retangulo_light.svg';
 import logoLetter from '@/assets/logo_letter_light.svg';
-import {CampaignDetails} from "./dashboard/CampaignDetails.tsx";
 import {Notifications} from "./dashboard/Notifications.tsx";
-import {SocialMetrics} from "./dashboard/profile/SocialMetrics.tsx";
+import {CompleteProfile} from "./dashboard/CompleteProfile.tsx";
 
 export function WebSite() {
   const navigate = useNavigate();
@@ -33,7 +53,6 @@ export function WebSite() {
   const [selectedInfluencerId, setSelectedInfluencerId] = React.useState<string | null>(null);
   const [breadcrumbs, setBreadcrumbs] = React.useState<Array<{name: string; path: string}>>([]);
   const [activeRoute, setActiveRoute] = React.useState('');
-  const [searchQuery, setSearchQuery] = React.useState('');
   const [showProfileAlert, setShowProfileAlert] = React.useState(true);
 
   // Update breadcrumbs when location changes
@@ -85,12 +104,14 @@ export function WebSite() {
     { name: 'Minha Página', icon: UserCircle, path: 'profile' },
     { name: 'Campanhas', icon: Users, path: 'campaigns' },
     { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
-    // { name: 'Nova Campanha', icon: PlusCircle, path: 'new-campaign' },
-    // { name: 'Agenda', icon: Calendar, path: 'schedule' },
-    // { name: 'Mensagens', icon: MessageSquare, path: 'messages' },
     { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
     { name: 'Meu Plano', icon: Crown, path: 'plan' },
-    { name: 'Configurações', icon: Settings, path: 'settings' }
+    ...(user?.completeRegistration
+        ? [{ name: 'Configurações', icon: Settings, path: 'settings' }]
+        : []),
+    ...(!user?.completeRegistration
+        ? [{ name: 'Completar Cadastro', icon: Edit, path: 'complete-profile' }]
+        : []),
   ];
 
   return (
@@ -395,8 +416,9 @@ export function WebSite() {
               )}
 
               <Routes>
-                <Route path="/notifications" element={<Notifications/>} />
-                <Route path="/social-networks/:id/metrics" element={<NewCampaign onBack={() => navigate('/dashboard/profile')} />} />
+                <Route path="complete-profile" element={<CompleteProfile/>} />
+                <Route path="notifications" element={<Notifications/>} />
+                <Route path="social-networks/:id/metrics" element={<NewCampaign onBack={() => navigate('/dashboard/profile')} />} />
                 <Route path="campaign/:id" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
                 <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
                 <Route path="new-campaign" element={<NewCampaign onBack={() => navigate('/dashboard/campaigns')} />} />

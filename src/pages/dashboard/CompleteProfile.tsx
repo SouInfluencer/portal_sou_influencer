@@ -86,7 +86,7 @@ export function CompleteProfile() {
 
     switch (step) {
       case 1:
-        if (!formData.type) {
+        if (formData.type == null) {
           newErrors.type = 'Selecione o tipo de cadastro';
         }
         break;
@@ -169,47 +169,22 @@ export function CompleteProfile() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <button
-                onClick={() => {
-                  setFormData({ ...formData, type: 'pf' });
-                  handleNext();
-                }}
-                className={`relative rounded-xl border-2 p-6 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
-                  formData.type === 'pf'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 bg-white'
-                }`}
+                  onClick={() => {
+                    setFormData({...formData, type: 'pj'});
+                    handleNext();
+                  }}
+                  className={`relative rounded-xl border-2 p-6 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
+                      formData.type === 'pj'
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200 bg-white'
+                  }`}
               >
                 <div className="flex flex-col items-start text-left">
                   <div className="flex items-center justify-between w-full mb-4">
                     <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                      <User className="h-6 w-6 text-blue-600" />
+                      <Building2 className="h-6 w-6 text-blue-600"/>
                     </div>
-                    <ChevronRight className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Pessoa Física</h3>
-                  <p className="text-sm text-gray-600">
-                    Cadastro para influenciadores que atuam como pessoa física
-                  </p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => {
-                  setFormData({ ...formData, type: 'pj' });
-                  handleNext();
-                }}
-                className={`relative rounded-xl border-2 p-6 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
-                  formData.type === 'pj'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 bg-white'
-                }`}
-              >
-                <div className="flex flex-col items-start text-left">
-                  <div className="flex items-center justify-between w-full mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                      <Building2 className="h-6 w-6 text-blue-600" />
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-gray-400" />
+                    <ChevronRight className="h-5 w-5 text-gray-400"/>
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Pessoa Jurídica</h3>
                   <p className="text-sm text-gray-600">
@@ -217,42 +192,66 @@ export function CompleteProfile() {
                   </p>
                 </div>
               </button>
+
+              <button
+                  onClick={() => {
+                    setFormData({...formData, type: 'pf'});
+                    handleNext();
+                  }}
+                  className={`relative rounded-xl border-2 p-6 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
+                      formData.type === 'pf'
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200 bg-white'
+                  }`}
+              >
+                <div className="flex flex-col items-start text-left">
+                  <div className="flex items-center justify-between w-full mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                      <User className="h-6 w-6 text-blue-600"/>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-gray-400"/>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Pessoa Física</h3>
+                  <p className="text-sm text-gray-600">
+                    Cadastro para influenciadores que atuam como pessoa física
+                  </p>
+                </div>
+              </button>
             </div>
 
             {errors.type && (
-              <div className="mt-4 text-sm text-red-600">
-                {errors.type}
-              </div>
+                <div className="mt-4 text-sm text-red-600">
+                  {errors.type}
+                </div>
             )}
           </div>
         );
 
       case 2:
         return (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                  Nome
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
-                    errors.firstName
-                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                      : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
-                  }`}
-                />
-                {errors.firstName && (
-                  <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
-                )}
-              </div>
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                    Nome
+                  </label>
+                  <input
+                      type="text"
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
+                          errors.firstName
+                              ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                              : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                      }`}                  />
+                  {errors.firstName && (
+                      <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
+                  )}
+                </div>
 
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                <div>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                   Sobrenome
                 </label>
                 <input
@@ -260,7 +259,7 @@ export function CompleteProfile() {
                   id="lastName"
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.lastName
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -280,7 +279,7 @@ export function CompleteProfile() {
                   id="cpf"
                   value={formData.cpf}
                   onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.cpf
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -297,11 +296,12 @@ export function CompleteProfile() {
                   Data de Nascimento
                 </label>
                 <input
-                  type="date"
+                  type="text"
                   id="birthDate"
+                  placeholder="24/12/2025"
                   value={formData.birthDate}
                   onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.birthDate
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -321,7 +321,7 @@ export function CompleteProfile() {
                   id="phone"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.phone
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -348,7 +348,7 @@ export function CompleteProfile() {
                 id="cnpj"
                 value={formData.cnpj}
                 onChange={(e) => setFormData({ ...formData, cnpj: e.target.value })}
-                className={`mt-1 block w-full rounded-lg shadow-sm ${
+                className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                   errors.cnpj
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                     : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -369,7 +369,7 @@ export function CompleteProfile() {
                 id="companyName"
                 value={formData.companyName}
                 onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                className={`mt-1 block w-full rounded-lg shadow-sm ${
+                className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                   errors.companyName
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                     : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -389,7 +389,7 @@ export function CompleteProfile() {
                 id="tradeName"
                 value={formData.tradeName}
                 onChange={(e) => setFormData({ ...formData, tradeName: e.target.value })}
-                className={`mt-1 block w-full rounded-lg shadow-sm ${
+                className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                   errors.tradeName
                     ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                     : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -415,7 +415,7 @@ export function CompleteProfile() {
                   id="cep"
                   value={formData.cep}
                   onChange={(e) => setFormData({ ...formData, cep: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.cep
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -436,7 +436,7 @@ export function CompleteProfile() {
                   id="street"
                   value={formData.street}
                   onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.street
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -456,7 +456,7 @@ export function CompleteProfile() {
                   id="number"
                   value={formData.number}
                   onChange={(e) => setFormData({ ...formData, number: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.number
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -476,7 +476,7 @@ export function CompleteProfile() {
                   id="neighborhood"
                   value={formData.neighborhood}
                   onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.neighborhood
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -496,7 +496,7 @@ export function CompleteProfile() {
                   id="city"
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.city
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -515,7 +515,7 @@ export function CompleteProfile() {
                   id="state"
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.state
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -546,7 +546,7 @@ export function CompleteProfile() {
                   id="bank"
                   value={formData.bank}
                   onChange={(e) => setFormData({ ...formData, bank: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.bank
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -570,7 +570,7 @@ export function CompleteProfile() {
                   id="accountType"
                   value={formData.accountType}
                   onChange={(e) => setFormData({ ...formData, accountType: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.accountType
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -594,7 +594,7 @@ export function CompleteProfile() {
                   id="agency"
                   value={formData.agency}
                   onChange={(e) => setFormData({ ...formData, agency: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.agency
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -615,7 +615,7 @@ export function CompleteProfile() {
                   id="account"
                   value={formData.account}
                   onChange={(e) => setFormData({ ...formData, account: e.target.value })}
-                  className={`mt-1 block w-full rounded-lg shadow-sm ${
+                  className={`block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white/80 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 hover:border-gray-400 hover:bg-white focus:bg-white transform hover:translate-y-[-1px] ${
                     errors.account
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
@@ -636,96 +636,104 @@ export function CompleteProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
-      <div className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        {/* Progress Steps */}
-        <nav aria-label="Progress" className="mb-12">
-          <ol role="list" className="flex items-center">
-            {steps.map((step, stepIdx) => (
-              <li
-                key={step.id}
-                className={`${stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : ''} relative`}
-              >
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                  <div className={`h-0.5 w-full ${
-                    stepIdx < currentStep - 1 ? 'bg-blue-600' : 'bg-gray-200'
-                  }`} />
-                </div>
-                <div className={`relative flex h-8 w-8 items-center justify-center rounded-full border-2 ${
-                  stepIdx < currentStep - 1
-                    ? 'border-blue-600 bg-blue-600'
-                    : stepIdx === currentStep - 1
-                    ? 'border-blue-600 bg-white'
-                    : 'border-gray-300 bg-white'
-                }`}>
-                  <step.icon
-                    className={`h-5 w-5 ${
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+        <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          {/* Progress Steps */}
+          <nav aria-label="Progress" className="mb-12">
+            <ol role="list" className="flex items-center justify-between space-x-4 sm:space-x-8">
+              {steps.map((step, stepIdx) => (
+                  <li key={step.id} className="relative flex items-center">
+                    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div
+                          className={`h-0.5 w-full ${stepIdx < currentStep - 1 ? 'bg-blue-600' : 'bg-gray-200'}`}
+                      />
+                    </div>
+                    <div
+                        className={`relative flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                            stepIdx < currentStep - 1
+                                ? 'border-blue-600 bg-blue-600'
+                                : stepIdx === currentStep - 1
+                                    ? 'border-blue-600 bg-white'
+                                    : 'border-gray-300 bg-white'
+                        }`}
+                    >
+                      <step.icon
+                          className={`h-6 w-6 transition-all duration-300 ${
+                              stepIdx < currentStep - 1
+                                  ? 'text-white'
+                                  : stepIdx === currentStep - 1
+                                      ? 'text-blue-600'
+                                      : 'text-gray-500'
+                          }`}
+                      />
+                      <span className="sr-only">{step.title}</span>
+                    </div>
+                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+              <span
+                  className={`text-xs font-medium transition-all duration-300 ${
                       stepIdx < currentStep - 1
-                        ? 'text-white'
-                        : stepIdx === currentStep - 1
-                        ? 'text-blue-600'
-                        : 'text-gray-500'
-                    }`}
-                  />
-                  <span className="sr-only">{step.title}</span>
-                </div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                  <span className={`text-xs font-medium ${
-                    stepIdx < currentStep - 1
-                      ? 'text-blue-600'
-                      : stepIdx === currentStep - 1
-                      ? 'text-blue-600'
-                      : 'text-gray-500'
-                  }`}>
-                    {step.title}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </nav>
+                          ? 'text-blue-600'
+                          : stepIdx === currentStep - 1
+                              ? 'text-blue-600'
+                              : 'text-gray-500'
+                  }`}
+              >
+                {step.title}
+              </span>
+                    </div>
+                  </li>
+              ))}
+            </ol>
+          </nav>
 
-        {/* Form Content */}
-        <div className="bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden">
-          <div className="px-4 py-5 sm:p-6">
-            {renderStep()}
-          </div>
+          {/* Form Content */}
+          <div className="bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden">
+            <div className="px-4 py-5 sm:p-6">{renderStep()}</div>
 
-          {/* Form Actions */}
-          <div className="px-4 py-3 bg-gray-50 sm:px-6 flex justify-between">
-            <button
-              type="button"
-              onClick={handleBack}
-              disabled={currentStep === 1}
-              className="inline-flex items-center px-4 py 2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Voltar
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={loading}
-              className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processando...
-                </>
-              ) : (
-                <>
-                  {currentStep === steps.length ? 'Concluir' : 'Continuar'}
-                  <ChevronRight className="ml-2 h-4 w-4" />
-                </>
-              )}
-            </button>
+            {/* Form Actions */}
+            <div className="px-4 py-3 bg-gray-50 sm:px-6 flex justify-between items-center">
+              <button
+                  type="button"
+                  onClick={handleBack}
+                  disabled={currentStep === 1}
+                  className="inline-flex items-center px-6 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-100 shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ArrowLeft className="h-5 w-5 mr-2"/>
+                Voltar
+              </button>
+              <button
+                  type="button"
+                  onClick={handleNext}
+                  disabled={loading}
+                  className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                    <>
+                      <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                      >
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                        <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Processando...
+                    </>
+                ) : (
+                    <>
+                      {currentStep === steps.length ? 'Concluir' : 'Continuar'}
+                      <ChevronRight className="ml-2 h-4 w-4"/>
+                    </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }

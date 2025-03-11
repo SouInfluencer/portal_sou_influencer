@@ -26,7 +26,7 @@ export function ProfileCompletionAlert({ onClose }: ProfileCompletionAlertProps)
           <div className="space-y-4">
             <button
               onClick={() => {
-                navigate('/complete-profile');
+                navigate('/dashboard/complete-profile');
                 onClose();
               }}
               className="w-full inline-flex items-center justify-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-200"

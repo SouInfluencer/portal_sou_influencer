@@ -120,16 +120,6 @@ export function Settings() {
     }
   });
 
-  const tabs = [
-    { id: 'personal' as const, label: 'Dados Pessoais', icon: User },
-    { id: 'business' as const, label: 'Dados Empresariais', icon: Building2 },
-    { id: 'address' as const, label: 'Endereço', icon: Home },
-    { id: 'bank' as const, label: 'Dados Bancários', icon: Bank },
-    { id: 'notifications' as const, label: 'Notificações', icon: Bell },
-    { id: 'security' as const, label: 'Segurança', icon: Shield },
-    { id: 'billing' as const, label: 'Pagamentos', icon: CreditCard }
-  ];
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     // Clear error when user starts typing
@@ -174,18 +164,18 @@ export function Settings() {
         // TODO: Implement API call
         setFormSuccess('Alterações salvas com sucesso!');
         setTimeout(() => setFormSuccess(null), 3000);
-      } catch (error) {
+      } catch {
         setFormErrors({ submit: 'Erro ao salvar alterações. Tente novamente.' });
       }
     }
   };
 
-  const handleNotificationChange = (type: 'email' | 'push', setting: string) => {
+  const handleNotificationChange = (type: 'email' | 'push', setting: keyof typeof formData['emailNotifications']) => {
     setFormData(prev => ({
       ...prev,
       [`${type}Notifications`]: {
         ...prev[`${type}Notifications`],
-        [setting]: !prev[`${type}Notifications`][setting]
+        [setting]: !prev[`${type}Notifications`][setting as keyof typeof formData['emailNotifications']]
       }
     }));
   };
@@ -201,22 +191,6 @@ export function Settings() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-6">
-          {/* Tabs */}
-          <div className="border-b border-gray-200 tabs-container">
-            <nav className="-mb-px flex space-x-8">
-              {tabs.map((tab) => (
-                <SettingsTab
-                  key={tab.id}
-                  id={tab.id}
-                  label={tab.label}
-                  icon={tab.icon}
-                  isActive={activeTab === tab.id}
-                  className="tab-item"
-                  onClick={() => setActiveTab(tab.id)}
-                />
-              ))}
-            </nav>
-          </div>
 
           {/* Content */}
           <div className="mt-6 settings-grid">

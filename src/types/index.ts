@@ -2,6 +2,7 @@ export interface User {
   id: string;
   profile: 'INFLUENCER' | 'ADVERTISER' | 'ADMIN';
   owner: boolean;
+  completeRegistration?: boolean;
   firstName: string;
   lastName: string;
   status: string;

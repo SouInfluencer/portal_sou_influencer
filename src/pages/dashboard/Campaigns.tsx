@@ -28,10 +28,12 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
   const [showFilters, setShowFilters] = React.useState(false);
   const [profileStatus, setProfileStatus] = React.useState({
     isComplete: false,
+    hasSocialNetwork: false,
     missingFields: [
+      'Dados pessoais',
+      'Endereço',
       'Dados bancários',
       'Redes sociais',
-      'Documentos'
     ]
   });
 
@@ -184,16 +186,16 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
         <div className="py-4">
           {/* Profile Completion Alert */}
           {!profileStatus.isComplete && (
-            <div className="mb-6 bg-amber-50 rounded-xl border border-amber-200/60 p-4">
+            <div className="mb-6 bg-red-50 rounded-xl border border-red-200/60 p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <AlertTriangle className="h-5 w-5 text-amber-400" />
+                  <AlertTriangle className="h-5 w-5 text-red-400" />
                 </div>
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-amber-800">
+                  <h3 className="text-sm font-medium text-red-800">
                     Complete seu perfil para receber propostas de campanhas
                   </h3>
-                  <div className="mt-2 text-sm text-amber-700">
+                  <div className="mt-2 text-sm text-red-700">
                     <p>
                       Para garantir que você receba propostas de campanhas relevantes, complete seu perfil com:
                     </p>
@@ -205,8 +207,8 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                   </div>
                   <div className="mt-4">
                     <button
-                      onClick={() => navigate('/dashboard/settings')}
-                      className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-amber-800 bg-amber-100 hover:bg-amber-200 transition-colors duration-200"
+                      onClick={() => navigate('/dashboard/complete-profile')}
+                      className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-red-800 bg-red-100 hover:bg-red-200 transition-colors duration-200"
                     >
                       Completar Perfil
                       <ChevronRight className="ml-2 h-4 w-4" />
@@ -215,6 +217,21 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                 </div>
               </div>
             </div>
+          )}
+
+          {profileStatus.isComplete && !profileStatus.hasSocialNetwork && (
+              <div className="mb-6 bg-red-50 rounded-xl border border-red-200/60 p-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <AlertTriangle className="h-5 w-5 text-red-400" />
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="text-sm font-medium text-red-800">
+                      Cadastre uma rede social para começar a receber propostas de campanhas
+                    </h3>
+                  </div>
+                </div>
+              </div>
           )}
 
           {/* Search and Filters Bar */}

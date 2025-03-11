@@ -76,7 +76,6 @@ function App() {
           setIsAuthenticated(authService.isAuthenticated());
           navigate(`/${view}`);
         }} />} />
-        <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/redefinir-senha" element={<ResetPassword />} />
         <Route path="/verificar-email" element={<ConfirmeEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
