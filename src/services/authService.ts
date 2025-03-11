@@ -127,6 +127,8 @@ class AuthService {
   }
 
   private setSession(authResult: AuthResponse): void {
+    localStorage.setItem('username', JSON.stringify(authResult.user.username));
+    localStorage.setItem('profile', JSON.stringify(authResult.user.profile));
     localStorage.setItem('user', JSON.stringify(authResult.user));
     localStorage.setItem('accessToken', authResult.accessToken);
     localStorage.setItem('expiresIn', authResult.expiresIn.toString());

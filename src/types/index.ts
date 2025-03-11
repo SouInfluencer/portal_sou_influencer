@@ -1,9 +1,10 @@
 export interface User {
   id: string;
-  type: 'influencer' | 'business';
+  profile: 'INFLUENCER' | 'ADVERTISER' | 'ADMIN';
   name: string;
   email: string;
   avatar?: string;
+  username: string;
 }
 
 export interface SocialAccount {
