@@ -48,16 +48,14 @@ export function PWAPrompt() {
 
   const handleInstall = async () => {
     if (!deferredPrompt) return;
-
     try {
       await deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-
       if (outcome === 'accepted') {
         localStorage.setItem('pwaPrompted', 'true');
       }
     } catch (err) {
-      console.error('Error installing PWA:', err);
+      console.error('Erro ao instalar PWA:', err);
     } finally {
       setDeferredPrompt(null);
       setShowPrompt(false);
@@ -65,39 +63,39 @@ export function PWAPrompt() {
   };
 
   const createDesktopShortcut = () => {
-    try {
-      const url = window.location.href;
-      const shortcutContent = `[InternetShortcut]\nURL=${url}\nIconFile=${url}/favicon.ico\nIconIndex=0`;
-      const blob = new Blob([shortcutContent], { type: 'application/url' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `${document.title.replace(/ /g, '_')}_Atalho.url`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      try {
+        const url = window.location.href;
+        const shortcutContent = `[InternetShortcut]\nURL=${url}\nIconFile=${url}/favicon.ico\nIconIndex=0`;
+        const blob = new Blob([shortcutContent], { type: 'application/octet-stream' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'SouInfluencer.url';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert('Atalho baixado! Salve-o em sua área de trabalho para acesso rápido.');
+      } catch (err) {
+        console.error('Erro ao criar o atalho:', err);
+        alert('Use o menu do navegador (⋮) e selecione "Mais ferramentas" > "Criar atalho".');
+      }
+    };
 
-      alert('Atalho baixado! Salve-o em sua área de trabalho para acesso rápido.');
-    } catch {
-      alert('Use o menu do navegador (⋮) e selecione "Mais ferramentas" > "Criar atalho".');
-    }
-  };
-
-  const handleAddToHomeScreen = () => {
-    if (isMobileDevice) {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-      const instructions = isIOS && isSafari
-          ? 'Toque no botão de compartilhar e selecione "Adicionar à Tela de Início"'
-          : isMobileDevice
-              ? 'Toque no menu (⋮) e selecione "Adicionar à tela inicial"'
-              : 'Adicione esta página aos favoritos para acesso rápido';
-
-      alert(instructions);
-    } else {
+    // Use createDesktopShortcut inside the component logic
+    if (!isMobileDevice && !showPrompt && showBrowserPrompt) {
       createDesktopShortcut();
     }
 
+  const handleAddToHomeScreen = () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    const instructions = isIOS && isSafari
+        ? 'Toque no botão de compartilhar e selecione "Adicionar à Tela de Início"'
+        : isMobileDevice
+            ? 'Toque no menu (⋮) e selecione "Adicionar à tela inicial"'
+            : 'Adicione esta página aos favoritos para acesso rápido';
+
+    alert(instructions);
     localStorage.setItem('pwaPrompted', 'true');
     setShowBrowserPrompt(false);
   };
@@ -109,11 +107,9 @@ export function PWAPrompt() {
         <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-4 max-w-md mx-auto">
           <div className="flex items-start justify-between">
             <div className="flex items-center space-x-3">
-              <div className="flex-shrink-0">
-                <img width={40} alt="Logo" src={logoRetangulo}/>
-              </div>
+              <img width={40} alt="Logo" src={logoRetangulo} className="flex-shrink-0" />
               <div>
-              <h3 className="text-sm font-medium text-gray-900">
+                <h3 className="text-sm font-medium text-gray-900">
                   {showPrompt ? 'Instalar Aplicativo' : 'Adicionar Atalho'}
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
@@ -121,8 +117,7 @@ export function PWAPrompt() {
                       ? 'Instale nosso app para uma experiência melhor'
                       : isMobileDevice
                           ? 'Adicione à tela inicial para acesso rápido'
-                          : 'Adicione um atalho à área de trabalho'
-                  }
+                          : 'Adicione um atalho à área de trabalho'}
                 </p>
               </div>
             </div>
@@ -139,13 +134,7 @@ export function PWAPrompt() {
           </div>
           <div className="mt-4 flex justify-end space-x-3">
             <button
-                onClick={() => {
-                  if (showPrompt) {
-                    handleInstall();
-                  } else {
-                    handleAddToHomeScreen();
-                  }
-                }}
+                onClick={showPrompt ? handleInstall : handleAddToHomeScreen}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-200"
             >
               {showPrompt ? (
