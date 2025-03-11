@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calculator, BarChart2, Shield, ChevronRight, Users, Globe2, Sparkles, DollarSign, ArrowRight, Target,
   Building2, Menu, X } from 'lucide-react';
+import logoRetangulo from '@/assets/logo_retangulo_light.svg';
+import logoLetter from '@/assets/logo_letter_light.svg';
 
 // Add keyframes for animations
 const styles = `
@@ -125,10 +127,11 @@ export function InfluencerLanding() {
               {/* Logo */}
               <div className="flex-shrink-0">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group">
-                    <img width={188} alt="Logo" src="/assets/logo_retangulo_light.svg"/>
+                  <div
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group">
+                    <img width={188} alt="Logo" src={logoRetangulo}/>
                   </div>
-                  <img width={188} alt="Logo" src="/assets/logo_letter_light.svg"/>
+                  <img width={188} alt="Logo" src={logoLetter}/>
                 </div>
               </div>
 

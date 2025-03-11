@@ -4,6 +4,8 @@ import {
   Calculator, BarChart2, Shield, ChevronRight, Users, Globe2, Sparkles, DollarSign, ArrowRight,
   Heart, Building2, Menu, X, Eye, MousePointer, Bell, ThumbsUp, Award, TrendingUp
 } from 'lucide-react';
+import logoRetangulo from '@/assets/logo_retangulo_light.svg';
+import logoLetter from '@/assets/logo_letter_light.svg';
 
 export function AdvertiserLanding() {
   const navigate = useNavigate();
@@ -160,9 +162,9 @@ export function AdvertiserLanding() {
                   <div className="flex items-center space-x-3">
                     <div
                         className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200 group">
-                      <img width={188} alt="Logo" src="/assets/logo_retangulo_light.svg"/>
+                      <img width={188} alt="Logo" src={logoRetangulo} />
                     </div>
-                    <img width={188} alt="Logo" src="/assets/logo_letter_light.svg"/>
+                    <img width={188} alt="Logo" src={logoLetter} />
                   </div>
                 </div>
 

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { KeyRound, Mail, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/auth.ts';
-// import logoRect from '@/assets/logo_retangulo_light.svg';
-// import logoLetter from '@/assets/logo_letter_light.svg';
+import logoLetter from '@/assets/logo_letter_light.svg';
 
 
 // Add keyframes for animations
@@ -110,7 +109,7 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div
             className={`flex justify-center mb-8 transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-          <img width={280} alt="Logo" src="/assets/logo_letter_light.svg"/>
+          <img width={280} alt="Logo" src={logoLetter} className={`animate-slide-up ${mounted ? 'animate-gradient' : ''}`} />
         </div>
         <p className={`mt-2 text-center text-sm text-gray-600 transition-all duration-1000 delay-400 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           Não tem uma conta?{' '}
