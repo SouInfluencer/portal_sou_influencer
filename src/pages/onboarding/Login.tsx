@@ -89,7 +89,7 @@ export function Login({ onLogin }: { onLogin: (view: string) => void }) {
         checkme: true
       });
 
-      onLogin('dashboard');
+      onLogin('dashboard/profile');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao fazer login. Tente novamente.');
     } finally {
