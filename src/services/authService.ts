@@ -96,6 +96,8 @@ class AuthService {
   }
 
   logout(): void {
+    localStorage.removeItem('username');
+    localStorage.removeItem('profile');
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('expiresIn');
