@@ -84,21 +84,6 @@ function App() {
             <WebSite />
           </ProtectedRoute>
         } />
-        <Route path="/dashboard/campaign/:id" element={
-          <ProtectedRoute>
-            <CampaignDetails onBack={() => navigate('/dashboard/campaigns')} />
-          </ProtectedRoute>
-        } />
-        <Route path="/dashboard/notifications" element={
-          <ProtectedRoute>
-            <Notifications />
-          </ProtectedRoute>
-        } />
-        <Route path="/dashboard/social-networks/:id/metrics" element={
-          <ProtectedRoute>
-            <SocialMetrics onBack={() => navigate('/dashboard/social-networks')} />
-          </ProtectedRoute>
-        } />
       </Routes>
     </div> 
     </NotificationProvider>

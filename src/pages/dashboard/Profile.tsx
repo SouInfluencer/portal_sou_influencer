@@ -149,7 +149,7 @@ export function Profile() {
     }));
     
     // Navigate to new campaign with influencer type
-    navigate('/new-campaign?type=single&influencer=1');
+    navigate('/dashboard/new-campaign?type=single&influencer=1');
   };
 
   return (

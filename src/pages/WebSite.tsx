@@ -17,6 +17,9 @@ import { SocialNetworks } from './dashboard/SocialNetworks';
 import { InfluencerList } from './dashboard/InfluencerList';
 import logoRetangulo from '@/assets/logo_retangulo_light.svg';
 import logoLetter from '@/assets/logo_letter_light.svg';
+import {CampaignDetails} from "./dashboard/CampaignDetails.tsx";
+import {Notifications} from "./dashboard/Notifications.tsx";
+import {SocialMetrics} from "./dashboard/profile/SocialMetrics.tsx";
 
 export function WebSite() {
   const navigate = useNavigate();
@@ -41,7 +44,7 @@ export function WebSite() {
       path: '/' + pathSegments.slice(0, index + 1).join('/')
     }));
     setBreadcrumbs(newBreadcrumbs);
-    setActiveRoute(pathSegments[pathSegments.length - 1] || 'dashboard');
+    setActiveRoute(pathSegments[pathSegments.length - 1] || 'dashboard/profile');
   }, [location]);
   const [selectedCampaignId, setSelectedCampaignId] = React.useState<number | null>(null);
 
@@ -372,14 +375,6 @@ export function WebSite() {
               {breadcrumbs.length > 0 && (
                   <nav className="bg-white/50 backdrop-blur-sm border-b border-gray-100/80 px-4 sm:px-6 lg:px-8 py-3">
                     <ol className="flex items-center space-x-4">
-                      <li>
-                        <button
-                            onClick={() => navigate('/dashboard')}
-                            className="text-gray-400 hover:text-gray-500"
-                        >
-                          Dashboard
-                        </button>
-                      </li>
                       {breadcrumbs.map((item, index) => (
                           <li key={item.path} className="flex items-center">
                             <ChevronRight className="h-5 w-5 text-gray-400" />
@@ -400,6 +395,9 @@ export function WebSite() {
               )}
 
               <Routes>
+                <Route path="/notifications" element={<Notifications/>} />
+                <Route path="/social-networks/:id/metrics" element={<NewCampaign onBack={() => navigate('/dashboard/profile')} />} />
+                <Route path="campaign/:id" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
                 <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
                 <Route path="new-campaign" element={<NewCampaign onBack={() => navigate('/dashboard/campaigns')} />} />
                 <Route path="schedule" element={<Schedule onSelectCampaign={handleSelectCampaign} />} />
@@ -411,6 +409,7 @@ export function WebSite() {
                 <Route path="influencers" element={<InfluencerList onViewProfile={handleViewProfile} />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="/" element={<Profile />} />
+                <Route path="/dashboard" element={<Profile />} />
               </Routes>
             </main>
           </div>
