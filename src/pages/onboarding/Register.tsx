@@ -375,9 +375,21 @@ function Register() {
                             name="confirmPassword"
                             type="password"
                             required
+                            minLength={8}
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
                             className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white/80 hover:bg-white focus:bg-white transition-all duration-200 hover:border-gray-400 transform hover:translate-y-[-1px] min-h-[44px]"
+                            onInvalid={(e) => {
+                              const target = e.target as HTMLInputElement;
+                              if (!target.value) {
+                                target.setCustomValidity("O campo de senha é obrigatório.");
+                              } else if (target.validity.typeMismatch) {
+                                target.setCustomValidity("Por favor, insira uma senha válida.");
+                              } else if ((e.target as HTMLInputElement).validity.tooShort) {
+                                (e.target as HTMLInputElement).setCustomValidity("A senha deve ter pelo menos 8 caracteres.");
+                              }
+                            }}
+                            onInput={(e) => (e.target as HTMLInputElement).setCustomValidity("")}
                         />
                       </div>
                     </div>
