@@ -82,9 +82,9 @@ export function WebSite() {
     { name: 'Minha Página', icon: UserCircle, path: 'profile' },
     { name: 'Campanhas', icon: Users, path: 'campaigns' },
     { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
-    { name: 'Nova Campanha', icon: PlusCircle, path: 'new-campaign' },
-    { name: 'Agenda', icon: Calendar, path: 'schedule' },
-    { name: 'Mensagens', icon: MessageSquare, path: 'messages' },
+    // { name: 'Nova Campanha', icon: PlusCircle, path: 'new-campaign' },
+    // { name: 'Agenda', icon: Calendar, path: 'schedule' },
+    // { name: 'Mensagens', icon: MessageSquare, path: 'messages' },
     { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
     { name: 'Meu Plano', icon: Crown, path: 'plan' },
     { name: 'Configurações', icon: Settings, path: 'settings' }
@@ -95,7 +95,12 @@ export function WebSite() {
         <NotificationProvider>
           {/* Profile Completion Alert */}
           {showProfileAlert && (
-              <ProfileCompletionAlert onClose={() => setShowProfileAlert(false)} />
+              <div className="fixed inset-0 z-[100]">
+                <ProfileCompletionAlert
+                    onClose={() => setShowProfileAlert(false)}
+                    className="z-[100]" // Adicione esta prop se necessário
+                />
+              </div>
           )}
 
           {/* Decorative Background */}
@@ -222,9 +227,11 @@ export function WebSite() {
                 }`}
                 onClick={() => setShowMobileMenu(false)}
             />
-            <div className={`relative flex-1 flex flex-col w-[85%] max-w-sm bg-white/95 backdrop-blur-sm focus:outline-none shadow-2xl transform transition-all duration-500 ease-out ${
-                showMobileMenu ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
-            }`}>
+            <div
+                className={`relative flex flex-col w-[85%] max-w-sm h-screen bg-white/95 backdrop-blur-sm focus:outline-none shadow-2xl transform transition-all duration-500 ease-out ${
+                    showMobileMenu ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
+                }`}
+            >
               <div className="absolute top-0 right-0 -mr-12 pt-4">
                 <button
                     className="ml-1 flex items-center justify-center h-12 w-12 rounded-xl bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -234,22 +241,17 @@ export function WebSite() {
                   <X className="h-6 w-6 text-white" />
                 </button>
               </div>
-              <div className="flex-1 h-[calc(100vh-8rem)] pt-6 pb-4 overflow-y-auto scrollbar-none overscroll-contain">
-                <div className="flex-shrink-0 flex items-center px-6">
-                  <div className="flex items-center space-x-3">
-                    <img width={40} alt="Logo" src={logoRetangulo}/>
-                    <img width={150} alt="Logo" src={logoLetter}/>
-                  </div>
+              <div className="flex-1 overflow-y-auto scrollbar-none overscroll-contain pt-6 pb-4 px-6">
+                <div className="flex items-center space-x-3">
+                  <img width={40} alt="Logo" src={logoRetangulo} />
+                  <img width={150} alt="Logo" src={logoLetter} />
                 </div>
-                <nav className="mt-8 space-y-2.5 px-6">
+                <nav className="mt-8 space-y-2.5">
                   <div className="pb-20">
                     {[
-                      {name: 'Minha Página', icon: UserCircle, path: 'profile'},
+                      { name: 'Minha Página', icon: UserCircle, path: 'profile' },
                       { name: 'Campanhas', icon: Users, path: 'campaigns' },
                       { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
-                      { name: 'Nova Campanha', icon: PlusCircle, path: 'new-campaign' },
-                      { name: 'Agenda', icon: Calendar, path: 'schedule' },
-                      { name: 'Mensagens', icon: MessageSquare, path: 'messages' },
                       { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
                       { name: 'Meu Plano', icon: Crown, path: 'plan' },
                       { name: 'Configurações', icon: Settings, path: 'settings' }
@@ -274,15 +276,16 @@ export function WebSite() {
                   </div>
                 </nav>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 flex-shrink-0 flex border-t border-gray-200/80 p-6 bg-gradient-to-b from-transparent to-white/80">
+              <div className="absolute bottom-0 left-0 right-0 flex border-t border-gray-200/80 p-6 bg-gradient-to-b from-transparent to-white/80">
                 <div className="flex items-center">
-                  <div>
-                    <img
-                        className="inline-block h-12 w-12 rounded-full ring-2 ring-white shadow-lg transform transition-transform duration-200 hover:scale-105"
-                        src={user?.imageUrl || 'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'}
-                        alt=""
-                    />
-                  </div>
+                  <img
+                      className="inline-block h-12 w-12 rounded-full ring-2 ring-white shadow-lg transform transition-transform duration-200 hover:scale-105"
+                      src={
+                          user?.imageUrl ||
+                          'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'
+                      }
+                      alt=""
+                  />
                   <div className="ml-4">
                     <p className="text-base font-medium text-gray-700">{user?.firstName || ''}</p>
                     <button
@@ -298,6 +301,7 @@ export function WebSite() {
               </div>
             </div>
           </div>
+
 
           <div className="hidden lg:flex lg:flex-shrink-0">
             {/* Sidebar */}
