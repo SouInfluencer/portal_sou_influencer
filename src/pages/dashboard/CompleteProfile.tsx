@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Building2, Home, Ban as Bank, ChevronRight, ArrowLeft, AlertCircle } from 'lucide-react';
+import {
+  User,
+  Building2,
+  Home,
+  Ban as Bank,
+  ChevronRight,
+  ArrowLeft,
+  AlertCircle,
+  FilePlus,
+  UserCircle, Briefcase, MapPin, BanknoteIcon, PiggyBankIcon
+} from 'lucide-react';
 import InputMask from 'react-input-mask';
 
 interface FormData {
@@ -75,11 +85,11 @@ export function CompleteProfile() {
   const [loading, setLoading] = useState(false);
 
   const steps = [
-    { id: 1, title: 'Tipo de Cadastro', icon: User },
+    { id: 1, title: 'Tipo de Cadastro', icon: FilePlus },
     { id: 2, title: 'Dados Pessoais', icon: User },
-    { id: 3, title: 'Dados Empresariais', icon: Building2, showIf: () => formData.type === 'pj' },
-    { id: 4, title: 'Endereço', icon: Home },
-    { id: 5, title: 'Dados Bancários', icon: Bank }
+    { id: 3, title: 'Dados Empresariais', icon: Briefcase, showIf: () => formData.type === 'pj' },
+    { id: 4, title: 'Endereço', icon: MapPin },
+    { id: 5, title: 'Dados Bancários', icon: BanknoteIcon }
   ].filter(step => !step.showIf || step.showIf());
 
   const validateStep = (step: number): boolean => {
@@ -641,49 +651,47 @@ export function CompleteProfile() {
 
   return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
-        <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          {/* Progress Steps */}
-          <nav aria-label="Progress" className="mb-12">
-            <ol role="list" className="flex items-center justify-between space-x-4 sm:space-x-8">
+        <div className="max-w-4xl mx-auto py-6 px-4 sm:py-10 sm:px-6 lg:px-8">
+          {/* Progress Steps - Versão Super Responsiva */}
+          <nav aria-label="Progresso" className="mb-6 sm:mb-10">
+            <ol className="flex items-center justify-between">
               {steps.map((step, stepIdx) => (
-                  <li key={step.id} className="relative flex items-center">
+                  <li key={step.id} className="relative flex-1 flex items-center">
+                    {/* Linha de progresso */}
                     <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                      <div className={`h-[2px] w-full ${stepIdx < currentStep - 1 ? 'bg-blue-600' : 'bg-gray-200'}`}/>
+                    </div>
+
+                    {/* Ícone e Label */}
+                    <div className="relative group flex flex-col items-center w-full">
                       <div
-                          className={`h-0.5 w-full ${stepIdx < currentStep - 1 ? 'bg-blue-600' : 'bg-gray-200'}`}
-                      />
-                    </div>
-                    <div
-                        className={`relative flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                            stepIdx < currentStep - 1
-                                ? 'border-blue-600 bg-blue-600'
-                                : stepIdx === currentStep - 1
-                                    ? 'border-blue-600 bg-white'
-                                    : 'border-gray-300 bg-white'
-                        }`}
-                    >
-                      <step.icon
-                          className={`h-6 w-6 transition-all duration-300 ${
-                              stepIdx < currentStep - 1
-                                  ? 'text-white'
-                                  : stepIdx === currentStep - 1
-                                      ? 'text-blue-600'
-                                      : 'text-gray-500'
-                          }`}
-                      />
-                      <span className="sr-only">{step.title}</span>
-                    </div>
-                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-              <span
-                  className={`text-xs font-medium transition-all duration-300 ${
-                      stepIdx < currentStep - 1
-                          ? 'text-blue-600'
-                          : stepIdx === currentStep - 1
-                              ? 'text-blue-600'
-                              : 'text-gray-500'
-                  }`}
-              >
-                {step.title}
-              </span>
+                          className={`flex items-center justify-center rounded-full border-2 transition-all duration-200
+                  ${stepIdx < currentStep - 1 ? 'border-blue-600 bg-blue-600' :
+                              stepIdx === currentStep - 1 ? 'border-blue-600 bg-white shadow-step-active' :
+                                  'border-gray-200 bg-white'}
+                  h-8 w-8 xs:h-9 xs:w-9 sm:h-11 sm:w-11`}
+                      >
+                        <step.icon
+                            className={`${stepIdx < currentStep - 1 ? 'text-white' :
+                                stepIdx === currentStep - 1 ? 'text-blue-600' :
+                                    'text-gray-400'}
+                    h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-5 sm:w-5`}
+                        />
+                      </div>
+
+                      {/* Label Adaptativo */}
+                      <div className="absolute -bottom-[22px] sm:-bottom-7 w-full text-center px-1">
+                <span
+                    className={`font-medium transition-all
+                    ${stepIdx === currentStep - 1 ? 'text-blue-600 font-semibold' : 'text-gray-500'}
+                    text-[10px] xs:text-[11px] sm:text-xs
+                    ${stepIdx === currentStep - 1 ? 'scale-100 opacity-100' : 'scale-90 opacity-0 sm:opacity-100'}
+                    truncate inline-block max-w-full`}
+                    title={step.title}
+                >
+                  {step.title}
+                </span>
+                      </div>
                     </div>
                   </li>
               ))}
