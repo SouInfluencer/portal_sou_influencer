@@ -19,7 +19,7 @@ import {
   Menu,
   X,
   Sparkles,
-  UserRoundPlusIcon, Edit
+  UserRoundPlusIcon, Edit, Home, Target, Star, CheckCircle
 } from 'lucide-react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationProvider } from '../components/Notifications/NotificationProvider';
@@ -101,16 +101,17 @@ export function WebSite() {
   }, []);
 
   const navigationItems = [
-    { name: 'Minha Página', icon: UserCircle, path: 'profile' },
-    { name: 'Campanhas', icon: Users, path: 'campaigns' },
+    { name: 'Minha Página', icon: Home, path: 'profile' },
+    { name: 'Campanhas', icon: Target, path: 'campaigns' },
     { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
+    { name: 'Influencers', icon: Users, path: 'influencers' },
     { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
     { name: 'Meu Plano', icon: Crown, path: 'plan' },
     ...(user?.completeRegistration
         ? [{ name: 'Configurações', icon: Settings, path: 'settings' }]
         : []),
     ...(!user?.completeRegistration
-        ? [{ name: 'Completar Cadastro', icon: Edit, path: 'complete-profile' }]
+        ? [{ name: 'Completar Cadastro', icon: CheckCircle, path: 'complete-profile' }]
         : []),
   ];
 
@@ -273,12 +274,18 @@ export function WebSite() {
                 <nav className="mt-8 space-y-2.5">
                   <div className="pb-20">
                     {[
-                      { name: 'Minha Página', icon: UserCircle, path: 'profile' },
-                      { name: 'Campanhas', icon: Users, path: 'campaigns' },
+                      { name: 'Minha Página', icon: Home, path: 'profile' },
+                      { name: 'Campanhas', icon: Target, path: 'campaigns' },
                       { name: 'Redes Sociais', icon: Share2, path: 'social-networks' },
+                      { name: 'Influencers', icon: Users, path: 'influencers' },
                       { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
                       { name: 'Meu Plano', icon: Crown, path: 'plan' },
-                      { name: 'Configurações', icon: Settings, path: 'settings' }
+                      ...(user?.completeRegistration
+                          ? [{ name: 'Configurações', icon: Settings, path: 'settings' }]
+                          : []),
+                      ...(!user?.completeRegistration
+                          ? [{ name: 'Completar Cadastro', icon: CheckCircle, path: 'complete-profile' }]
+                          : []),
                     ].map((item) => (
                         <button
                             key={item.path}
@@ -365,7 +372,7 @@ export function WebSite() {
                         } group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-sm relative overflow-hidden`}
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-100/0 via-blue-100/30 to-blue-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                      <UserCircle className="mr-3 flex-shrink-0 h-5 w-5" />
+                      <Home className="mr-3 flex-shrink-0 h-5 w-5" />
                       Minha Página
                     </button>
                     {navigationItems.slice(1).map((item) => (
@@ -416,6 +423,7 @@ export function WebSite() {
               )}
 
               <Routes>
+                <Route path="complete-profile" element={<CompleteProfile/>} />
                 <Route path="complete-profile" element={<CompleteProfile/>} />
                 <Route path="notifications" element={<Notifications/>} />
                 <Route path="social-networks/:id/metrics" element={<NewCampaign onBack={() => navigate('/dashboard/profile')} />} />
