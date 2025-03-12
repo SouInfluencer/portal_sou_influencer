@@ -162,7 +162,7 @@ function InfluencerLanding() {
           {
             duration: 5000,
             style: {
-              background: 'linear-gradient(to right, #7c3aed, #db2777)',
+              background: 'linear-gradient(to right, #2563eb, #2563eb )',
               color: 'white',
             },
             icon: '👋'

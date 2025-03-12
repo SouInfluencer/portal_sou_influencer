@@ -22,21 +22,20 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import type { WaitlistFormData } from './types/waitlist';
-import { PostValueCalculator } from './components/PostValueCalculator';
-import { WaitlistForm } from './components/WaitlistForm';
 import { useAnalytics } from './hooks/useAnalytics';
 import { SuccessModal } from './components/SuccessModal';
 import { useCommunityStats } from './hooks/useCommunityStats';
 import {useNavigate} from "react-router-dom";
 import {PostAdvertiserCalculator} from "./components/PostAdvertiserCalculator.tsx";
+import {WaitlistInfluencerForm} from "./components/WaitlistInfluencerForm.tsx";
 
 function AdvertiserLanding() {
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   const { trackButtonClick, trackFormSubmit, trackError, logEvent } = useAnalytics();
-  const { totalMembers, recentMembers, isLoading, totalFollowers} = useCommunityStats();
-  const [userType, setUserType] = useState<'influencer' | 'brand'>('influencer');
+  const { totalAdvertisers, recentMembers, isLoading, totalFollowers} = useCommunityStats();
+  const [userType, setUserType] = useState<'influencer' | 'brand'>('brand');
   const [followersCount, setFollowersCount] = useState<number | ''>(1000);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -45,7 +44,7 @@ function AdvertiserLanding() {
   const [formData, setFormData] = useState<WaitlistFormData>({
     full_name: '',
     email: '',
-    profile_type: 'influencer',
+    profile_type: 'brand',
     influencer_profile: {
       followers_count: 0,
       instagram_handle: '',
@@ -139,14 +138,14 @@ function AdvertiserLanding() {
             full_name: formData.full_name,
             email: formData.email,
             profile_type: formData.profile_type,
-            instagram_handle: userType === 'influencer' ? instagramHandle : null
+            instagram_handle: userType === 'brand' ? instagramHandle : null
           }])
           .select()
           .single();
 
       if (waitlistError) throw waitlistError;
 
-      if (formData.profile_type === 'influencer' && formData.influencer_profile) {
+      if (formData.profile_type === 'brand' && formData.influencer_profile) {
         const { error: profileError } = await supabase
             .from('influencer_profiles')
             .insert([{
@@ -174,7 +173,7 @@ function AdvertiserLanding() {
           <div className="flex flex-col gap-1">
             <span className="font-medium">Bem-vindo à comunidade! 🎉</span>
             <span className="text-sm">
-            {formData.profile_type === 'influencer'
+            {formData.profile_type === 'brand'
                 ? 'Sua jornada como criador de conteúdo começa aqui!'
                 : 'Sua marca está pronta para encontrar os melhores criadores!'}
           </span>
@@ -182,7 +181,7 @@ function AdvertiserLanding() {
           {
             duration: 5000,
             style: {
-              background: 'linear-gradient(to right, #7c3aed, #db2777)',
+              background: 'linear-gradient(to right, #2563eb, #2563eb)',
               color: 'white',
             },
             icon: '👋'
@@ -502,7 +501,7 @@ function AdvertiserLanding() {
                 </p>
               </p>
               <button
-                  onClick={() => handleCTAClick('influencer')}
+                  onClick={() => handleCTAClick('brand')}
                   className="w-full md:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center md:justify-start"
               >
                 Começar agora
@@ -680,7 +679,7 @@ function AdvertiserLanding() {
                         <div>
                           <p className="text-sm text-gray-500 mb-1">Total na lista de espera</p>
                           <p className="text-2xl font-bold text-blue-600">
-                            {isLoading ? '...' : `${totalMembers.toLocaleString('pt-BR')}+`}
+                            {isLoading ? '...' : `${totalAdvertisers.toLocaleString('pt-BR')}+`}
                           </p>
                         </div>
                       </div>
@@ -704,13 +703,13 @@ function AdvertiserLanding() {
                   <div className="space-y-4 mb-8">
                     <div className="flex items-center justify-between text-sm font-medium text-blue-600">
                       <span>Progresso da lista</span>
-                      <span>{500 - totalMembers} vagas restantes</span>
+                      <span>{500 - totalAdvertisers} vagas restantes</span>
                     </div>
 
                     <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden shadow-inner">
                       <div
                           className="h-full bg-gradient-to-r from-blue-500 to-blue-700 transition-all duration-500 ease-out"
-                          style={{width: `${Math.min((totalMembers / 500) * 100, 100)}%`}}
+                          style={{width: `${Math.min((totalAdvertisers / 500) * 100, 100)}%`}}
                       />
                     </div>
                   </div>
@@ -731,9 +730,9 @@ function AdvertiserLanding() {
                             {member.full_name.charAt(0).toUpperCase()}
                           </div>
                       ))}
-                      {totalMembers > recentMembers.length && (
+                      {totalAdvertisers > recentMembers.length && (
                           <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-50 flex items-center justify-center text-sm font-medium text-blue-600 shadow-md hover:scale-110 transition-transform duration-300">
-                            +{totalMembers - recentMembers.length}
+                            +{totalAdvertisers - recentMembers.length}
                           </div>
                       )}
                     </div>
@@ -741,7 +740,7 @@ function AdvertiserLanding() {
                 </div>
 
                 <div className="space-y-6">
-                  <WaitlistForm
+                  <WaitlistInfluencerForm
                       userType={userType}
                       formData={formData}
                       handleInputChange={handleInputChange}

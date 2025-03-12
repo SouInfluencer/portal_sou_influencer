@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import React from 'react';
-import {supabase} from "../../../lib/supabase.ts";
+import { supabase } from "../../../lib/supabase.ts";
 
 interface Member {
   id: string;
@@ -12,48 +12,53 @@ interface Member {
 
 export function useCommunityStats() {
   const [totalMembers, setTotalMembers] = useState(0);
+  const [totalAdvertisers, setTotalAdvertisers] = useState(0);
   const [totalFollowers, setTotalFollowers] = useState(0);
   const [recentMembers, setRecentMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchCommunityStats() {
-      try {
-        // Get total count of members
-        const { count } = await supabase
+  const fetchCommunityStats = async () => {
+    try {
+      // Get total count of members
+      const { count: totalMembers } = await supabase
           .from('waitlist')
-          .select('*', { count: 'exact', head: true });
+          .select('*', { count: 'exact', head: true })
+          .eq('profile_type', 'influencer');
+      setTotalMembers(totalMembers || 0);
 
-        setTotalMembers(count || 0);
+      const { count: totalAdvertisers } = await supabase
+          .from('waitlist')
+          .select('*', { count: 'exact', head: true })
+          .eq('profile_type', 'brand');
+      setTotalAdvertisers(totalAdvertisers || 0);
 
-        // Get recent members
-        const { data: members } = await supabase
+      // Get recent members
+      const { data: members } = await supabase
           .from('waitlist')
           .select('id, full_name, profile_type, created_at')
           .order('created_at', { ascending: false })
           .limit(6);
+      setRecentMembers(members || []);
 
-        setRecentMembers(members || []);
+      // Get total followers count
+      const { data: followersData } = await supabase
+          .from('influencer_profiles')
+          .select('followers_count', { count: 'exact' })
+          .eq('verified', true);
 
-        // Get total followers count
-        const { data: followersData } = await supabase
-            .from('influencer_profiles')
-            .select('followers_count', { count: 'exact' })
-            .eq('verified', true);
-
-        const totalFollowers = followersData?.reduce(
-            (sum, follower) => sum + (follower.followers_count || 0),
-            0
-        );
-
-        setTotalFollowers(totalFollowers || 0);
-      } catch (error) {
-        console.error('Error fetching community stats:', error);
-      } finally {
-        setIsLoading(false);
-      }
+      const totalFollowers = followersData?.reduce(
+          (sum, follower) => sum + (follower.followers_count || 0),
+          0
+      );
+      setTotalFollowers(totalFollowers || 0);
+    } catch (error) {
+      console.error('Error fetching community stats:', error);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchCommunityStats();
 
     // Set up real-time subscription for updates
@@ -94,6 +99,7 @@ export function useCommunityStats() {
 
   return {
     totalMembers,
+    totalAdvertisers,
     totalFollowers,
     recentMembers,
     isLoading

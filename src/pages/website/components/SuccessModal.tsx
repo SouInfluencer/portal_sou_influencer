@@ -51,8 +51,8 @@ export function SuccessModal({ isOpen, onClose, userName }: SuccessModalProps) {
         </button>
 
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Check className="w-10 h-10 text-purple-600" />
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Check className="w-10 h-10 text-blue-600" />
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
             Parabéns, {userName}!
@@ -66,7 +66,7 @@ export function SuccessModal({ isOpen, onClose, userName }: SuccessModalProps) {
           {typeof navigator.share === 'function' && (
             <button
               onClick={handleShare}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               title="Compartilhar ou copiar link"
             >
               <Share2 className="w-5 h-5" />
@@ -75,14 +75,14 @@ export function SuccessModal({ isOpen, onClose, userName }: SuccessModalProps) {
           )}
 
           {showShareError && (
-            <p className="text-sm text-purple-600 text-center animate-fade-in">
+            <p className="text-sm text-blue-600 text-center animate-fade-in">
               Não foi possível compartilhar diretamente. Link copiado para a área de transferência!
             </p>
           )}
 
           <button
             onClick={handleCopy}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white border-2 border-purple-200 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white border-2 border-blue-200 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
           >
             {copied ? (
               <>
