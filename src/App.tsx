@@ -7,16 +7,16 @@ import { ResetPassword } from './pages/onboarding/ResetPassword.tsx';
 import { CompleteProfile } from './pages/dashboard/CompleteProfile.tsx';
 import { ForgotPassword } from './pages/onboarding/ForgotPassword.tsx';
 import { WebSite } from './pages/WebSite.tsx';
-import { InfluencerLanding } from './pages/website/InfluencerLanding.tsx';
 import { AdvertiserLanding } from './pages/website/AdvertiserLanding.tsx';
 import { CampaignDetails } from './pages/dashboard/CampaignDetails';
-import { LandingPage } from './pages/website/LandingPage.tsx';
 import { SocialMetrics } from './pages/dashboard/profile/SocialMetrics';
 import { Notifications } from './pages/dashboard/Notifications';
 import { authService } from './services/authService.ts';
 import {Login} from "./pages/onboarding/Login.tsx";
 import {Terms} from "./pages/website/Terms.tsx";
 import {ConfirmeEmail} from "./pages/onboarding/ConfirmeEmail.tsx";
+import InfluencerLanding from "./pages/website/InfluencerLanding.tsx";
+import LandingPage from "./pages/website/LandingPage.tsx";
 
 function App() {
   const location = useLocation();
