@@ -26,7 +26,10 @@ export function PostValueCalculator({ followersCount }: PostValueCalculatorProps
 
   const calculateReelsValue = (followers: number | '') => {
     if (followers === '') return '';
-    const baseValue = (followers * 0.035) * 1.5; // Reels geralmente valem 150% do post
+    const value = (followers * 0.035)
+    const result = (followers * 0.035) * 1.5;// Reels geralmente valem 150% do post
+    const baseValue = value + result;
+
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'
@@ -66,7 +69,7 @@ export function PostValueCalculator({ followersCount }: PostValueCalculatorProps
         <div className="p-4 bg-white/80 backdrop-blur rounded-lg border border-purple-100">
           <div className="flex justify-between items-center mb-2">
             <p className="text-sm font-medium text-purple-700">Story</p>
-            <span className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded-full">70% do post</span>
+            <span className="text-xs text-purple-600 bg-purple-50 px-2 py-1 rounded-full">-30% do post</span>
           </div>
           <p className="text-2xl font-bold text-purple-800">{calculateStoryValue(followersCount)}</p>
         </div>
@@ -74,7 +77,7 @@ export function PostValueCalculator({ followersCount }: PostValueCalculatorProps
         <div className="p-4 bg-white/80 backdrop-blur rounded-lg border border-indigo-100">
           <div className="flex justify-between items-center mb-2">
             <p className="text-sm font-medium text-indigo-700">Reels</p>
-            <span className="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">150% do post</span>
+            <span className="text-xs text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">+150% do post</span>
           </div>
           <p className="text-2xl font-bold text-indigo-800">{calculateReelsValue(followersCount)}</p>
         </div>

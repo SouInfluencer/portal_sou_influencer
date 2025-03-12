@@ -7,7 +7,6 @@ import { ResetPassword } from './pages/onboarding/ResetPassword.tsx';
 import { CompleteProfile } from './pages/dashboard/CompleteProfile.tsx';
 import { ForgotPassword } from './pages/onboarding/ForgotPassword.tsx';
 import { WebSite } from './pages/WebSite.tsx';
-import { AdvertiserLanding } from './pages/website/AdvertiserLanding.tsx';
 import { CampaignDetails } from './pages/dashboard/CampaignDetails';
 import { SocialMetrics } from './pages/dashboard/profile/SocialMetrics';
 import { Notifications } from './pages/dashboard/Notifications';
@@ -17,6 +16,7 @@ import {Terms} from "./pages/website/Terms.tsx";
 import {ConfirmeEmail} from "./pages/onboarding/ConfirmeEmail.tsx";
 import InfluencerLanding from "./pages/website/InfluencerLanding.tsx";
 import LandingPage from "./pages/website/LandingPage.tsx";
+import AdvertiserLanding from "./pages/website/AdvertiserLanding.tsx";
 
 function App() {
   const location = useLocation();
