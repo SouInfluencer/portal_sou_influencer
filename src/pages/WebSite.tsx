@@ -115,14 +115,14 @@ export function WebSite() {
       <div className="h-screen flex overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50/30 relative">
         <NotificationProvider>
           {/* Profile Completion Alert */}
-          {showProfileAlert && (
-              <div className="fixed inset-0 z-[100]">
-                <ProfileCompletionAlert
-                    onClose={() => setShowProfileAlert(false)}
-                    className="z-[100]" // Adicione esta prop se necessário
-                />
-              </div>
-          )}
+          {/*{showProfileAlert && (*/}
+          {/*    <div className="fixed inset-0 z-[100]">*/}
+          {/*      <ProfileCompletionAlert*/}
+          {/*          onClose={() => setShowProfileAlert(false)}*/}
+          {/*          className="z-[100]" // Adicione esta prop se necessário*/}
+          {/*      />*/}
+          {/*    </div>*/}
+          {/*)}*/}
 
           {/* Decorative Background */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
