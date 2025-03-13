@@ -108,7 +108,7 @@ export function WebSite() {
     { name: 'Influencers', icon: Users, path: 'influencers' },
     { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
     { name: 'Meu Plano', icon: Crown, path: 'plan' },
-    { name: 'Meu Perfil', icon: Settings, path: 'settings' }
+    { name: 'Minha Conta', icon: UserCircle, path: 'settings' }
   ];
 
   return (
@@ -276,7 +276,7 @@ export function WebSite() {
                       { name: 'Influencers', icon: Users, path: 'influencers' },
                       { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
                       { name: 'Meu Plano', icon: Crown, path: 'plan' },
-                      { name: 'Meu Perfil', icon: Settings, path: 'settings' }
+                      { name: 'Minha Conta', icon: UserCircle, path: 'settings' }
                     ].map((item) => (
                         <button
                             key={item.path}
