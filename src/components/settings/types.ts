@@ -1,6 +1,3 @@
-/**
- * Common form data interface for settings
- */
 export interface SettingsFormData {
   name: string;
   email: string;
@@ -34,24 +31,15 @@ export interface SettingsFormData {
   };
 }
 
-/**
- * Form errors interface
- */
 export interface FormErrors {
   [key: string]: string;
 }
 
-/**
- * Props for notification settings
- */
 export interface NotificationSettingsProps {
   formData: SettingsFormData;
   onNotificationChange: (type: 'email' | 'push', setting: string) => void;
 }
 
-/**
- * Props for profile settings
- */
 export interface ProfileSettingsProps {
   formData: SettingsFormData;
   formErrors: FormErrors;
@@ -61,16 +49,10 @@ export interface ProfileSettingsProps {
   formSuccess: string | null;
 }
 
-/**
- * Props for security settings
- */
 export interface SecuritySettingsProps {
   onDeleteAccount: () => void;
 }
 
-/**
- * Props for settings tab
- */
 export interface SettingsTabProps {
   id: string;
   label: string;

@@ -1,54 +1,82 @@
-import React from 'react';
-import { Instagram, Youtube, Video, Share2, Plus, ChevronRight, Users, Heart, BarChart2, Globe2, Settings2, Trash2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Instagram, Youtube, Video, Share2, Plus, ChevronRight, Users, Heart, BarChart2, Globe2, Settings2, Trash2, AlertTriangle } from 'lucide-react';
 import { AddSocialNetwork } from './AddSocialNetwork';
 import { useNavigate } from 'react-router-dom';
+import { socialNetworksService } from '../../services/socialNetworksService';
+import { toast } from 'react-hot-toast';
+import type { SocialAccount } from '../../types';
 
 export function SocialNetworks() {
   const navigate = useNavigate();
-  const [showAddNetwork, setShowAddNetwork] = React.useState(false);
-  const [showDisconnectConfirm, setShowDisconnectConfirm] = React.useState<string | null>(null);
-  
-  const connectedNetworks = [
-    {
-      id: '1',
-      platform: 'Instagram',
-      username: '@joaosilva',
-      followers: 150000,
-      engagement: 4.8,
-      icon: Instagram,
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-50',
-      metrics: {
-        reach: '45K',
-        engagement: '4.8%',
-        interactions: '2.3K'
-      }
-    },
-    {
-      id: '2',
-      platform: 'YouTube',
-      username: 'João Silva Tech',
-      followers: 250000,
-      engagement: 3.9,
-      icon: Youtube,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      metrics: {
-        reach: '85K',
-        engagement: '3.9%',
-        interactions: '4.1K'
-      }
-    }
-  ];
+  const [showAddNetwork, setShowAddNetwork] = useState(false);
+  const [showDisconnectConfirm, setShowDisconnectConfirm] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [connectedNetworks, setConnectedNetworks] = useState<SocialAccount[]>([]);
 
-  const handleDisconnect = (networkId: string) => {
-    // TODO: Implement network disconnection
-    console.log('Disconnecting network:', networkId);
-    setShowDisconnectConfirm(null);
+  useEffect(() => {
+    fetchConnectedNetworks();
+  }, []);
+
+  const fetchConnectedNetworks = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const networks = await socialNetworksService.getConnectedAccounts();
+      setConnectedNetworks(networks);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao carregar redes sociais');
+      toast.error('Erro ao carregar redes sociais conectadas');
+      setConnectedNetworks([]); // Reset to empty state on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDisconnect = async (platform: SocialAccount['platform']) => {
+    try {
+      setLoading(true);
+      await socialNetworksService.disconnectAccount(platform);
+      setConnectedNetworks(prev => prev.filter(network => network.platform !== platform));
+      toast.success('Rede social desconectada com sucesso');
+      setShowDisconnectConfirm(null);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao desconectar rede social');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (showAddNetwork) {
     return <AddSocialNetwork onBack={() => setShowAddNetwork(false)} />;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-red-50 p-6 rounded-lg max-w-lg w-full mx-4">
+          <div className="flex items-center mb-4">
+            <AlertTriangle className="h-6 w-6 text-red-500 mr-3" />
+            <h3 className="text-lg font-medium text-red-800">Erro ao carregar redes sociais</h3>
+          </div>
+          <p className="text-red-700 mb-4">{error}</p>
+          <button
+            onClick={fetchConnectedNetworks}
+            className="w-full bg-red-100 text-red-700 py-2 px-4 rounded-lg hover:bg-red-200 transition-colors"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -96,14 +124,20 @@ export function SocialNetworks() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {connectedNetworks.map((network) => (
             <div
-              key={network.id}
+              key={network.platform}
               className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-3">
-                    <div className={`p-3 rounded-xl ${network.bgColor}`}>
-                      <network.icon className={`h-6 w-6 ${network.color}`} />
+                    <div className={`p-3 rounded-xl ${
+                      network.platform === 'instagram' ? 'bg-pink-50' :
+                      network.platform === 'youtube' ? 'bg-red-50' :
+                      'bg-gray-50'
+                    }`}>
+                      {network.platform === 'instagram' && <Instagram className="h-6 w-6 text-pink-600" />}
+                      {network.platform === 'youtube' && <Youtube className="h-6 w-6 text-red-600" />}
+                      {network.platform === 'tiktok' && <Video className="h-6 w-6" />}
                     </div>
                     <div>
                       <h3 className="text-lg font-medium text-gray-900">{network.platform}</h3>
@@ -112,7 +146,7 @@ export function SocialNetworks() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <button 
-                      onClick={() => setShowDisconnectConfirm(network.id)}
+                      onClick={() => setShowDisconnectConfirm(network.platform)}
                       className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors duration-200"
                     >
                       <Settings2 className="h-5 w-5" />
@@ -123,24 +157,24 @@ export function SocialNetworks() {
                 <div className="grid grid-cols-3 gap-4 py-4 border-y border-gray-100">
                   <div className="text-center">
                     <Users className="h-5 w-5 text-gray-400 mx-auto mb-1" />
-                    <p className="text-sm font-medium text-gray-900">{network.metrics.reach}</p>
-                    <p className="text-xs text-gray-500">Alcance</p>
+                    <p className="text-sm font-medium text-gray-900">{network.followers.toLocaleString()}</p>
+                    <p className="text-xs text-gray-500">Seguidores</p>
                   </div>
                   <div className="text-center">
                     <Heart className="h-5 w-5 text-gray-400 mx-auto mb-1" />
-                    <p className="text-sm font-medium text-gray-900">{network.metrics.engagement}</p>
+                    <p className="text-sm font-medium text-gray-900">{network.engagement}%</p>
                     <p className="text-xs text-gray-500">Engajamento</p>
                   </div>
                   <div className="text-center">
                     <Globe2 className="h-5 w-5 text-gray-400 mx-auto mb-1" />
-                    <p className="text-sm font-medium text-gray-900">{network.metrics.interactions}</p>
-                    <p className="text-xs text-gray-500">Interações</p>
+                    <p className="text-sm font-medium text-gray-900">{network.metrics?.reachRate || '0'}%</p>
+                    <p className="text-xs text-gray-500">Alcance</p>
                   </div>
                 </div>
 
                 <div className="mt-6 flex justify-end">
                   <button 
-                    onClick={() => navigate(`/dashboard/social-networks/${network.id}/metrics`)}
+                    onClick={() => navigate(`/dashboard/social-networks/${network.platform}/metrics`)}
                     className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
                   >
                     Ver Métricas
@@ -170,7 +204,8 @@ export function SocialNetworks() {
                   </h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Tem certeza que deseja desconectar esta rede social? Você precisará reconectar para gerenciar campanhas nesta plataforma.
+                      Tem certeza que deseja desconectar esta rede social? 
+                      Você precisará reconectar para gerenciar campanhas nesta plataforma.
                     </p>
                   </div>
                 </div>
@@ -179,7 +214,10 @@ export function SocialNetworks() {
                 <button
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => handleDisconnect(showDisconnectConfirm)}
+                  onClick={() => {
+                    handleDisconnect(showDisconnectConfirm as SocialAccount['platform']);
+                    setShowDisconnectConfirm(null);
+                  }}
                 >
                   Desconectar
                 </button>

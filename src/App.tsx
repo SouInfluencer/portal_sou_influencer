@@ -6,7 +6,7 @@ import { Register } from './pages/onboarding/Register.tsx';
 import { ResetPassword } from './pages/onboarding/ResetPassword.tsx';
 import { CompleteProfile } from './pages/dashboard/CompleteProfile.tsx';
 import { ForgotPassword } from './pages/onboarding/ForgotPassword.tsx';
-import { WebSite } from './pages/website/WebSite.tsx';
+import { WebSite } from './pages/WebSite.tsx';
 import { CampaignDetails } from './pages/dashboard/CampaignDetails';
 import { SocialMetrics } from './pages/dashboard/profile/SocialMetrics';
 import { Notifications } from './pages/dashboard/Notifications';

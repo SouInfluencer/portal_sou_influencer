@@ -12,7 +12,7 @@ import {useNavigate} from "react-router-dom";
 
 function InfluencerLanding() {
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState({ dia: 0, hora: 0, minuto: 0, segundo: 0 });
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   const { trackButtonClick, trackFormSubmit, trackError, logEvent } = useAnalytics();
   const { totalMembers, recentMembers, isLoading, totalFollowers} = useCommunityStats();
@@ -48,7 +48,7 @@ function InfluencerLanding() {
   ];
 
   const calculateTimeLeft = () => {
-    const targetDate = new Date('2025-07-01');
+    const targetDate = new Date('2025-08-16'); // Target launch date
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 
@@ -77,7 +77,7 @@ function InfluencerLanding() {
   useEffect(() => {
     const timer: NodeJS.Timeout = setInterval(() => {
       const { dia, hora, minuto, segundo } = calculateTimeLeft();
-      setTimeLeft({ dia: dia, hora: hora, minuto: minuto, segundo: segundo });
+      setTimeLeft({ days: dia, hours: hora, minutes: minuto, seconds: segundo });
     }, 1000);
     return () => clearInterval(timer);
   }, []);
@@ -291,7 +291,7 @@ function InfluencerLanding() {
 
   return (
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-        <Toaster position="top-right"/>
+        <Toaster position="top-right" />
         <SuccessModal
             isOpen={showSuccessModal}
             onClose={() => setShowSuccessModal(false)}
@@ -299,7 +299,7 @@ function InfluencerLanding() {
         />
 
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/80 z-10"/>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/80 z-10" />
           <div
               className="absolute inset-0 z-0 bg-cover bg-center"
               style={{
@@ -440,7 +440,7 @@ function InfluencerLanding() {
                   </div>
                 </div>
                 <div>
-                  <PostValueCalculator followersCount={followersCount || 0}/>
+                  <PostValueCalculator followersCount={followersCount || 0} />
                 </div>
               </div>
             </div>
@@ -449,16 +449,15 @@ function InfluencerLanding() {
 
         <section className="container mx-auto px-4 mb-20">
           <div className="grid md:grid-cols-2 gap-8">
-            <div
-                className="bg-white rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="relative h-48 mb-6 rounded-xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-blue-800/80 z-10"/>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-blue-800/80 z-10" />
                 <img
                     src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
                     alt="Influencer creating content"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
-                <Users className="w-12 h-12 text-white absolute bottom-4 left-4 z-20"/>
+                <Users className="w-12 h-12 text-white absolute bottom-4 left-4 z-20" />
               </div>
               <h2 className="text-xl md:text-2xl font-bold mb-4">Para Influenciadores</h2>
               <p className="text-gray-600 mb-6">
@@ -485,19 +484,18 @@ function InfluencerLanding() {
                   className="w-full md:w-auto bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center md:justify-start"
               >
                 Começar agora
-                <ChevronRight className="w-4 h-4 ml-2"/>
+                <ChevronRight className="w-4 h-4 ml-2" />
               </button>
             </div>
-            <div
-                className="bg-white rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="relative h-48 mb-6 rounded-xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/80 to-purple-800/80 z-10"/>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/80 to-purple-800/80 z-10" />
                 <img
                     src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                     alt="Brand team meeting"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
-                <Building2 className="w-12 h-12 text-white absolute bottom-4 left-4 z-20"/>
+                <Building2 className="w-12 h-12 text-white absolute bottom-4 left-4 z-20" />
               </div>
               <h2 className="text-xl md:text-2xl font-bold mb-4">Para Anunciantes</h2>
               <p className="text-gray-600 mb-6">
@@ -545,10 +543,9 @@ function InfluencerLanding() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <TrendingUp className="w-6 h-6 text-blue-600"/>
+                <TrendingUp className="w-6 h-6 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 Dados e Resultados em Tempo Real
@@ -559,71 +556,67 @@ function InfluencerLanding() {
               </p>
               <ul className="space-y-3 text-sm text-gray-500">
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Métricas atualizadas automaticamente
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Relatórios simples e personalizados
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Informações sobre seu público
                 </li>
               </ul>
             </div>
 
-            <div
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                <Shield className="w-6 h-6 text-purple-600"/>
+                <Shield className="w-6 h-6 text-purple-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 Pagamentos Seguros e Garantidos
               </h3>
               <p className="text-gray-600 mb-4">
-                Os pagamentos são feitos de forma rápida e protegida, garantindo segurança para influenciadores e
-                anunciantes.
+                Os pagamentos são feitos de forma rápida e protegida, garantindo segurança para influenciadores e anunciantes.
               </p>
               <ul className="space-y-3 text-sm text-gray-500">
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Dinheiro garantido para os influenciadores
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Pagamentos automáticos e sem complicação
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Acordos digitais para mais segurança
                 </li>
               </ul>
             </div>
 
-            <div
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
               <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
-                <Zap className="w-6 h-6 text-indigo-600"/>
+                <Zap className="w-6 h-6 text-indigo-600" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 Conexões Inteligentes
               </h3>
               <p className="text-gray-600 mb-4">
-                Nosso sistema encontra as melhores parcerias para você, conectando influenciadores e anunciantes que
-                realmente combinam.
+                Nosso sistema encontra as melhores parcerias para você, conectando influenciadores e anunciantes que realmente combinam.
               </p>
               <ul className="space-y-3 text-sm text-gray-500">
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Sugestões personalizadas para cada perfil
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Filtros para encontrar o parceiro ideal
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500"/>
+                  <Check className="w-4 h-4 text-green-500" />
                   Maior chance de sucesso na parceria
                 </li>
               </ul>
@@ -634,14 +627,12 @@ function InfluencerLanding() {
 
         <section id="waitlist" className="container mx-auto px-4 py-20">
           <div className="max-w-4xl mx-auto">
-            <div
-                className="bg-gradient-to-br from-white to-blue-50/50 rounded-3xl p-8 md:p-16 shadow-2xl relative overflow-hidden border border-white/50">
+            <div className="bg-gradient-to-br from-white to-blue-50/50 rounded-3xl p-8 md:p-16 shadow-2xl relative overflow-hidden border border-white/50">
               {/* ... conteúdo existente do background ... */}
 
               <div className="relative z-10">
                 <div className="text-center max-w-2xl mx-auto mb-12">
-          <span
-              className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-blue-100 to-blue-100 text-blue-600 rounded-full text-sm font-medium mb-6 gap-2 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group">
+          <span className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-blue-100 to-blue-100 text-blue-600 rounded-full text-sm font-medium mb-6 gap-2 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"/>
             <span className="relative">
               <span className="absolute -inset-1 bg-blue-200/80 blur-sm rounded-full animate-pulse"/>
@@ -662,7 +653,7 @@ function InfluencerLanding() {
                     <div className="bg-white p-6 rounded-xl shadow-lg border border-blue-100">
                       <div className="flex items-center gap-4">
                         <div className="p-3 bg-blue-100 rounded-lg">
-                          <Users className="w-6 h-6 text-blue-600"/>
+                          <Users className="w-6 h-6 text-blue-600" />
                         </div>
                         <div>
                           <p className="text-sm text-gray-500 mb-1">Total na lista de espera</p>
@@ -676,7 +667,7 @@ function InfluencerLanding() {
                     <div className="bg-white p-6 rounded-xl shadow-lg border border-purple-100">
                       <div className="flex items-center gap-4">
                         <div className="p-3 bg-purple-100 rounded-lg">
-                          <TrendingUp className="w-6 h-6 text-purple-700"/>
+                          <TrendingUp className="w-6 h-6 text-purple-700" />
                         </div>
                         <div>
                           <p className="text-sm text-gray-500 mb-1">Seguidores totais</p>
@@ -719,8 +710,7 @@ function InfluencerLanding() {
                           </div>
                       ))}
                       {totalMembers > recentMembers.length && (
-                          <div
-                              className="w-10 h-10 rounded-full border-2 border-white bg-blue-50 flex items-center justify-center text-sm font-medium text-blue-600 shadow-md hover:scale-110 transition-transform duration-300">
+                          <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-50 flex items-center justify-center text-sm font-medium text-blue-600 shadow-md hover:scale-110 transition-transform duration-300">
                             +{totalMembers - recentMembers.length}
                           </div>
                       )}
@@ -743,8 +733,7 @@ function InfluencerLanding() {
             </div>
           </div>
         </section>
-
-        <footer id="contact" className="bg-gradient-to-t from-blue-700 to-blue-700  text-white py-16">
+        <footer id="contact" className="bg-gray-900 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
               <div className="col-span-2 md:col-span-1">
@@ -753,23 +742,21 @@ function InfluencerLanding() {
                        src="https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo-sou-influencer_branca.png?alt=media&token=d47b1810-6ce0-4960-b033-95d12e2bc661"
                   />
                 </div>
-                <p className="text-white">
-                  Somos uma plataforma inovadora que conecta influenciadores e anunciantes, promovendo campanhas
-                  eficazes e parcerias duradouras.
+                <p className="text-gray-400">
+                  Democratizando o marketing de influência no Brasil
                 </p>
               </div>
-              {/* Links */}
-              <div className="flex flex-col items-start">
-                <h3 className="text-xl font-semibold mb-4">Lançamento em:</h3>
-                <ul className="space-y-2">
+              <div>
+                <h3 className="text-gray-400">Lançamento em:</h3>
+                <ul className="space-y-4 text-gray-400">
                   <div
                       className="flex flex-col md:flex-row justify-center md:justify-start items-center gap-4 md:gap-8 mb-4 animate-fade-in-up">
                     {Object.entries(timeLeft).map(([interval, value]) => (
                         <div key={interval} className="flex flex-col items-center md:flex-row md:gap-2">
-                  <span className="text-4xl md:text-5xl font-bold text-white">
+                  <span className="text-4xl md:text-5xl font-bold text-blue-400">
                     {String(value).padStart(2, '0')}
                   </span>
-                          <span className="text-white text-sm md:text-base uppercase mt-1 md:mt-0">{interval}
+                          <span className="text-gray-500 text-sm md:text-base uppercase mt-1 md:mt-0">{interval}
                             {value !== 1 && 's'}
                   </span>
                         </div>
@@ -777,45 +764,9 @@ function InfluencerLanding() {
                   </div>
                 </ul>
               </div>
-
-              <div>
-                <h3 className="text-white-400"></h3>
-                <ul className="space-y-4 text-white">
-
-                </ul>
-              </div>
-
-              {/* Redes Sociais */}
-              <div className="flex flex-col items-start">
-                <h3 className="text-xl font-semibold mb-4">Siga-nos</h3>
-                <div className="flex space-x-6">
-                  <a
-                      href="https://www.facebook.com/profile.php?id=61572996658426"
-                      target="_blank"
-                      className="text-white hover:text-blue-600 transition-colors duration-300"
-                      aria-label="Facebook"
-                  >
-                    <Facebook className="h-6 w-6"/>
-                  </a>
-                  <a
-                      href="https://www.instagram.com/souinfluenceroficial/"
-                      target="_blank"
-                      className="text-white hover:text-pink-600 transition-colors duration-300"
-                      aria-label="Instagram"
-                  >
-                    <Instagram className="h-6 w-6"/>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 border-t border-blue-700/90 pt-8 text-center">
-              <p className="text-sm text-white">
-                &copy; {new Date().getFullYear()} Sou Influencer. Todos os direitos reservados.
-              </p>
             </div>
           </div>
         </footer>
-
       </div>
   );
 }

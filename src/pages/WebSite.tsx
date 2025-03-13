@@ -22,24 +22,25 @@ import {
   UserRoundPlusIcon, Edit, Home, Target, Star, CheckCircle
 } from 'lucide-react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { NotificationProvider } from '../../components/Notifications/NotificationProvider.tsx';
-import { ProfileCompletionAlert } from '../../components/ProfileCompletionAlert.tsx';
-import { NotificationBell } from '../../components/Notifications/NotificationBell.tsx';
-import { authService } from '../../services/authService.ts';
-import { Campaigns } from '../dashboard/Campaigns.tsx';
-import { Schedule } from '../dashboard/Schedule.tsx';
-import { Profile } from '../dashboard/Profile.tsx';
-import { Messages } from '../dashboard/Messages.tsx';
-import { Settings as SettingsPage } from '../dashboard/Settings.tsx';
-import { NewCampaign } from '../dashboard/NewCampaign.tsx';
-import { Plan } from '../dashboard/Plan.tsx';
-import { Payments } from '../dashboard/Payments.tsx';
-import { SocialNetworks } from '../dashboard/SocialNetworks.tsx';
-import { InfluencerList } from '../dashboard/InfluencerList.tsx';
+import { NotificationProvider } from '../components/Notifications/NotificationProvider';
+import { ProfileCompletionAlert } from '../components/ProfileCompletionAlert';
+import { NotificationBell } from '../components/Notifications/NotificationBell';
+import { authService } from '../services/authService.ts';
+import { Campaigns } from './dashboard/Campaigns';
+import { Schedule } from './dashboard/Schedule';
+import { Profile } from './dashboard/Profile';
+import { Messages } from './dashboard/Messages';
+import { Settings as SettingsPage } from './dashboard/Settings';
+import { NewCampaign } from './dashboard/NewCampaign';
+import { Plan } from './dashboard/Plan';
+import { Payments } from './dashboard/Payments';
+import { SocialNetworks } from './dashboard/SocialNetworks';
+import { InfluencerList } from './dashboard/InfluencerList';
 import logoRetangulo from '@/assets/logo_retangulo_light.svg';
 import logoLetter from '@/assets/logo_letter_light.svg';
-import {Notifications} from "../dashboard/Notifications.tsx";
-import {CompleteProfile} from "../dashboard/CompleteProfile.tsx";
+import {Notifications} from "./dashboard/Notifications.tsx";
+import {CompleteProfile} from "./dashboard/CompleteProfile.tsx";
+import { PlanProvider } from './dashboard/plan/context/PlanContext';
 
 export function WebSite() {
   const navigate = useNavigate();
@@ -107,12 +108,7 @@ export function WebSite() {
     { name: 'Influencers', icon: Users, path: 'influencers' },
     { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
     { name: 'Meu Plano', icon: Crown, path: 'plan' },
-    ...(user?.completeRegistration
-        ? [{ name: 'Configurações', icon: Settings, path: 'settings' }]
-        : []),
-    ...(!user?.completeRegistration
-        ? [{ name: 'Completar Cadastro', icon: CheckCircle, path: 'complete-profile' }]
-        : []),
+    { name: 'Meu Perfil', icon: Settings, path: 'settings' }
   ];
 
   return (
@@ -280,12 +276,7 @@ export function WebSite() {
                       { name: 'Influencers', icon: Users, path: 'influencers' },
                       { name: 'Pagamentos', icon: CreditCard, path: 'payments' },
                       { name: 'Meu Plano', icon: Crown, path: 'plan' },
-                      ...(user?.completeRegistration
-                          ? [{ name: 'Configurações', icon: Settings, path: 'settings' }]
-                          : []),
-                      ...(!user?.completeRegistration
-                          ? [{ name: 'Completar Cadastro', icon: CheckCircle, path: 'complete-profile' }]
-                          : []),
+                      { name: 'Meu Perfil', icon: Settings, path: 'settings' }
                     ].map((item) => (
                         <button
                             key={item.path}
@@ -433,7 +424,11 @@ export function WebSite() {
                 <Route path="schedule" element={<Schedule onSelectCampaign={handleSelectCampaign} />} />
                 <Route path="messages" element={<Messages />} />
                 <Route path="settings" element={<SettingsPage />} />
-                <Route path="plan" element={<Plan />} />
+                <Route path="plan" element={
+                  <PlanProvider>
+                    <Plan />
+                  </PlanProvider>
+                } />
                 <Route path="social-networks" element={<SocialNetworks />} />
                 <Route path="payments" element={<Payments />} />
                 <Route path="influencers" element={<InfluencerList onViewProfile={handleViewProfile} />} />

@@ -1,159 +1,140 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Camera, MapPin, Link as LinkIcon, Instagram, Youtube, Video, Edit2, AtSign, Users, Globe2, Heart, MessageSquare, Globe, Award, ChevronRight, Star, BarChart2, Sparkles, Crown, X } from 'lucide-react';
-import { AddSocialNetwork } from './AddSocialNetwork';
+import { profileService, type ProfileData } from '../../services/profileService';
 import { Overview } from './profile/Overview';
 import { Portfolio } from './profile/Portfolio';
 import { SocialMedia } from './profile/SocialMedia';
 import { Reviews } from './profile/Reviews';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 export function Profile() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [showAddSocialNetwork, setShowAddSocialNetwork] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'portfolio' | 'social' | 'reviews'>('overview');
-
-  const [profile, setProfile] = useState({
-    name: 'João Silva',
-    username: '@joaosilva',
-    verified: true,
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    coverImage: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2940&q=80',
+  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<ProfileData>({
+    id: '',
+    name: '',
+    username: '',
+    verified: false,
+    avatar: '',
+    coverImage: '',
     bio: {
-      headline: 'Criador de conteúdo digital especializado em Tecnologia e Lifestyle',
-      tagline: 'Transformando tecnologia em conteúdo acessível e engajador',
-      description: 'Com mais de 5 anos de experiência, crio conteúdo autêntico que conecta marcas ao público tech-savvy. Especializado em reviews, unboxings e lifestyle tech.',
-      specialties: ['Tech Reviews', 'Lifestyle Tech', 'Unboxing', 'Tutorial']
+      headline: '',
+      tagline: '',
+      description: '',
+      specialties: []
     },
-    location: 'São Paulo, SP',
-    languages: ['Português', 'Inglês', 'Espanhol'],
-    website: 'www.joaosilva.com.br',
+    location: '',
+    languages: [],
+    website: '',
     contact: {
-      email: 'parcerias@joaosilva.com.br',
-      phone: '+55 11 99999-9999'
+      email: '',
+      phone: ''
     },
     metrics: {
-      totalReach: '2.5M+',
-      avgEngagement: '4.8%',
-      completedCampaigns: 45,
-      rating: 4.9
+      totalReach: '0',
+      avgEngagement: '0%',
+      completedCampaigns: 0,
+      rating: 0
     },
     pricing: {
-      feed: 3500,
-      story: 1500,
-      reels: 5000,
-      video: 8000
+      feed: 0,
+      story: 0,
+      reels: 0,
+      video: 0
     },
-    platforms: [
-      {
-        name: 'Instagram',
-        username: '@joaosilva',
-        followers: 150000,
-        engagement: 4.8,
-        link: 'https://instagram.com/joaosilva'
-      },
-      {
-        name: 'YouTube',
-        username: 'João Silva Tech',
-        followers: 250000,
-        engagement: 3.9,
-        link: 'https://youtube.com/joaosilvatech'
-      },
-      {
-        name: 'TikTok',
-        username: '@joaosilva',
-        followers: 180000,
-        engagement: 5.2,
-        link: 'https://tiktok.com/@joaosilva'
-      }
-    ],
-    expertise: [
-      {
-        name: 'Reviews de Smartphones',
-        description: 'Análises detalhadas dos últimos lançamentos',
-        campaigns: 15
-      },
-      {
-        name: 'Tecnologia no Dia a Dia',
-        description: 'Como a tecnologia melhora nossa rotina',
-        campaigns: 12
-      },
-      {
-        name: 'Setup & Produtividade',
-        description: 'Dicas e reviews de equipamentos',
-        campaigns: 8
-      }
-    ],
-    recentCampaigns: [
-      {
-        brand: 'Samsung',
-        product: 'Galaxy S24 Ultra',
-        type: 'Review',
-        performance: {
-          views: '450K',
-          engagement: '5.2%',
-          clicks: '12K'
-        }
-      },
-      {
-        brand: 'Apple',
-        product: 'MacBook Pro M3',
-        type: 'Unboxing + Review',
-        performance: {
-          views: '380K',
-          engagement: '4.8%',
-          clicks: '9.5K'
-        }
-      }
-    ]
+    platforms: [],
+    expertise: [],
+    recentCampaigns: []
   });
 
-  const [editedProfile, setEditedProfile] = useState(profile);
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      setLoading(true);
+      const data = await profileService.getProfile();
+      setProfile(data);
+    } catch (err) {
+      console.error('Error fetching profile:', err);
+      toast.error('Erro ao carregar dados do perfil');
+      // Profile state will remain with default empty values
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (file: File, type: 'avatar' | 'cover') => {
+    try {
+      setLoading(true);
+      const imageUrl = await profileService.uploadProfileImage(file, type);
+      
+      setProfile(prev => ({
+        ...prev,
+        [type === 'avatar' ? 'avatar' : 'coverImage']: imageUrl
+      }));
+      
+      toast.success('Imagem atualizada com sucesso');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao atualizar imagem');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleEditToggle = () => {
     if (isEditing) {
-      setProfile(editedProfile);
+      handleSaveProfile();
     }
     setIsEditing(!isEditing);
   };
 
+  const handleSaveProfile = async () => {
+    try {
+      setLoading(true);
+      const updatedProfile = await profileService.updateProfile(profile);
+      setProfile(updatedProfile);
+      setIsEditing(false);
+      toast.success('Perfil atualizado com sucesso');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao atualizar perfil');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setEditedProfile(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const keys = name.split('.');
+
+    if (keys.length === 1) {
+      setProfile({ ...profile, [name]: value });
+    } else {
+      setProfile({
+        ...profile,
+        [keys[0]]: {
+          ...profile[keys[0] as keyof ProfileData],
+          [keys[1]]: value
+        }
+      });
+    }
   };
 
-  const formatNumber = (num: number) => {
-    if (num >= 1000000) {
-      return `${(num / 1000000).toFixed(1)}M`;
-    }
-    if (num >= 1000) {
-      return `${(num / 1000).toFixed(1)}K`;
-    }
-    return num.toString();
-  };
-
-  const handleHireClick = () => {
-    // Store influencer data in localStorage for the new campaign
-    localStorage.setItem('selectedInfluencer', JSON.stringify({
-      id: '1', // This would come from the actual profile data
-      name: profile.name,
-      avatar: profile.avatar,
-      platform: profile.platforms[0].name,
-      followers: profile.platforms[0].followers,
-      engagement: profile.platforms[0].engagement,
-      categories: profile.bio.specialties,
-      location: profile.location
-    }));
-    
-    // Navigate to new campaign with influencer type
-    navigate('/dashboard/new-campaign?type=single&influencer=1');
-  };
+  if (loading && !profile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       {/* Cover Image */}
       <div className="relative h-48 sm:h-64 md:h-80 w-full overflow-hidden">
         <div className="absolute inset-0 bg-black/30 opacity-0 hover:opacity-100 transition-opacity duration-200 z-10">
@@ -172,43 +153,17 @@ export function Profile() {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
-                    // Validate file size (max 10MB)
-                    if (file.size > 10 * 1024 * 1024) {
-                      alert('A imagem deve ter no máximo 10MB');
-                      return;
-                    }
-                    
-                    // Validate file type
-                    if (!file.type.startsWith('image/')) {
-                      alert('Por favor, selecione uma imagem válida');
-                      return;
-                    }
-                    
-                    // Create preview URL
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setProfile(prev => ({
-                        ...prev,
-                        coverImage: reader.result as string
-                      }));
-                    };
-                    reader.onerror = () => {
-                      alert('Erro ao carregar a imagem. Tente novamente.');
-                    };
-                    reader.readAsDataURL(file);
-                    
-                    // TODO: Implement actual upload to server
-                    console.log('Uploading cover image:', file);
+                    handleImageUpload(file, 'cover');
                   }
                 }}
               />
             </label>
             <button
               onClick={() => {
-                setProfile(prev => ({
-                  ...prev,
-                  coverImage: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2940&q=80'
-                }));
+                setProfile({
+                  ...profile,
+                  coverImage: ''
+                });
               }}
               className="p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg hover:bg-white/95 transition-colors duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center"
               title="Remover capa"
@@ -218,12 +173,12 @@ export function Profile() {
           </div>
           <div className="absolute bottom-4 left-4">
             <p className="text-xs text-white/90 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1.5">
-              Tamanho recomendado: 1920x400px • Máximo: 10MB
+              Tamanho recomendado: 1920x400px • Máximo: 5MB
             </p>
           </div>
         </div>
         <img
-          src={profile.coverImage}
+          src={profile.coverImage || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2940&q=80'}
           alt="Cover"
           className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 relative z-0"
         />
@@ -258,24 +213,7 @@ export function Profile() {
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          // Validate file size (max 2MB)
-                          if (file.size > 2 * 1024 * 1024) {
-                            alert('A imagem deve ter no máximo 2MB');
-                            return;
-                          }
-                          
-                          // Create preview URL
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setProfile(prev => ({
-                              ...prev,
-                              avatar: reader.result as string
-                            }));
-                          };
-                          reader.readAsDataURL(file);
-                          
-                          // TODO: Implement avatar upload
-                          console.log('Uploading avatar:', file);
+                          handleImageUpload(file, 'avatar');
                         }
                       }}
                     />
@@ -316,7 +254,7 @@ export function Profile() {
               </div>
               <div className="hidden sm:block">
                 <button
-                  onClick={handleHireClick}
+                  onClick={() => navigate('/dashboard/new-campaign')}
                   className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-200"
                 >
                   <Sparkles className="h-5 w-5 mr-2" />
@@ -409,7 +347,7 @@ export function Profile() {
         {/* Mobile CTA Button */}
         <div className="fixed bottom-4 left-4 right-4 sm:hidden z-50">
           <button
-            onClick={handleHireClick}
+            onClick={() => navigate('/dashboard/new-campaign')}
             className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
           >
             <Sparkles className="h-5 w-5 mr-2" />

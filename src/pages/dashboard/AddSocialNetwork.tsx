@@ -1,105 +1,29 @@
 import React, { useState } from 'react';
-import { Instagram, Youtube, Video, ArrowLeft, Shield, AlertCircle, CheckCircle, Info, X, Image, Upload, Loader2, Camera, AtSign, Copy, Download, Link as LinkIcon, HelpCircle } from 'lucide-react';
+import { Camera, MapPin, Link as LinkIcon, Instagram, Youtube, Video, Edit2, AtSign, Users, Globe2, Heart, MessageSquare, Globe, Award, ChevronRight, Star, BarChart2, Sparkles, Crown, X, Plus, AlertTriangle, Info, Check, Download, Clock } from 'lucide-react';
+import { socialNetworkService } from '../../services/socialNetworkService';
+import { toast } from 'react-hot-toast';
+import type { Platform } from '../types';
 
-// Add mobile-first styles
-const styles = `
-/* Base styles */
-:root {
-  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
-  --container-padding: clamp(1rem, 5vw, 2rem);
-  --font-size-base: clamp(0.875rem, 4vw, 1rem);
-  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
-  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
-  --spacing-base: clamp(1rem, 4vw, 1.5rem);
-  --border-radius: clamp(0.75rem, 3vw, 1rem);
+interface AddSocialNetworkProps {
+  onBack: () => void;
 }
 
-/* Mobile-first media queries */
-@media (max-width: 480px) {
-  .container {
-    padding: var(--container-padding);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  
-  .platform-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-base);
-  }
-  
-  .platform-card {
-    padding: var(--spacing-base);
-  }
-  
-  .form-input {
-    min-height: var(--min-touch-target);
-    font-size: var(--font-size-base);
-  }
-  
-  .button {
-    min-height: var(--min-touch-target);
-    width: 100%;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .platform-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .platform-card {
-    padding: calc(var(--spacing-base) * 1.25);
-  }
-}
-
-@media (min-width: 769px) {
-  .platform-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .platform-card {
-    padding: calc(var(--spacing-base) * 1.5);
-  }
-}
-`;
-
-interface Platform {
-  id: 'instagram' | 'youtube' | 'tiktok';
-  name: string;
-  icon: typeof Instagram;
-  description: string;
-  features: string[];
-  permissions: string[];
-  color: string;
-  gradientFrom: string;
-  bgColor: string;
-}
-
-export function AddSocialNetwork() {
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform['id'] | null>(null);
-  const [connectStep, setConnectStep] = useState<'select' | 'username' | 'validation' | 'verifying' | 'review' | 'success'>('select');
+export function AddSocialNetwork({ onBack }: AddSocialNetworkProps) {
+  const [step, setStep] = useState<'select' | 'username' | 'validation' | 'verifying' | 'review' | 'success'>('select');
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [username, setUsername] = useState('');
   const [validationPost, setValidationPost] = useState<{
     image: string;
     caption: string;
   }>({
-    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=400&fit=crop',
-    caption: '#SouInfluencer #Verificação\n\nEste post confirma que sou eu mesmo(a) conectando minha conta à plataforma Sou Influencer.'
+    image: '',
+    caption: ''
   });
   const [postUrl, setPostUrl] = useState('');
-  
-  React.useEffect(() => {
-    // Add styles to document
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
+  const [loading, setLoading] = useState(false);
 
-    return () => {
-      document.head.removeChild(styleSheet);
-    };
-  }, []);
-
-  const platforms: Platform[] = [
+  const platforms = [
     {
       id: 'instagram',
       name: 'Instagram',
@@ -165,69 +89,103 @@ export function AddSocialNetwork() {
     }
   ];
 
-  const handleConnect = async (platform: Platform['id']) => {
-    setSelectedPlatform(platform);
-    setConnectStep('username');
-  };
-
-  const handleUsernameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (username.trim()) {
-      setConnectStep('validation');
+  const handleConnect = async (platform: Platform) => {
+    try {
+      setLoading(true);
+      setError(null);
+      setSelectedPlatform(platform);
+      
+      // Get validation image and caption
+      const validationData = await socialNetworkService.getValidationImage(platform);
+      setValidationPost(validationData);
+      
+      setStep('username');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao iniciar conexão');
+      toast.error('Erro ao iniciar processo de conexão');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleValidationSubmit = (e: React.FormEvent) => {
+  const handleUsernameSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (postUrl.trim()) {
-      setConnectStep('verifying');
-      // Simular verificação automática
-      setTimeout(() => {
-        setConnectStep('review');
-      }, 3000);
+    if (!username.trim() || !selectedPlatform) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const validation = await socialNetworkService.validateAccount(selectedPlatform, username);
+      
+      if (validation.valid) {
+        setStep('validation');
+      } else {
+        setError(validation.error || 'Usuário não encontrado ou inválido');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao validar usuário');
+      toast.error('Erro ao validar usuário');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleValidationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!postUrl.trim() || !selectedPlatform) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+      setStep('verifying');
+
+      const validation = await socialNetworkService.submitValidationPost(selectedPlatform, username, postUrl);
+      
+      if (validation.valid) {
+        setStep('review');
+      } else {
+        setError(validation.error || 'Não foi possível validar a publicação');
+        setStep('validation');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao validar publicação');
+      setStep('validation');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleAdminApproval = async () => {
     try {
-      // Simular aprovação do administrador
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setConnectStep('success');
+      setLoading(true);
+      setError(null);
+
+      if (!selectedPlatform || !username) {
+        throw new Error('Dados inválidos');
+      }
+
+      await socialNetworkService.connectAccount(selectedPlatform, username);
+      setStep('success');
     } catch (err) {
-      setError('Ocorreu um erro durante a aprovação. Por favor, tente novamente.');
-      setConnectStep('select');
+      setError(err instanceof Error ? err.message : 'Erro ao conectar conta');
+      setStep('review');
+    } finally {
+      setLoading(false);
     }
   };
-
-  const handleBack = () => {
-    if (connectStep === 'username') {
-      setSelectedPlatform(null);
-      setConnectStep('select');
-    } else if (connectStep === 'validation') {
-      setConnectStep('username');
-    } else if (connectStep === 'review') {
-      setConnectStep('validation');
-    } else if (connectStep === 'success') {
-      setSelectedPlatform(null);
-      setConnectStep('select');
-    }
-  };
-
-  const selectedPlatformData = selectedPlatform ? platforms.find(p => p.id === selectedPlatform) : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white container">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-4xl mx-auto py-6 sm:py-8">
         <div className="mb-8">
-          {connectStep !== 'select' && (
-            <button
-              onClick={handleBack}
-              className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-4 min-h-[var(--min-touch-target)] px-3 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-200 button"
-            >
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              Voltar
-            </button>
-          )}
+          <button
+            onClick={onBack}
+            className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-4"
+          >
+            <X className="h-4 w-4 mr-1" />
+            Voltar
+          </button>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Conectar Redes Sociais</h1>
           <p className="text-base sm:text-lg text-gray-600">
             Integre suas redes sociais para:
@@ -238,7 +196,7 @@ export function AddSocialNetwork() {
         </div>
 
         {error && (
-          <div className="mb-6 rounded-lg bg-red-50 p-4 card">
+          <div className="mb-6 rounded-lg bg-red-50 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <AlertCircle className="h-5 w-5 text-red-400" />
@@ -260,14 +218,14 @@ export function AddSocialNetwork() {
           </div>
         )}
 
-        {connectStep === 'select' && (
-          <div className="grid gap-6 platform-grid">
+        {step === 'select' && (
+          <div className="grid gap-6">
             {platforms.map((platform) => (
               <div
                 key={platform.id}
-                className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] platform-card"
+                className="group bg-white rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
               >
-                <div>
+                <div className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className={`p-3 rounded-xl ${platform.bgColor}`}>
@@ -279,8 +237,9 @@ export function AddSocialNetwork() {
                       </div>
                     </div>
                     <button
-                      onClick={() => handleConnect(platform.id)}
-                      className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105 min-h-[var(--min-touch-target)] button"
+                      onClick={() => handleConnect(platform.id as Platform)}
+                      disabled={loading}
+                      className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:scale-105"
                     >
                       Conectar
                     </button>
@@ -288,7 +247,10 @@ export function AddSocialNetwork() {
 
                   <div className="mt-6 grid grid-cols-2 gap-6">
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center"><Shield className="h-4 w-4 mr-2 text-blue-500" />Recursos</h4>
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center">
+                        <Shield className="h-4 w-4 mr-2 text-blue-500" />
+                        Recursos
+                      </h4>
                       <ul className="space-y-2">
                         {platform.features.map((feature, index) => (
                           <li key={index} className="flex items-center text-sm text-gray-500">
@@ -297,17 +259,6 @@ export function AddSocialNetwork() {
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                        <div className="flex items-start">
-                          <HelpCircle className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <p className="text-xs text-blue-700">
-                            Ao conectar sua conta, você mantém total controle sobre suas publicações.
-                            <span className="block mt-1 text-blue-600">
-                              Nunca publicaremos nada sem sua autorização expressa.
-                            </span>
-                          </p>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -316,16 +267,18 @@ export function AddSocialNetwork() {
           </div>
         )}
 
-        {connectStep === 'username' && selectedPlatformData && (
+        {step === 'username' && selectedPlatform && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200">
             <div className="p-6">
               <div className="flex items-center space-x-4 mb-6">
-                <div className={`p-3 rounded-xl ${selectedPlatformData.bgColor}`}>
-                  <selectedPlatformData.icon className={`h-6 w-6 ${selectedPlatformData.color}`} />
+                <div className={`p-3 rounded-xl ${platforms.find(p => p.id === selectedPlatform)?.bgColor}`}>
+                  {React.createElement(platforms.find(p => p.id === selectedPlatform)?.icon || Instagram, {
+                    className: `h-6 w-6 ${platforms.find(p => p.id === selectedPlatform)?.color}`
+                  })}
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">
-                    Conectar {selectedPlatformData.name}
+                    Conectar {platforms.find(p => p.id === selectedPlatform)?.name}
                   </h3>
                   <p className="text-sm text-gray-600">
                     Informe seu nome de usuário para iniciar a validação
@@ -348,8 +301,8 @@ export function AddSocialNetwork() {
                       id="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200"
-                      placeholder={`Seu usuário do ${selectedPlatformData.name}`}
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200"
+                      placeholder={`Seu usuário do ${platforms.find(p => p.id === selectedPlatform)?.name}`}
                       required
                     />
                   </div>
@@ -358,16 +311,24 @@ export function AddSocialNetwork() {
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
-                    onClick={handleBack}
+                    onClick={onBack}
                     className="inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
                   >
                     Cancelar
                   </button>
                   <button
                     type="submit"
+                    disabled={loading}
                     className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    Continuar
+                    {loading ? (
+                      <>
+                        <Clock className="animate-spin h-5 w-5 mr-2" />
+                        Verificando...
+                      </>
+                    ) : (
+                      'Continuar'
+                    )}
                   </button>
                 </div>
               </form>
@@ -375,12 +336,14 @@ export function AddSocialNetwork() {
           </div>
         )}
 
-        {connectStep === 'validation' && selectedPlatformData && (
+        {step === 'validation' && selectedPlatform && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200">
             <div className="p-6">
               <div className="flex items-center space-x-4 mb-6">
-                <div className={`p-3 rounded-xl ${selectedPlatformData.bgColor}`}>
-                  <selectedPlatformData.icon className={`h-6 w-6 ${selectedPlatformData.color}`} />
+                <div className={`p-3 rounded-xl ${platforms.find(p => p.id === selectedPlatform)?.bgColor}`}>
+                  {React.createElement(platforms.find(p => p.id === selectedPlatform)?.icon || Instagram, {
+                    className: `h-6 w-6 ${platforms.find(p => p.id === selectedPlatform)?.color}`
+                  })}
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">
@@ -448,7 +411,7 @@ export function AddSocialNetwork() {
                       id="postUrl"
                       value={postUrl}
                       onChange={(e) => setPostUrl(e.target.value)}
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200"
                       placeholder="https://"
                       required
                     />
@@ -458,16 +421,24 @@ export function AddSocialNetwork() {
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
-                    onClick={handleBack}
+                    onClick={() => setStep('username')}
                     className="inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
                   >
                     Voltar
                   </button>
                   <button
                     type="submit"
+                    disabled={loading}
                     className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    Verificar Publicação
+                    {loading ? (
+                      <>
+                        <Clock className="animate-spin h-5 w-5 mr-2" />
+                        Verificando...
+                      </>
+                    ) : (
+                      'Verificar Publicação'
+                    )}
                   </button>
                 </div>
               </form>
@@ -475,11 +446,11 @@ export function AddSocialNetwork() {
           </div>
         )}
 
-        {connectStep === 'verifying' && selectedPlatformData && (
+        {step === 'verifying' && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
             <div className="text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
-                <Loader2 className="h-6 w-6 text-blue-600 animate-spin" />
+                <Clock className="h-6 w-6 text-blue-600 animate-spin" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
                 Verificando Publicação
@@ -491,12 +462,14 @@ export function AddSocialNetwork() {
           </div>
         )}
 
-        {connectStep === 'review' && selectedPlatformData && (
+        {step === 'review' && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200">
             <div className="p-6">
               <div className="flex items-center space-x-4 mb-6">
-                <div className={`p-3 rounded-xl ${selectedPlatformData.bgColor}`}>
-                  <selectedPlatformData.icon className={`h-6 w-6 ${selectedPlatformData.color}`} />
+                <div className={`p-3 rounded-xl ${platforms.find(p => p.id === selectedPlatform)?.bgColor}`}>
+                  {React.createElement(platforms.find(p => p.id === selectedPlatform)?.icon || Instagram, {
+                    className: `h-6 w-6 ${platforms.find(p => p.id === selectedPlatform)?.color}`
+                  })}
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">
@@ -524,26 +497,33 @@ export function AddSocialNetwork() {
                 </div>
               </div>
 
-              {/* Simular botões de administrador */}
               <div className="flex justify-end space-x-4">
                 <button
-                  onClick={() => setConnectStep('validation')}
+                  onClick={() => setStep('validation')}
                   className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
                 >
                   Voltar
                 </button>
                 <button
                   onClick={handleAdminApproval}
+                  disabled={loading}
                   className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Aprovar Conta
+                  {loading ? (
+                    <>
+                      <Clock className="animate-spin h-5 w-5 mr-2" />
+                      Processando...
+                    </>
+                  ) : (
+                    'Aprovar Conta'
+                  )}
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {connectStep === 'success' && selectedPlatformData && (
+        {step === 'success' && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 text-center">
             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
               <CheckCircle className="h-6 w-6 text-green-600" />
@@ -552,10 +532,10 @@ export function AddSocialNetwork() {
               Conexão Estabelecida!
             </h3>
             <p className="text-sm text-gray-500 mb-6">
-              Sua conta do {selectedPlatformData.name} foi validada e ativada com sucesso.
+              Sua conta do {platforms.find(p => p.id === selectedPlatform)?.name} foi validada e ativada com sucesso.
             </p>
             <button
-              onClick={handleBack}
+              onClick={onBack}
               className="inline-flex items-center px-8 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               Voltar para Redes Sociais

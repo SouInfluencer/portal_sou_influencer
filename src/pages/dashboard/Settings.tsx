@@ -6,98 +6,11 @@ import { SecuritySettings } from '../../components/settings/SecuritySettings';
 import { SettingsTab } from '../../components/settings/SettingsTab';
 import type { SettingsFormData, FormErrors } from '../../components/settings/types';
 
-// Add mobile-first styles
-const styles = `
-/* Base styles */
-:root {
-  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
-  --container-padding: clamp(1rem, 5vw, 2rem);
-  --font-size-base: clamp(0.875rem, 4vw, 1rem);
-  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
-  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
-  --spacing-base: clamp(1rem, 4vw, 1.5rem);
-  --border-radius: clamp(0.75rem, 3vw, 1rem);
-}
-
-/* Mobile-first media queries */
-@media (max-width: 480px) {
-  .container {
-    padding: var(--container-padding);
-  }
-  
-  .tabs-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    margin: 0 calc(var(--container-padding) * -1);
-    padding: 0 var(--container-padding);
-  }
-  
-  .tabs-container::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .tabs-list {
-    display: flex;
-    min-width: max-content;
-    padding-bottom: var(--spacing-base);
-  }
-  
-  .tab-item {
-    min-width: 120px;
-    flex-shrink: 0;
-  }
-  
-  .settings-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-base);
-  }
-  
-  .button {
-    width: 100%;
-    min-height: var(--min-touch-target);
-    justify-content: center;
-  }
-  
-  .input {
-    min-height: var(--min-touch-target);
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .settings-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 769px) {
-  .settings-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-`;
-
 export function Settings() {
-  const [activeTab, setActiveTab] = useState<'personal' | 'business' | 'address' | 'bank' | 'notifications' | 'security' | 'billing'>('personal');
+  const [activeTab, setActiveTab] = useState<'personal' | 'business' | 'address' | 'bank' | 'notifications' | 'security'>('personal');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    // Add styles to document
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
-
-    // Trigger mount animation
-    setMounted(true);
-
-    return () => {
-      document.head.removeChild(styleSheet);
-    };
-  }, []);
 
   const [formData, setFormData] = useState<SettingsFormData>({
     name: 'João Silva',
@@ -106,6 +19,24 @@ export function Settings() {
     bio: 'Criador de conteúdo digital especializado em tecnologia e lifestyle.',
     location: 'São Paulo, SP',
     website: 'www.joaosilva.com.br',
+    type: 'pf',
+    firstName: '',
+    lastName: '',
+    cpf: '',
+    birthDate: '',
+    cnpj: '',
+    companyName: '',
+    tradeName: '',
+    cep: '',
+    street: '',
+    number: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    bank: '',
+    accountType: '',
+    agency: '',
+    account: '',
     emailNotifications: {
       campaigns: true,
       messages: true,
@@ -181,7 +112,7 @@ export function Settings() {
   };
 
   return (
-    <div className="py-6 container">
+    <div className="py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <h1 className="text-2xl font-semibold text-gray-900">Configurações</h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -191,10 +122,50 @@ export function Settings() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-6">
+          {/* Tabs */}
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              <SettingsTab
+                id="personal"
+                label="Meus Dados"
+                icon={User}
+                isActive={activeTab === 'personal'}
+                onClick={() => setActiveTab('personal')}
+              />
+              <SettingsTab
+                id="address"
+                label="Endereço"
+                icon={Home}
+                isActive={activeTab === 'address'}
+                onClick={() => setActiveTab('address')}
+              />
+              <SettingsTab
+                id="bank"
+                label="Dados Bancários"
+                icon={Bank}
+                isActive={activeTab === 'bank'}
+                onClick={() => setActiveTab('bank')}
+              />
+              <SettingsTab
+                id="notifications"
+                label="Notificações"
+                icon={Bell}
+                isActive={activeTab === 'notifications'}
+                onClick={() => setActiveTab('notifications')}
+              />
+              <SettingsTab
+                id="security"
+                label="Segurança"
+                icon={Shield}
+                isActive={activeTab === 'security'}
+                onClick={() => setActiveTab('security')}
+              />
+            </nav>
+          </div>
 
           {/* Content */}
-          <div className="mt-6 settings-grid">
-            {(activeTab === 'personal' || activeTab === 'business' || activeTab === 'address' || activeTab === 'bank') && (
+          <div className="mt-6">
+            {(activeTab === 'personal' || activeTab === 'address' || activeTab === 'bank') && (
               <ProfileSettings
                 formData={formData}
                 formErrors={formErrors}
@@ -202,7 +173,6 @@ export function Settings() {
                 onSubmit={handleSubmit}
                 formSuccess={formSuccess}
                 activeTab={activeTab}
-                className="settings-content"
               />
             )}
 
@@ -210,31 +180,13 @@ export function Settings() {
               <NotificationSettings
                 formData={formData}
                 onNotificationChange={handleNotificationChange}
-                className="settings-content"
               />
             )}
 
             {activeTab === 'security' && (
               <SecuritySettings
                 onDeleteAccount={() => setShowDeleteConfirm(true)}
-                className="settings-content"
               />
-            )}
-
-            {activeTab === 'billing' && (
-              <div className="bg-white shadow sm:rounded-lg">
-                <div className="px-4 py-5 sm:p-6">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Métodos de Pagamento</h3>
-                  <div className="mt-5">
-                    <button
-                      type="button"
-                      className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[var(--min-touch-target)] button"
-                    >
-                      Gerenciar métodos de pagamento
-                    </button>
-                  </div>
-                </div>
-              </div>
             )}
           </div>
         </div>
