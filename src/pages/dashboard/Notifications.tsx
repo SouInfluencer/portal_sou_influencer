@@ -1,81 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Bell, X, Calendar, MessageSquare, DollarSign, Star, ChevronRight, CheckCircle, Clock, Filter, Search, LayoutGrid, List, MoreVertical, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { notificationsService, type Notification } from '../../services/notificationsService';
-import { toast } from 'react-hot-toast';
+
+interface Notification {
+  id: string;
+  type: 'campaign' | 'message' | 'payment' | 'review';
+  title: string;
+  description: string;
+  time: string;
+  read: boolean;
+  action?: {
+    label: string;
+    href: string;
+  };
+}
 
 export function Notifications() {
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'unread' | 'read'>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-
-  useEffect(() => {
-    fetchNotifications();
-  }, [selectedFilter, currentPage, itemsPerPage]);
-
-  const fetchNotifications = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await notificationsService.getNotifications({
-        read: selectedFilter === 'all' ? undefined : selectedFilter === 'read',
-        page: currentPage,
-        limit: itemsPerPage
-      });
-
-      setNotifications(response.data);
-      setTotalItems(response.total);
-      setTotalPages(response.totalPages);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao carregar notificações');
-      toast.error('Erro ao carregar notificações');
-      // Keep existing notifications on error
-    } finally {
-      setLoading(false);
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      type: 'campaign',
+      title: 'Nova Proposta de Campanha',
+      description: 'TechCorp convidou você para uma nova campanha',
+      time: '5 minutos atrás',
+      read: false,
+      action: {
+        label: 'Ver Proposta',
+        href: '/dashboard/campaigns'
+      }
+    },
+    {
+      id: '2',
+      type: 'message',
+      title: 'Nova Mensagem',
+      description: 'Ana Silva enviou uma mensagem sobre a campanha',
+      time: '1 hora atrás',
+      read: false,
+      action: {
+        label: 'Responder',
+        href: '/dashboard/messages'
+      }
+    },
+    {
+      id: '3',
+      type: 'payment',
+      title: 'Pagamento Liberado',
+      description: 'R$ 3.500,00 foram depositados em sua conta',
+      time: '2 horas atrás',
+      read: true,
+      action: {
+        label: 'Ver Detalhes',
+        href: '/dashboard/payments'
+      }
     }
-  };
-
-  const handleMarkAsRead = async (id: string) => {
-    try {
-      await notificationsService.markAsRead(id);
-      setNotifications(prev => 
-        prev.map(notification => 
-          notification.id === id ? { ...notification, read: true } : notification
-        )
-      );
-    } catch (err) {
-      toast.error('Erro ao marcar notificação como lida');
-    }
-  };
-
-  const handleMarkAllAsRead = async () => {
-    try {
-      await notificationsService.markAllAsRead();
-      setNotifications(prev => prev.map(notification => ({ ...notification, read: true })));
-      toast.success('Todas as notificações foram marcadas como lidas');
-    } catch (err) {
-      toast.error('Erro ao marcar todas notificações como lidas');
-    }
-  };
-
-  const handleClearAll = async () => {
-    try {
-      await notificationsService.deleteAllNotifications();
-      setNotifications([]);
-      toast.success('Todas as notificações foram removidas');
-    } catch (err) {
-      toast.error('Erro ao remover notificações');
-    }
-  };
+  ]);
 
   const getIcon = (type: Notification['type']) => {
     switch (type) {
@@ -107,33 +89,30 @@ export function Notifications() {
     }
   };
 
-  if (loading && !notifications.length) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  const handleMarkAsRead = (id: string) => {
+    setNotifications(notifications.map(n => 
+      n.id === id ? { ...n, read: true } : n
+    ));
+  };
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-red-50 p-6 rounded-lg max-w-lg w-full mx-4">
-          <div className="flex items-center mb-4">
-            <X className="h-6 w-6 text-red-500 mr-3" />
-            <h3 className="text-lg font-medium text-red-800">Erro ao carregar notificações</h3>
-          </div>
-          <p className="text-red-700 mb-4">{error}</p>
-          <button
-            onClick={fetchNotifications}
-            className="w-full bg-red-100 text-red-700 py-2 px-4 rounded-lg hover:bg-red-200 transition-colors"
-          >
-            Tentar novamente
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const handleMarkAllAsRead = () => {
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
+  };
+
+  const handleClearAll = () => {
+    setNotifications([]);
+  };
+
+  const filteredNotifications = notifications.filter(notification => {
+    const matchesSearch = notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         notification.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesFilter = selectedFilter === 'all' ||
+                         (selectedFilter === 'unread' && !notification.read) ||
+                         (selectedFilter === 'read' && notification.read);
+    
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div className="py-6">
@@ -210,18 +189,8 @@ export function Notifications() {
 
         {/* Notifications List */}
         <div className="space-y-4">
-          {notifications.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200">
-              <Bell className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">
-                Nenhuma notificação
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Você será notificado quando houver novidades.
-              </p>
-            </div>
-          ) : (
-            notifications.map((notification) => {
+          {filteredNotifications.length > 0 ? (
+            filteredNotifications.map((notification) => {
               const Icon = getIcon(notification.type);
               return (
                 <div
@@ -276,59 +245,18 @@ export function Notifications() {
                 </div>
               );
             })
+          ) : (
+            <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-gray-200">
+              <Bell className="mx-auto h-12 w-12 text-gray-400" />
+              <h3 className="mt-2 text-sm font-medium text-gray-900">
+                Nenhuma notificação
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Você será notificado quando houver novidades.
+              </p>
+            </div>
           )}
         </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-between">
-            <div className="flex-1 flex justify-between sm:hidden">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-              >
-                Anterior
-              </button>
-              <button
-                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                disabled={currentPage === totalPages}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-              >
-                Próxima
-              </button>
-            </div>
-            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm text-gray-700">
-                  Mostrando <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> até{' '}
-                  <span className="font-medium">
-                    {Math.min(currentPage * itemsPerPage, totalItems)}
-                  </span>{' '}
-                  de <span className="font-medium">{totalItems}</span> notificações
-                </p>
-              </div>
-              <div>
-                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                    disabled={currentPage === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                  >
-                    Anterior
-                  </button>
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                    disabled={currentPage === totalPages}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                  >
-                    Próxima
-                  </button>
-                </nav>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

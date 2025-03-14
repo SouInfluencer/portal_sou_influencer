@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Instagram, Youtube, Video, Twitter, Edit2, Check, X, AtSign, Users, Globe2, Heart, MessageSquare, BarChart3, Settings2, Trash2, AlertTriangle, Clock, ChevronRight, Star, TrendingUp, Eye } from 'lucide-react';
+import React, { useState } from 'react';
+import { Instagram, Youtube, Video, Twitter, Edit2, Check, X, AtSign, Users, Globe2, Heart, MessageSquare, BarChart3, Settings2, Trash2, AlertTriangle } from 'lucide-react';
 import type { SocialAccount } from '../../types';
-import { socialNetworkMetricsService } from '../../services/socialNetworkMetricsService';
-import { socialNetworksService } from '../../services/socialNetworksService';
-import { toast } from 'react-hot-toast';
 
 interface ViewSocialNetworkProps {
   account: SocialAccount;
@@ -13,69 +10,12 @@ interface ViewSocialNetworkProps {
 
 export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialNetworkProps) {
   const [showDisconnectConfirm, setShowDisconnectConfirm] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [metrics, setMetrics] = useState<{
-    followers: number;
-    engagement: number;
-    reachRate: number;
-    averageViews: number;
-    averageLikes: number;
-    averageComments: number;
-  }>({
-    followers: 0,
-    engagement: 0,
-    reachRate: 0,
-    averageViews: 0,
-    averageLikes: 0,
-    averageComments: 0
-  });
-
-  useEffect(() => {
-    fetchMetrics();
-  }, [account.platform]);
-
-  const fetchMetrics = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await socialNetworkMetricsService.getAccountMetrics(account.platform);
-      setMetrics({
-        followers: data.followers,
-        engagement: data.engagement,
-        reachRate: data.reachRate,
-        averageViews: data.averageViews,
-        averageLikes: data.averageLikes,
-        averageComments: data.averageComments
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao carregar métricas');
-      toast.error('Erro ao carregar métricas da rede social');
-      // Keep existing metrics on error
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDisconnect = async () => {
-    try {
-      setLoading(true);
-      await socialNetworksService.disconnectAccount(account.platform);
-      onDisconnect(account.platform);
-      toast.success('Rede social desconectada com sucesso');
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Erro ao desconectar rede social');
-    } finally {
-      setLoading(false);
-      setShowDisconnectConfirm(false);
-    }
-  };
 
   const getPlatformIcon = (platform: SocialAccount['platform']) => {
     const icons = {
       instagram: Instagram,
-      youtube: Youtube,
       tiktok: Video,
+      youtube: Youtube,
       twitter: Twitter
     };
     return icons[platform];
@@ -101,7 +41,7 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
     return gradients[platform];
   };
 
-  const formatNumber = (count: number) => {
+  const formatFollowers = (count: number) => {
     if (count >= 1000000) {
       return `${(count / 1000000).toFixed(1)}M`;
     }
@@ -110,6 +50,48 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
     }
     return count.toString();
   };
+
+  const getAccountTypeColor = (type: SocialAccount['accountType']) => {
+    const colors = {
+      personal: 'bg-blue-100 text-blue-800',
+      creator: 'bg-purple-100 text-purple-800',
+      business: 'bg-green-100 text-green-800'
+    };
+    return colors[type];
+  };
+
+  const accountTypes = {
+    personal: 'Conta Pessoal',
+    creator: 'Conta Criador',
+    business: 'Conta Business'
+  };
+
+  const metrics = [
+    {
+      icon: Users,
+      label: 'Seguidores',
+      value: formatFollowers(account.followers),
+      color: 'text-blue-600'
+    },
+    {
+      icon: Heart,
+      label: 'Engajamento',
+      value: '4.2%',
+      color: 'text-red-600'
+    },
+    {
+      icon: MessageSquare,
+      label: 'Comentários/Post',
+      value: '156',
+      color: 'text-green-600'
+    },
+    {
+      icon: Globe2,
+      label: 'Alcance',
+      value: '45K',
+      color: 'text-purple-600'
+    }
+  ];
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
@@ -127,10 +109,8 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
               <div>
                 <h3 className="text-xl font-semibold text-white">{account.username}</h3>
                 <div className="flex items-center mt-1 space-x-2">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/20 text-white">
-                    {account.accountType === 'creator' ? 'Conta Criador' :
-                     account.accountType === 'business' ? 'Conta Business' :
-                     'Conta Pessoal'}
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getAccountTypeColor(account.accountType)}`}>
+                    {accountTypes[account.accountType]}
                   </span>
                   {account.verified && (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -162,54 +142,18 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
 
       {/* Content */}
       <div className="p-6">
-        {error && (
-          <div className="mb-6 rounded-lg bg-red-50 p-4">
-            <div className="flex">
-              <AlertTriangle className="h-5 w-5 text-red-400" />
-              <div className="ml-3">
-                <p className="text-sm text-red-700">{error}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <Users className="h-5 w-5 text-blue-600" />
-              <BarChart3 className="h-4 w-4 text-gray-400" />
+          {metrics.map((metric) => (
+            <div key={metric.label} className="p-4 rounded-xl bg-gray-50 border border-gray-100">
+              <div className="flex items-center justify-between mb-2">
+                <metric.icon className={`h-5 w-5 ${metric.color}`} />
+                <BarChart3 className="h-4 w-4 text-gray-400" />
+              </div>
+              <p className="text-2xl font-bold text-gray-900">{metric.value}</p>
+              <p className="text-sm text-gray-500">{metric.label}</p>
             </div>
-            <p className="text-2xl font-bold text-gray-900">{formatNumber(metrics.followers)}</p>
-            <p className="text-sm text-gray-500">Seguidores</p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <Heart className="h-5 w-5 text-pink-600" />
-              <BarChart3 className="h-4 w-4 text-gray-400" />
-            </div>
-            <p className="text-2xl font-bold text-gray-900">{metrics.engagement}%</p>
-            <p className="text-sm text-gray-500">Engajamento</p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <Eye className="h-5 w-5 text-purple-600" />
-              <BarChart3 className="h-4 w-4 text-gray-400" />
-            </div>
-            <p className="text-2xl font-bold text-gray-900">{formatNumber(metrics.averageViews)}</p>
-            <p className="text-sm text-gray-500">Média de Views</p>
-          </div>
-
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-            <div className="flex items-center justify-between mb-2">
-              <MessageSquare className="h-5 w-5 text-green-600" />
-              <BarChart3 className="h-4 w-4 text-gray-400" />
-            </div>
-            <p className="text-2xl font-bold text-gray-900">{formatNumber(metrics.averageComments)}</p>
-            <p className="text-sm text-gray-500">Média de Comentários</p>
-          </div>
+          ))}
         </div>
 
         {/* Categories and Content Types */}
@@ -284,21 +228,14 @@ export function ViewSocialNetwork({ account, onEdit, onDisconnect }: ViewSocialN
                 Cancelar
               </button>
               <button
-                onClick={handleDisconnect}
-                disabled={loading}
+                onClick={() => {
+                  onDisconnect(account.platform);
+                  setShowDisconnectConfirm(false);
+                }}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-red-600 hover:bg-red-700"
               >
-                {loading ? (
-                  <>
-                    <Clock className="animate-spin h-4 w-4 mr-2" />
-                    Processando...
-                  </>
-                ) : (
-                  <>
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Desconectar
-                  </>
-                )}
+                <Trash2 className="h-4 w-4 mr-2" />
+                Desconectar
               </button>
             </div>
           </div>

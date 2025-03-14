@@ -66,6 +66,7 @@ export interface Business extends User {
 
 export interface Campaign {
   id: string;
+  user_id: string;
   title: string;
   brand: {
     name: string;
@@ -77,6 +78,8 @@ export interface Campaign {
   requirements: string[];
   platform: string;
   contentType: string;
+  categories?: string[];
+  influencer?: Influencer;
   status: 'pending' | 'accepted' | 'delivered' | 'approved' | 'completed' | 'rejected';
   deliveryProof?: {
     url: string;
@@ -89,4 +92,6 @@ export interface Campaign {
     amount: number;
     processedAt?: Date;
   };
+  created_at?: Date;
+  updated_at?: Date;
 }
