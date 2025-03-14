@@ -1,9 +1,10 @@
 import React from 'react';
 import { MapPin, User, AtSign, Phone, Calendar, Building2, Home, Ban as Bank } from 'lucide-react';
 import type { ProfileSettingsProps } from './types';
-import { profileService } from '../../services/profileService';
 import { toast } from 'react-hot-toast';
 import MaskedInput from 'react-input-mask';
+import {PersonalDataDto} from "../../types/personal-data-dto.ts";
+import {profileService} from "../../services/profileService.ts";
 
 export const ProfileSettings = React.memo(function ProfileSettings({
   formData,
@@ -71,7 +72,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
           const event = {
             target: {
               name: 'street',
-              value: addressData.street
+              value: addressData.logradouro
             }
           } as React.ChangeEvent<HTMLInputElement>;
           handleFieldChange(event);
@@ -79,27 +80,27 @@ export const ProfileSettings = React.memo(function ProfileSettings({
           handleFieldChange({
             target: {
               name: 'neighborhood',
-              value: addressData.neighborhood
+              value: addressData.bairro
             }
           } as React.ChangeEvent<HTMLInputElement>);
           
           handleFieldChange({
             target: {
               name: 'city',
-              value: addressData.city
+              value: addressData.localidade
             }
           } as React.ChangeEvent<HTMLInputElement>);
           
           handleFieldChange({
             target: {
               name: 'state',
-              value: addressData.state
+              value: addressData.estado
             }
           } as React.ChangeEvent<HTMLInputElement>);
         } else {
           toast.error('CEP não encontrado');
         }
-      } catch (error) {
+      } catch {
         toast.error('Erro ao buscar CEP');
       } finally {
         setIsFetchingCep(false);
@@ -110,7 +111,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    onSubmit()
+    onSubmit(e)
 
     try {
       let success = false;
@@ -127,35 +128,11 @@ export const ProfileSettings = React.memo(function ProfileSettings({
       }
 
       if (success) {
-        toast.success(
-            <div className="flex flex-col gap-1">
-              <span className="font-medium">Dados salvos com sucesso!</span>
-            </div>,
-            {
-              duration: 3000,
-              style: {
-                background: 'linear-gradient(to right, #2563eb, #2563eb)',
-                color: 'white',
-                zIndex: 99999,
-              },
-            }
-        );
+        toast.success('Dados salvos com sucesso!');
         setIsEditing(false);
       }
-    } catch (error) {
-      toast.error(
-          <div className="flex flex-col gap-1">
-            <span className="font-medium">Erro ao salvar dados</span>
-          </div>,
-          {
-            duration: 3000,
-            style: {
-              background: 'linear-gradient(to right, #dc2626, #dc2626)',
-              color: 'white',
-              zIndex: 99999,
-            },
-          }
-      );
+    } catch {
+      toast.error('Erro ao salvar dados');
     } finally {
       setLoading(false);
     }
@@ -163,22 +140,15 @@ export const ProfileSettings = React.memo(function ProfileSettings({
 
   const handlePersonalSubmit = async () => {
 
-    const personalData = {
-      type: formData.type,
+    const personalData: Partial<PersonalDataDto> = {
       firstName: formData.firstName,
       lastName: formData.lastName,
       cpf: formData.cpf,
       birthDate: formData.birthDate,
       phone: formData.phone,
-      ...(formData.type === 'pj' && {
-        cnpj: formData.cnpj,
-        companyName: formData.companyName,
-        tradeName: formData.tradeName
-      })
     };
 
-    // const result = await profileService.updatePersonalInfo(personalData);
-    return true;
+    return await profileService.updateProfile(personalData);
   };
 
   const handleAddressSubmit = async () => {
@@ -191,8 +161,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
       state: formData.state
     };
 
-    const result = await profileService.updateAddress(addressData);
-    return result.success;
+    return await profileService.updateAddress(addressData);
   };
 
   const handleBankSubmit = async () => {
@@ -203,8 +172,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
       account: formData.account
     };
 
-    const result = await profileService.updateBankInfo(bankData);
-    return result.success;
+    return await profileService.updateBankInfo(bankData);
   };
 
   return (
@@ -521,7 +489,6 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   value={formData.agency}
                   onChange={handleFieldChange}
                   placeholder="0000"
-                  error={fieldErrors.agency}
                 />
                 {fieldErrors.agency && (
                   <p className="mt-2 text-sm text-red-600">{fieldErrors.agency}</p>
@@ -540,8 +507,10 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   value={formData.account}
                   onChange={handleFieldChange}
                   placeholder="00000000-0"
-                  error={fieldErrors.account}
                 />
+                {fieldErrors.account && (
+                  <p className="mt-2 text-sm text-red-600">{fieldErrors.account}</p>
+                )}
                 {fieldErrors.account && (
                   <p className="mt-2 text-sm text-red-600">{fieldErrors.account}</p>
                 )}
