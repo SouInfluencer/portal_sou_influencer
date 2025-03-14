@@ -91,21 +91,7 @@ export function Settings() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // console.log("Salvando");
-    toast.success(
-        <div className="flex flex-col gap-1">
-          <span className="font-medium">Dados salvos com sucesso!</span>
-        </div>,
-        {
-          duration: 5000,
-          style: {
-            background: 'linear-gradient(to right, #2563eb, #2563eb)',
-            color: 'white',
-            marginTop: '70px',
-            zIndex: 99999,
-          },
-        }
-    );
+
 
 
     // e.preventDefault();
@@ -138,7 +124,7 @@ export function Settings() {
           Gerencie suas preferências e informações da conta
         </p>
       </div>
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" reverseOrder={false} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-6">

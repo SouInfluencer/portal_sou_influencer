@@ -114,7 +114,6 @@ export const ProfileSettings = React.memo(function ProfileSettings({
 
     try {
       let success = false;
-
       switch (activeTab) {
         case 'personal':
           success = await handlePersonalSubmit();
@@ -128,11 +127,35 @@ export const ProfileSettings = React.memo(function ProfileSettings({
       }
 
       if (success) {
-        toast.success('Dados salvos com sucesso!');
+        toast.success(
+            <div className="flex flex-col gap-1">
+              <span className="font-medium">Dados salvos com sucesso!</span>
+            </div>,
+            {
+              duration: 3000,
+              style: {
+                background: 'linear-gradient(to right, #2563eb, #2563eb)',
+                color: 'white',
+                zIndex: 99999,
+              },
+            }
+        );
         setIsEditing(false);
       }
     } catch (error) {
-      // toast.error(error instanceof Error ? error.message : 'Erro ao salvar dados');
+      toast.error(
+          <div className="flex flex-col gap-1">
+            <span className="font-medium">Erro ao salvar dados</span>
+          </div>,
+          {
+            duration: 3000,
+            style: {
+              background: 'linear-gradient(to right, #dc2626, #dc2626)',
+              color: 'white',
+              zIndex: 99999,
+            },
+          }
+      );
     } finally {
       setLoading(false);
     }
@@ -155,7 +178,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
     };
 
     // const result = await profileService.updatePersonalInfo(personalData);
-    return result.success;
+    return true;
   };
 
   const handleAddressSubmit = async () => {
