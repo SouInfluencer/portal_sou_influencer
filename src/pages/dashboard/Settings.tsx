@@ -124,7 +124,6 @@ export function Settings() {
           Gerencie suas preferências e informações da conta
         </p>
       </div>
-      <Toaster position="bottom-right" reverseOrder={false} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-6">

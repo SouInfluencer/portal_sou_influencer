@@ -41,6 +41,7 @@ import logoLetter from '@/assets/logo_letter_light.svg';
 import {Notifications} from "./dashboard/Notifications.tsx";
 import {CompleteProfile} from "./dashboard/CompleteProfile.tsx";
 import { PlanProvider } from './dashboard/plan/context/PlanContext';
+import {Toaster} from "react-hot-toast";
 
 export function WebSite() {
   const navigate = useNavigate();
@@ -113,6 +114,7 @@ export function WebSite() {
 
   return (
       <div className="h-screen flex overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50/30 relative">
+        <Toaster position="bottom-right" reverseOrder={false} />
         <NotificationProvider>
           {/* Profile Completion Alert */}
           {/*{showProfileAlert && (*/}
