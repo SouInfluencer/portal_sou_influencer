@@ -5,12 +5,14 @@ import { NotificationSettings } from '../../components/settings/NotificationSett
 import { SecuritySettings } from '../../components/settings/SecuritySettings';
 import { SettingsTab } from '../../components/settings/SettingsTab';
 import type { SettingsFormData, FormErrors } from '../../components/settings/types';
+import { toast, Toaster } from 'react-hot-toast';
 
 export function Settings() {
   const [activeTab, setActiveTab] = useState<'personal' | 'business' | 'address' | 'bank' | 'notifications' | 'security'>('personal');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
+
 
   const [formData, setFormData] = useState<SettingsFormData>({
     name: 'João Silva',
@@ -89,16 +91,33 @@ export function Settings() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        // TODO: Implement API call
-        setFormSuccess('Alterações salvas com sucesso!');
-        setTimeout(() => setFormSuccess(null), 3000);
-      } catch {
-        setFormErrors({ submit: 'Erro ao salvar alterações. Tente novamente.' });
-      }
-    }
+    // console.log("Salvando");
+    toast.success(
+        <div className="flex flex-col gap-1">
+          <span className="font-medium">Dados salvos com sucesso!</span>
+        </div>,
+        {
+          duration: 5000,
+          style: {
+            background: 'linear-gradient(to right, #2563eb, #2563eb)',
+            color: 'white',
+            marginTop: '70px',
+            zIndex: 99999,
+          },
+        }
+    );
+
+
+    // e.preventDefault();
+    // if (validateForm()) {
+    //   try {
+    //     // TODO: Implement API call
+    //     setFormSuccess('Alterações salvas com sucesso!');
+    //     setTimeout(() => setFormSuccess(null), 3000);
+    //   } catch {
+    //     setFormErrors({ submit: 'Erro ao salvar alterações. Tente novamente.' });
+    //   }
+    // }
   };
 
   const handleNotificationChange = (type: 'email' | 'push', setting: keyof typeof formData['emailNotifications']) => {
@@ -119,6 +138,7 @@ export function Settings() {
           Gerencie suas preferências e informações da conta
         </p>
       </div>
+      <Toaster position="top-right" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-6">

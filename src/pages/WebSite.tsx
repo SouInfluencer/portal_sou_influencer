@@ -184,10 +184,13 @@ export function WebSite() {
 
                 {/* User Menu Dropdown */}
                 {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 focus:outline-none z-50 animate-in slide-in-from-top-1 duration-100 overflow-hidden">
+                    <div
+                        className="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 focus:outline-none z-60 animate-in slide-in-from-top-1 duration-100 overflow-hidden"
+                        style={{zIndex: 9999}}
+                    >
                       <div className="px-4 py-3 border-b border-gray-100/80">
                         <div className="flex items-center space-x-3">
-                          <img
+                        <img
                               src={user?.imageUrl ?? 'https://firebasestorage.googleapis.com/v0/b/sou-influencer.firebasestorage.app/o/logo_retangular.png?alt=media&token=c62a5fbf-0d39-49fd-8f8f-52df3dce9bf6'}
                               alt={user?.firstName ?? ''}
                               className="h-10 w-10 rounded-full ring-2 ring-white shadow-sm"
@@ -414,8 +417,6 @@ export function WebSite() {
               )}
 
               <Routes>
-                <Route path="complete-profile" element={<CompleteProfile/>} />
-                <Route path="complete-profile" element={<CompleteProfile/>} />
                 <Route path="notifications" element={<Notifications/>} />
                 <Route path="social-networks/:id/metrics" element={<NewCampaign onBack={() => navigate('/dashboard/profile')} />} />
                 <Route path="campaign/:id" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />

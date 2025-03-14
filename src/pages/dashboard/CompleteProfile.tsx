@@ -1,1 +1,0 @@
-export { CompleteProfile } from './CompleteProfile/index';

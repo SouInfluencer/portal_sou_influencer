@@ -3,7 +3,7 @@ import { MapPin, User, AtSign, Phone, Calendar, Building2, Home, Ban as Bank } f
 import type { ProfileSettingsProps } from './types';
 import { profileService } from '../../services/profileService';
 import { toast } from 'react-hot-toast';
-import { MaskedInput } from '../../pages/dashboard/CompleteProfile/MaskedInput';
+import MaskedInput from 'react-input-mask';
 
 export const ProfileSettings = React.memo(function ProfileSettings({
   formData,
@@ -110,6 +110,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    onSubmit()
 
     try {
       let success = false;
@@ -131,13 +132,14 @@ export const ProfileSettings = React.memo(function ProfileSettings({
         setIsEditing(false);
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Erro ao salvar dados');
+      // toast.error(error instanceof Error ? error.message : 'Erro ao salvar dados');
     } finally {
       setLoading(false);
     }
   };
 
   const handlePersonalSubmit = async () => {
+
     const personalData = {
       type: formData.type,
       firstName: formData.firstName,
@@ -152,7 +154,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
       })
     };
 
-    const result = await profileService.updatePersonalInfo(personalData);
+    // const result = await profileService.updatePersonalInfo(personalData);
     return result.success;
   };
 
@@ -253,6 +255,7 @@ export const ProfileSettings = React.memo(function ProfileSettings({
                   <User className="inline mr-2 h-4 w-4" />
                   CPF
                 </label>
+
                 <MaskedInput
                   mask="999.999.999-99"
                   id="cpf"
