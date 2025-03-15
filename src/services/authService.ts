@@ -118,7 +118,7 @@ class AuthService {
       }
 
       // Get user profile data
-      const { data: userData, error: userError } = await supabase
+      let { data: userData, error: userError } = await supabase
         .from('users')
         .select('*')
         .eq('id', user.id)
@@ -161,13 +161,15 @@ class AuthService {
 
       const userProfile = {
         id: user.id,
-        email: user.email,
+        email: user.email || '',
         firstName: userData.first_name,
         lastName: userData.last_name,
         profile: userData.profile,
         username: userData.username,
         imageUrl: userData.avatar_url,
-        completeRegistration: userData.complete_registration
+        completeRegistration: userData.complete_registration,
+        owner: userData.owner,
+        status: userData.status
       };
 
       // Set session data
