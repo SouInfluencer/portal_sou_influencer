@@ -1,6 +1,9 @@
-import React from 'react';
-import { PlusCircle, Filter, Search, ChevronDown, ChevronRight, X, ExternalLink, Calendar, DollarSign, Hash, TrendingUp, AlertCircle, CheckCircle, Clock, LayoutGrid, List, MoreVertical, Pause, Copy, Edit, Eye, BarChart2, Users, MessageSquare } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { PlusCircle, Filter, Search, ChevronDown, ChevronRight, X, ExternalLink, Calendar, DollarSign, Hash, TrendingUp, AlertCircle, AlertTriangle, CheckCircle, Clock, LayoutGrid, List, MoreVertical, Pause, Copy, Edit, Eye, BarChart2, Users, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import type { Campaign } from '../../types';
+import { campaignService, type CampaignFilters } from '../../services/campaignService';
+import { toast } from 'react-hot-toast';
 
 interface CampaignsProps {
   onSelectCampaign: (id: number) => void;
@@ -15,131 +18,164 @@ interface FilterState {
 
 export function Campaigns({ onSelectCampaign }: CampaignsProps) {
   const navigate = useNavigate();
-  const [filters, setFilters] = React.useState<FilterState>({
+  const [filters, setFilters] = useState<CampaignFilters>({
     status: [],
     platform: [],
-    budget: []
+    page: 1,
+    limit: 10
   });
-  const [viewMode, setViewMode] = React.useState<'grid' | 'list'>('grid');
-  const [sortBy, setSortBy] = React.useState('date');
-  const [itemsPerPage, setItemsPerPage] = React.useState(9);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [showFilters, setShowFilters] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState('date');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
-  const campaigns = [
-    {
-      id: 1,
-      title: "Lançamento Novo Gadget",
-      brand: {
-        name: "TechCorp",
-        logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop"
-      },
-      description: "Criar um vídeo review do nosso novo smartphone, destacando os principais recursos e funcionalidades. Foco especial na câmera e bateria.",
-      deadline: new Date("2024-04-15"),
-      budget: 3500,
-      requirements: [
-        "Vídeo de 10-15 minutos",
-        "Destacar câmera e bateria",
-        "Mencionar preço promocional",
-        "Incluir demonstração prática",
-        "Comparar com modelo anterior"
-      ],
-      status: "in_progress",
-      platform: "Instagram",
-      contentType: "Post + Stories"
-    },
-    {
-      id: 2,
-      title: "Campanha Verão",
-      brand: {
-        name: "FitLife",
-        logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=100&h=100&fit=crop"
-      },
-      description: "Série de vídeos mostrando sua rotina fitness usando nossos produtos. Foco em resultados reais e motivação.",
-      deadline: new Date("2024-04-20"),
-      budget: 2800,
-      requirements: [
-        "3 vídeos de 1 minuto",
-        "Mostrar resultados",
-        "Usar hashtag #FitLifeVerao",
-        "Incluir dicas de treino",
-        "Destacar benefícios dos produtos"
-      ],
-      status: "pending",
-      platform: "YouTube",
-      contentType: "Vídeo Review"
-    },
-    {
-      id: 3,
-      title: "Linha Sustentável",
-      brand: {
-        name: "EcoBeauty",
-        logo: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=100&h=100&fit=crop"
-      },
-      description: "Série de posts sobre produtos sustentáveis, destacando a importância da consciência ambiental na beleza.",
-      deadline: new Date("2024-04-25"),
-      budget: 4200,
-      requirements: [
-        "5 posts no feed",
-        "2 reels",
-        "Destacar embalagem sustentável",
-        "Mostrar ingredientes naturais",
-        "Compartilhar dicas de sustentabilidade"
-      ],
-      status: "completed",
-      platform: "TikTok",
-      contentType: "Série de Vídeos"
+  useEffect(() => {
+    fetchCampaigns();
+  }, [filters, searchTerm, currentPage, itemsPerPage]);
+
+  const fetchCampaigns = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await campaignService.getCampaigns({
+        ...filters,
+        search: searchTerm || undefined,
+        page: currentPage,
+        limit: itemsPerPage
+      });
+      
+      setCampaigns(response.data || []);
+      setTotalItems(response.total || 0);
+      setTotalPages(response.totalPages || 1);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erro ao carregar campanhas');
+      toast.error('Erro ao carregar campanhas');
+      setCampaigns([]); // Reset to empty state on error
+    } finally {
+      setLoading(false);
     }
-  ];
-
-  const getStatusBadgeColor = (status: string) => {
-    const colors = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      in_progress: 'bg-blue-100 text-blue-800',
-      completed: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800'
-    };
-    return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   };
 
-  const getStatusLabel = (status: string) => {
-    const labels = {
-      pending: 'Pendente',
-      in_progress: 'Em Andamento',
-      completed: 'Concluída',
-      rejected: 'Rejeitada'
-    };
-    return labels[status as keyof typeof labels] || status;
-  };
-
-  const handleFilterChange = (type: keyof FilterState, value: string) => {
+  const handleFilterChange = (type: keyof CampaignFilters, value: string[]) => {
     setFilters(prev => ({
       ...prev,
-      [type]: prev[type].includes(value)
-        ? prev[type].filter(item => item !== value)
-        : [...prev[type], value]
+      [type]: prev[type]?.includes(value[0])
+        ? prev[type]?.filter(item => item !== value[0])
+        : [...(prev[type] || []), ...value]
     }));
+    setCurrentPage(1);
   };
 
   const clearFilters = () => {
     setFilters({
       status: [],
       platform: [],
-      budget: []
+      page: 1,
+      limit: itemsPerPage
     });
     setSearchTerm('');
+    setCurrentPage(1);
   };
 
-  // Calculate pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = campaigns.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(campaigns.length / itemsPerPage);
+  const getStatusColor = (status: Campaign['status']) => {
+    const colors = {
+      pending: 'bg-yellow-100 text-yellow-800',
+      in_progress: 'bg-blue-100 text-blue-800',
+      completed: 'bg-green-100 text-green-800',
+      rejected: 'bg-red-100 text-red-800'
+    };
+    return colors[status] || 'bg-gray-100 text-gray-800';
+  };
+
+  const getStatusLabel = (status: Campaign['status']) => {
+    const labels = {
+      pending: 'Pendente',
+      in_progress: 'Em Andamento',
+      completed: 'Concluída',
+      rejected: 'Rejeitada'
+    };
+    return labels[status] || status;
+  };
+
+  if (loading && !campaigns.length) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-red-50 p-6 rounded-lg max-w-lg w-full mx-4">
+          <div className="flex items-center mb-4">
+            <AlertTriangle className="h-6 w-6 text-red-500 mr-3" />
+            <h3 className="text-lg font-medium text-red-800">Erro ao carregar campanhas</h3>
+          </div>
+          <p className="text-red-700 mb-4">{error}</p>
+          <button
+            onClick={fetchCampaigns}
+            className="w-full bg-red-100 text-red-700 py-2 px-4 rounded-lg hover:bg-red-200 transition-colors"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (campaigns.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-lg mx-4">
+          <div className="mb-6">
+            <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+              <AlertCircle className="h-8 w-8 text-blue-600" />
+            </div>
+          </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Nenhuma campanha encontrada
+          </h3>
+          <p className="text-gray-500 mb-6">
+            {filters.status.length > 0 || filters.platform.length > 0 || searchTerm
+              ? 'Tente ajustar seus filtros ou buscar por outros termos.'
+              : 'Comece criando sua primeira campanha!'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => navigate('/dashboard/new-campaign')}
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+            >
+              <PlusCircle className="h-5 w-5 mr-2" />
+              Nova Campanha
+            </button>
+            {(filters.status.length > 0 || filters.platform.length > 0 || searchTerm) && (
+              <button
+                onClick={clearFilters}
+                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50"
+              >
+                <X className="h-5 w-5 mr-2" />
+                Limpar Filtros
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Campanhas</h1>
@@ -149,82 +185,68 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
           </div>
           <button
             onClick={() => navigate('/dashboard/new-campaign')}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700"
           >
             <PlusCircle className="h-5 w-5 mr-2" />
             Nova Campanha
           </button>
         </div>
 
-        {/* Search and Filters Bar */}
+        {/* Search and Filters */}
         <div className="mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200/80">
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            {/* Search */}
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch">
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200"
-                placeholder="Buscar campanhas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                placeholder="Buscar campanhas..."
               />
             </div>
 
-            {/* View Toggle */}
-            <div className="flex items-center bg-gray-100 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
+            <div className="flex items-center space-x-4">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="block w-full sm:w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg"
               >
-                <LayoutGrid className="h-5 w-5" />
-              </button>
+                <option value="date">Data</option>
+                <option value="budget">Orçamento</option>
+                <option value="status">Status</option>
+              </select>
+
               <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
+                onClick={() => setShowFilters(!showFilters)}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50"
               >
-                <List className="h-5 w-5" />
+                <Filter className="h-4 w-4 mr-2" />
+                Filtros
+                {Object.values(filters).some(arr => Array.isArray(arr) ? arr.length > 0 : false) && (
+                  <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    {Object.values(filters).reduce((acc, curr) => acc + (Array.isArray(curr) ? curr.length : 0), 0)}
+                  </span>
+                )}
               </button>
+
+              <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
+                >
+                  <LayoutGrid className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow text-blue-600' : 'text-gray-500'}`}
+                >
+                  <List className="h-5 w-5" />
+                </button>
+              </div>
             </div>
-
-            {/* Sort By */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option value="date">Data</option>
-              <option value="budget">Orçamento</option>
-              <option value="engagement">Engajamento</option>
-              <option value="status">Status</option>
-            </select>
-
-            {/* Filter Button */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <Filter className="h-4 w-4 mr-2" />
-              Filtros
-              {Object.values(filters).some(arr => arr.length > 0) && (
-                <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                  {Object.values(filters).reduce((acc, curr) => acc + curr.length, 0)}
-                </span>
-              )}
-            </button>
-
-            {/* Clear Filters */}
-            {Object.values(filters).some(arr => arr.length > 0) && (
-              <button
-                onClick={clearFilters}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-red-600 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                <X className="h-4 w-4 mr-2" />
-                Limpar Filtros
-              </button>
-            )}
           </div>
 
           {/* Filter Options */}
@@ -239,12 +261,12 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                       <label key={status} className="flex items-center">
                         <input
                           type="checkbox"
-                          checked={filters.status.includes(status)}
-                          onChange={() => handleFilterChange('status', status)}
+                          checked={filters.status?.includes(status)}
+                          onChange={() => handleFilterChange('status', [status])}
                           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                         />
                         <span className="ml-2 text-sm text-gray-600">
-                          {getStatusLabel(status)}
+                          {getStatusLabel(status as Campaign['status'])}
                         </span>
                       </label>
                     ))}
@@ -259,8 +281,8 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                       <label key={platform} className="flex items-center">
                         <input
                           type="checkbox"
-                          checked={filters.platform.includes(platform)}
-                          onChange={() => handleFilterChange('platform', platform)}
+                          checked={filters.platform?.includes(platform)}
+                          onChange={() => handleFilterChange('platform', [platform])}
                           className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                         />
                         <span className="ml-2 text-sm text-gray-600">{platform}</span>
@@ -268,180 +290,163 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                     ))}
                   </div>
                 </div>
-
-                {/* Budget Filter */}
-                <div>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Orçamento</h4>
-                  <div className="space-y-2">
-                    {['Até R$ 1.000', 'R$ 1.000 - R$ 5.000', 'Acima de R$ 5.000'].map(range => (
-                      <label key={range} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={filters.budget.includes(range)}
-                          onChange={() => handleFilterChange('budget', range)}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">{range}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
               </div>
+
+              {/* Clear Filters */}
+              {Object.values(filters).some(arr => Array.isArray(arr) ? arr.length > 0 : false) && (
+                <div className="mt-4 flex justify-end">
+                  <button
+                    onClick={clearFilters}
+                    className="text-sm text-red-600 hover:text-red-700"
+                  >
+                    Limpar Filtros
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* Grid View */}
+        {/* Campaigns Grid/List */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {currentItems.map((campaign) => (
+            {campaigns.map((campaign) => (
               <div
                 key={campaign.id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-200 overflow-hidden"
               >
-                {/* Campaign Image */}
-                <div className="relative h-48 bg-gray-200">
-                  <img
-                    src={campaign.brand.logo}
-                    alt={campaign.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 right-4 flex space-x-2">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeColor(campaign.status)}`}>
-                      {getStatusLabel(campaign.status)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Campaign Info */}
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-medium text-gray-900 truncate">
-                      {campaign.title}
-                    </h3>
+                    <div className="flex items-center space-x-3">
+                      <img
+                        src={campaign.brand.logo}
+                        alt={campaign.brand.name}
+                        className="h-10 w-10 rounded-lg"
+                      />
+                      <div>
+                        <h3 className="text-lg font-medium text-gray-900">{campaign.title}</h3>
+                        <p className="text-sm text-gray-500">{campaign.brand.name}</p>
+                      </div>
+                    </div>
                     <button className="text-gray-400 hover:text-gray-500">
                       <MoreVertical className="h-5 w-5" />
                     </button>
                   </div>
 
-                  <div className="space-y-4">
-                    {/* Metrics */}
-                    <div className="grid grid-cols-3 gap-4 py-4 border-y border-gray-100">
-                      <div className="text-center">
-                        <Users className="h-5 w-5 text-gray-400 mx-auto mb-1" />
-                        <p className="text-sm font-medium text-gray-900">45K</p>
-                        <p className="text-xs text-gray-500">Alcance</p>
-                      </div>
-                      <div className="text-center">
-                        <BarChart2 className="h-5 w-5 text-gray-400 mx-auto mb-1" />
-                        <p className="text-sm font-medium text-gray-900">4.2%</p>
-                        <p className="text-xs text-gray-500">Engajamento</p>
-                      </div>
-                      <div className="text-center">
-                        <MessageSquare className="h-5 w-5 text-gray-400 mx-auto mb-1" />
-                        <p className="text-sm font-medium text-gray-900">156</p>
-                        <p className="text-xs text-gray-500">Interações</p>
-                      </div>
+                  <div className="grid grid-cols-3 gap-4 py-4 border-y border-gray-100">
+                    <div className="text-center">
+                      <Users className="h-5 w-5 text-gray-400 mx-auto mb-1" />
+                      <p className="text-sm font-medium text-gray-900">45K</p>
+                      <p className="text-xs text-gray-500">Alcance</p>
                     </div>
+                    <div className="text-center">
+                      <BarChart2 className="h-5 w-5 text-gray-400 mx-auto mb-1" />
+                      <p className="text-sm font-medium text-gray-900">4.2%</p>
+                      <p className="text-xs text-gray-500">Engajamento</p>
+                    </div>
+                    <div className="text-center">
+                      <MessageSquare className="h-5 w-5 text-gray-400 mx-auto mb-1" />
+                      <p className="text-sm font-medium text-gray-900">156</p>
+                      <p className="text-xs text-gray-500">Interações</p>
+                    </div>
+                  </div>
 
-                    {/* Quick Actions */}
-                    <div className="flex justify-between items-center">
-                      <div className="flex space-x-2">
-                        <button className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50">
-                          <Edit className="h-5 w-5" />
-                        </button>
-                        <button className="p-2 text-gray-400 hover:text-yellow-600 rounded-lg hover:bg-gray-50">
-                          <Pause className="h-5 w-5" />
-                        </button>
-                        <button className="p-2 text-gray-400 hover:text-green-600 rounded-lg hover:bg-gray-50">
-                          <Copy className="h-5 w-5" />
-                        </button>
-                      </div>
-                      <button
-                        onClick={() => navigate(`/dashboard/campaign/${campaign.id}`)}
-                        className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
-                      >
-                        <Eye className="h-4 w-4 mr-1" />
-                        Ver Detalhes
+                  <div className="mt-6 flex justify-between items-center">
+                    <div className="flex space-x-2">
+                      <button className="p-2 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-gray-50">
+                        <Edit className="h-5 w-5" />
+                      </button>
+                      <button className="p-2 text-gray-400 hover:text-yellow-600 rounded-lg hover:bg-gray-50">
+                        <Pause className="h-5 w-5" />
+                      </button>
+                      <button className="p-2 text-gray-400 hover:text-green-600 rounded-lg hover:bg-gray-50">
+                        <Copy className="h-5 w-5" />
                       </button>
                     </div>
+                    <button
+                      onClick={() => navigate(`/dashboard/campaign/${campaign.id}`)}
+                      className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
+                    >
+                      <Eye className="h-4 w-4 mr-1" />
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="mt-8 flex flex-col">
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div className="overflow-hidden shadow-sm border border-gray-200/80 md:rounded-lg">
-                  <table className="min-w-full divide-y divide-gray-300">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                          Marca
-                        </th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          Prazo
-                        </th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          Plataforma
-                        </th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          Tipo
-                        </th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          Valor
-                        </th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {currentItems.map((campaign) => (
-                        <tr
-                          key={campaign.id}
-                          onClick={() => navigate(`/dashboard/campaign/${campaign.id}`)}
-                          className="cursor-pointer hover:bg-gray-50 transition-colors duration-200"
-                        >
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                            <div className="flex items-center">
-                              <img
-                                src={campaign.brand.logo}
-                                alt={campaign.brand.name}
-                                className="h-8 w-8 rounded-full mr-3"
-                              />
-                              <div>
-                                <div className="font-medium">{campaign.brand.name}</div>
-                                <div className="text-gray-500">{campaign.title}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {campaign.deadline.toLocaleDateString()}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {campaign.platform}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {campaign.contentType}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            R$ {campaign.budget.toLocaleString()}
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeColor(campaign.status)}`}>
-                              {getStatusLabel(campaign.status)}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+          <div className="bg-white shadow overflow-hidden border border-gray-200 sm:rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Campanha
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Plataforma
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Orçamento
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Prazo
+                  </th>
+                  <th scope="col" className="relative px-6 py-3">
+                    <span className="sr-only">Ações</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {campaigns.map((campaign) => (
+                  <tr
+                    key={campaign.id}
+                    className="hover:bg-gray-50 transition-colors duration-150"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10">
+                          <img
+                            className="h-10 w-10 rounded-lg"
+                            src={campaign.brand.logo}
+                            alt={campaign.brand.name}
+                          />
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">{campaign.title}</div>
+                          <div className="text-sm text-gray-500">{campaign.brand.name}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(campaign.status)}`}>
+                        {getStatusLabel(campaign.status)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {campaign.platform}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      R$ {campaign.budget.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(campaign.deadline).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button
+                        onClick={() => navigate(`/dashboard/campaign/${campaign.id}`)}
+                        className="text-blue-600 hover:text-blue-900"
+                      >
+                        Ver detalhes
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
@@ -449,14 +454,14 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
         <div className="mt-6 flex items-center justify-between">
           <div className="flex-1 flex justify-between sm:hidden">
             <button
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
               className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
               Anterior
             </button>
             <button
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              onClick={() => setCurrentPage(prev => prev + 1)}
               disabled={currentPage === totalPages}
               className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
@@ -466,24 +471,30 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p className="text-sm text-gray-700">
-                Mostrando <span className="font-medium">{indexOfFirstItem + 1}</span> até{' '}
-                <span className="font-medium">{Math.min(indexOfLastItem, campaigns.length)}</span> de{' '}
-                <span className="font-medium">{campaigns.length}</span> resultados
+                Mostrando <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> até{' '}
+                <span className="font-medium">
+                
+                  {Math.min(currentPage * itemsPerPage, totalItems)}
+                </span>{' '}
+                de <span className="font-medium">{totalItems}</span> resultados
               </p>
             </div>
             <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
                 <select
                   value={itemsPerPage}
-                  onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                  className="mr-4 rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="mr-4 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 >
-                  <option value="9">9 por página</option>
-                  <option value="12">12 por página</option>
-                  <option value="24">24 por página</option>
+                  <option value={10}>10 por página</option>
+                  <option value={20}>20 por página</option>
+                  <option value={50}>50 por página</option>
                 </select>
                 <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
                   className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
@@ -491,7 +502,7 @@ export function Campaigns({ onSelectCampaign }: CampaignsProps) {
                   <ChevronDown className="h-5 w-5 rotate-90" />
                 </button>
                 <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  onClick={() => setCurrentPage(prev => prev + 1)}
                   disabled={currentPage === totalPages}
                   className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
