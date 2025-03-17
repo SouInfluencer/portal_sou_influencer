@@ -118,7 +118,7 @@ class AuthService {
       }
 
       // Get user profile data
-      const { data: userData, error: userError } = await supabase
+      let { data: userData, error: userError } = await supabase
         .from('users')
         .select('*')
         .eq('id', user.id)

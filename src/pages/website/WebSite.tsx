@@ -22,24 +22,24 @@ import {
   UserRoundPlusIcon, Edit, Home, Target, Star, CheckCircle
 } from 'lucide-react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { NotificationProvider } from '../../components/Notifications/NotificationProvider.tsx';
+import { NotificationProvider } from '../dashboard/Notifications/NotificationProvider.tsx';
 import { ProfileCompletionAlert } from '../../components/ProfileCompletionAlert.tsx';
-import { NotificationBell } from '../../components/Notifications/NotificationBell.tsx';
+import { NotificationBell } from '../dashboard/Notifications/NotificationBell.tsx';
 import { authService } from '../../services/authService.ts';
-import { Campaigns } from '../dashboard/Campaigns.tsx';
-import { CampaignDetails } from '../dashboard/CampaignDetails.tsx';
-import { Schedule } from '../dashboard/Schedule.tsx';
-import { Profile } from '../dashboard/Profile.tsx';
-import { Messages } from '../dashboard/Messages.tsx';
-import { Settings as SettingsPage } from '../dashboard/Settings.tsx';
-import { NewCampaign } from '../dashboard/NewCampaign.tsx';
-import { Plan } from '../dashboard/Plan.tsx';
-import { Payments } from '../dashboard/Payments.tsx';
-import { SocialNetworks } from '../dashboard/SocialNetworks.tsx';
-import { InfluencerList } from '../dashboard/InfluencerList.tsx';
+import { Campaigns } from '../dashboard/campaign/Campaigns.tsx';
+import { CampaignDetails } from '../dashboard/campaign/CampaignDetails.tsx';
+import { Schedule } from '../dashboard/schedule/Schedule.tsx';
+import { Profile } from '../dashboard/profile/Profile.tsx';
+import { Messages } from '../dashboard/messages/Messages.tsx';
+import { Settings as SettingsPage } from '../dashboard/settings/Settings.tsx';
+import { NewCampaign } from '../dashboard/campaign/NewCampaign.tsx';
+import { Plan } from '../dashboard/plan/Plan.tsx';
+import { Payments } from '../dashboard/payments/Payments.tsx';
+import { SocialNetworks } from '../dashboard/social-network/SocialNetworks.tsx';
+import { InfluencerList } from '../dashboard/influencers/InfluencerList.tsx';
 import logoRetangulo from '@/assets/logo_retangulo_light.svg';
 import logoLetter from '@/assets/logo_letter_light.svg';
-import {Notifications} from "../dashboard/Notifications.tsx";
+import {Notifications} from "../dashboard/Notifications/Notifications.tsx";
 import {Toaster} from "react-hot-toast";
 
 export function WebSite() {
@@ -408,7 +408,7 @@ export function WebSite() {
               <Routes>
                 <Route path="notifications" element={<Notifications/>} />
                 <Route path="social-networks/:id/metrics" element={<NewCampaign onBack={() => navigate('/dashboard/profile')} />} />
-                <Route path="campaign/:id" element={<CampaignDetails />} />
+                <Route path="campaign/:id" element={<CampaignDetails onBack={() => navigate('/dashboard/campaigns')} />} />
                 <Route path="campaigns" element={<Campaigns onSelectCampaign={handleSelectCampaign} />} />
                 <Route path="new-campaign" element={<NewCampaign onBack={() => navigate('/dashboard/campaigns')} />} />
                 <Route path="schedule" element={<Schedule onSelectCampaign={handleSelectCampaign} />} />
