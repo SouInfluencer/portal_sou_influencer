@@ -1,5 +1,6 @@
 import { DollarSign, Calendar, CheckCircle, Clock, Eye, Shield, Heart, ImageIcon, MessageSquare, Video } from 'lucide-react';
-import type { ContentTypeOption, Influencer, ContentType, Campaign } from './types';
+import type { ContentTypeOption, Influencer, ContentType } from './types';
+import {Campaign} from "../../../types";
 
 export const contentTypes: ContentTypeOption[] = [
   {

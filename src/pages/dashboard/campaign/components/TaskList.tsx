@@ -121,8 +121,8 @@ export function TaskList({ step, campaign, onTaskComplete }: TaskListProps) {
               } task-content truncate`}>
                 {task.title}
               </p>
-              {task.description && (
-                <p className="text-gray-500 mt-1 task-description line-clamp-2">{task.description}</p>
+              {task.title && (
+                <p className="text-gray-500 mt-1 task-description line-clamp-2">{task.title}</p>
               )}
             </div>
           </div>

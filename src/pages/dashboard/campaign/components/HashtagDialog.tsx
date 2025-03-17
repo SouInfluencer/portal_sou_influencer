@@ -88,7 +88,7 @@ export function HashtagDialog({
 }: HashtagDialogProps) {
   const [newHashtag, setNewHashtag] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [mounted, setMounted] = React.useState(false);
+  const [, setMounted] = React.useState(false);
 
   React.useEffect(() => {
     // Add styles to document

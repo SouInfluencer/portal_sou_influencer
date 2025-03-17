@@ -1,15 +1,15 @@
 import React from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
-import { NotificationProvider } from './components/Notifications/NotificationProvider';
+import { NotificationProvider } from './pages/dashboard/Notifications/NotificationProvider';
 import { PWAPrompt } from './components/PWAPrompt';
 import { Register } from './pages/onboarding/Register.tsx';
 import { ResetPassword } from './pages/onboarding/ResetPassword.tsx';
 import { CompleteProfile } from './pages/dashboard/CompleteProfile.tsx';
 import { ForgotPassword } from './pages/onboarding/ForgotPassword.tsx';
 import { WebSite } from './pages/WebSite.tsx';
-import { CampaignDetails } from './pages/dashboard/CampaignDetails';
+import { CampaignDetails } from './pages/dashboard/campaign/CampaignDetails.tsx';
 import { SocialMetrics } from './pages/dashboard/profile/SocialMetrics';
-import { Notifications } from './pages/dashboard/Notifications';
+import { Notifications } from './pages/dashboard/notifications/Notifications.tsx';
 import { authService } from './services/authService.ts';
 import {Login} from "./pages/onboarding/Login.tsx";
 import {Terms} from "./pages/website/Terms.tsx";

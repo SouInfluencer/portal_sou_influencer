@@ -47,7 +47,7 @@ const styles = `
 interface DeliveryStepProps {
   campaign: Campaign;
   onNext?: () => void;
-  onComplete?: () => void;
+  onComplete?: (delivered: string) => void;
 }
 
 export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps) {
@@ -60,7 +60,14 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
       [req]: false
     }), {})
   );
-  const [mounted, setMounted] = React.useState(false);
+  const [, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    // Trigger mount animation
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
+  }, []);
 
   React.useEffect(() => {
     // Add styles to document
@@ -76,15 +83,14 @@ export function DeliveryStep({ campaign, onNext, onComplete }: DeliveryStepProps
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    // e.preventDefault();
+  const handleSubmit = () => {
     // const allRequirementsMet = Object.values(requirementsStatus).every(status => status.checked);
-    
+
     // if (!postUrl || !allRequirementsMet) {
     //   setShowError(true);
     //   return;
     // }
-    
+
     // Call both onComplete and onNext to proceed to the next step
     onComplete?.('delivered');
     onNext?.();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle, ThumbsUp, ThumbsDown, AlertTriangle, Calendar, DollarSign, Hash, TrendingUp, Users, Globe2, Target, Clock, Shield, Star, Award, Heart, MessageSquare, Share2, Image as ImageIcon, Video, Download, Copy, AtSign } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, AlertTriangle } from 'lucide-react';
 import type { Campaign } from '../../../../../types';
 
 // Add mobile-first styles
@@ -87,7 +87,7 @@ export function ProposalStep({ campaign, onAcceptProposal, onRejectProposal }: P
   }, []);
 
   return (
-    <div className="space-y-4 sm:space-y-6 lg:space-y-8 container">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 container" data-campaign-id={campaign.id}>
       <div className="bg-blue-50 rounded-lg p-4">
         <div className="flex">
           <div className="flex-shrink-0">
@@ -107,7 +107,10 @@ export function ProposalStep({ campaign, onAcceptProposal, onRejectProposal }: P
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4 sm:space-x-4">
         <button
-          onClick={() => setShowRejectConfirm(true)}
+          onClick={() => {
+            setShowRejectConfirm(true);
+            if (onRejectProposal) onRejectProposal();
+          }}
           className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 min-h-[var(--min-touch-target)] button"
         >
           <ThumbsDown className="h-5 w-5 mr-2 text-red-500" />

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { CreditCard, CheckCircle, Clock, Plus, AlertTriangle, Calendar, DollarSign, Receipt, Shield, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { CreditCard, Clock, Plus, AlertTriangle, Calendar, Shield } from 'lucide-react';
 import type { Campaign } from '../../../../../types';
 import { paymentMethodService, type PaymentMethod, type NewPaymentMethodData } from '../../../../../services/paymentMethodService';
 import { paymentService } from '../../../../../services/paymentService';
@@ -11,7 +11,7 @@ interface PaymentStepProps {
   onComplete?: () => void;
 }
 
-export function PaymentStep({ campaign, onNext, onComplete }: PaymentStepProps) {
+export function PaymentStep({ campaign, onComplete }: PaymentStepProps) {
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [showNewCardForm, setShowNewCardForm] = useState(false);
   const [loading, setLoading] = useState(true);

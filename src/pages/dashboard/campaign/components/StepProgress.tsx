@@ -1,8 +1,6 @@
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
-import type { Step } from '../types';
 
-// Add mobile-first styles
 const styles = `
 /* Base styles */
 :root {
@@ -71,6 +69,13 @@ const styles = `
   }
 }
 `;
+
+interface Step {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ElementType;
+}
 
 interface StepProgressProps {
   steps: Step[];
