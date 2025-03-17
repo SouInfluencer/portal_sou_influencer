@@ -1,5 +1,50 @@
-import { DollarSign, Calendar, CheckCircle, Clock, Eye, Shield, Heart } from 'lucide-react';
-import type { Influencer, ContentType, Campaign } from '../../../types';
+import { DollarSign, Calendar, CheckCircle, Clock, Eye, Shield, Heart, ImageIcon, MessageSquare, Video } from 'lucide-react';
+import type { ContentTypeOption, Influencer, ContentType, Campaign } from './types';
+
+export const contentTypes: ContentTypeOption[] = [
+  {
+    id: 'Feed',
+    label: 'Post no Feed',
+    icon: ImageIcon,
+    description: 'Publicação permanente no feed do perfil',
+    platforms: ['Instagram', 'TikTok']
+  },
+  {
+    id: 'Story',
+    label: 'Stories',
+    icon: MessageSquare,
+    description: 'Conteúdo temporário de 24h',
+    platforms: ['Instagram']
+  },
+  {
+    id: 'Reels',
+    label: 'Reels',
+    icon: Video,
+    description: 'Vídeo curto vertical',
+    platforms: ['Instagram']
+  },
+  {
+    id: 'Shorts',
+    label: 'Shorts',
+    icon: Video,
+    description: 'Vídeo curto vertical',
+    platforms: ['YouTube']
+  },
+  {
+    id: 'Video',
+    label: 'Vídeo',
+    icon: Video,
+    description: 'Vídeo longo formato tradicional',
+    platforms: ['YouTube', 'TikTok']
+  },
+  {
+    id: 'Live',
+    label: 'Live',
+    icon: Video,
+    description: 'Transmissão ao vivo',
+    platforms: ['Instagram', 'YouTube', 'TikTok']
+  }
+];
 
 export function getPriceForContentType(influencer: Influencer, contentType: string, platform: string): number {
   // Base price calculation based on followers and engagement
@@ -38,11 +83,16 @@ export function calculateInfluencerPrice(influencer: Influencer, contentType: Co
   return getPriceForContentType(influencer, contentType, influencer.platform);
 }
 
-export function formatCurrency(value: number): string {
-  return value.toLocaleString('pt-BR', {
+export function formatCurrency(value: number | null | undefined): string {
+  if (value === null || value === undefined) {
+    return 'R$ 0,00';
+  }
+  return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
-    currency: 'BRL'
-  });
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value);
 }
 
 export const getStepDetails = (step: string, campaign: Campaign) => {
@@ -60,7 +110,7 @@ export const getStepDetails = (step: string, campaign: Campaign) => {
         { 
           icon: DollarSign, 
           label: 'Valor', 
-          value: `R$ ${campaign.budget.toLocaleString()}`,
+          value: formatCurrency(campaign.budget),
           color: 'text-green-600'
         },
         { 
@@ -100,16 +150,16 @@ export const getStepDetails = (step: string, campaign: Campaign) => {
           color: 'text-yellow-600'
         },
         { 
-          icon: CheckCircle, 
-          label: 'Requisitos', 
-          value: '0/5 completos',
-          color: 'text-blue-600'
-        },
-        { 
           icon: Eye, 
           label: 'Preview', 
           value: 'Disponível',
           color: 'text-purple-600'
+        },
+        { 
+          icon: CheckCircle, 
+          label: 'Requisitos', 
+          value: '0/5 completos',
+          color: 'text-blue-600'
         }
       ],
       tasks: [
@@ -168,7 +218,7 @@ export const getStepDetails = (step: string, campaign: Campaign) => {
         { 
           icon: DollarSign, 
           label: 'Valor', 
-          value: `R$ ${campaign.budget.toLocaleString()}`,
+          value: formatCurrency(campaign.budget),
           color: 'text-green-600'
         },
         { 

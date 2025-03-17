@@ -1,10 +1,57 @@
-import { supabase } from '../lib/supabase';
-import { Campaign } from '../types';
+import { authService } from './authService';
+import { API_URL } from './constants';
+import type { Campaign } from '../types';
+
+export interface CampaignFilters {
+  status?: string[];
+  platform?: string[];
+  startDate?: string;
+  endDate?: string;
+  minBudget?: number;
+  maxBudget?: number;
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export interface CampaignInput {
+  title: string;
+  description: string;
+  platform: string;
+  contentType: string;
+  budget: number;
+  deadline: Date;
+  requirements: string[];
+  influencerId?: string;
+  type?: 'single' | 'multiple';
+  categories?: string[];
+  content?: {
+    caption?: string;
+    hashtags?: string[];
+    mentions?: string[];
+  };
+}
+
+export interface CampaignResponse {
+  data: Campaign[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
 
 class CampaignService {
   private static instance: CampaignService;
+  private readonly baseUrl: string;
+  private readonly defaultHeaders: HeadersInit;
 
-  private constructor() {}
+  private constructor() {
+    this.baseUrl = API_URL;
+    this.defaultHeaders = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+  }
 
   public static getInstance(): CampaignService {
     if (!CampaignService.instance) {
@@ -13,175 +60,178 @@ class CampaignService {
     return CampaignService.instance;
   }
 
-  async createCampaign(campaignData: Omit<Campaign, 'id' | 'created_at' | 'updated_at'>): Promise<Campaign> {
+  private getAuthHeaders(): HeadersInit {
+    const token = authService.getToken();
+    if (!token) {
+      throw new Error('Não autorizado');
+    }
+
+    return {
+      ...this.defaultHeaders,
+      'Authorization': `Bearer ${token}`
+    };
+  }
+
+  private async handleResponse<T>(response: Response): Promise<T> {
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Erro na requisição');
+    }
+    return response.json();
+  }
+
+  async getCampaigns(filters?: CampaignFilters): Promise<CampaignResponse> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const queryParams = new URLSearchParams();
       
-      if (!user) {
-        throw new Error('Usuário não encontrado');
+      if (filters) {
+        if (filters.status?.length) queryParams.append('status', filters.status.join(','));
+        if (filters.platform?.length) queryParams.append('platform', filters.platform.join(','));
+        if (filters.startDate) queryParams.append('startDate', filters.startDate);
+        if (filters.endDate) queryParams.append('endDate', filters.endDate);
+        if (filters.minBudget) queryParams.append('minBudget', filters.minBudget.toString());
+        if (filters.maxBudget) queryParams.append('maxBudget', filters.maxBudget.toString());
+        if (filters.page) queryParams.append('page', filters.page.toString());
+        if (filters.limit) queryParams.append('limit', filters.limit.toString());
+        if (filters.search) queryParams.append('search', filters.search);
       }
 
-      // Insert campaign
-      const { data: campaign, error: campaignError } = await supabase
-        .from('campaigns')
-        .insert({
-          user_id: user.id,
-          title: campaignData.title,
-          description: campaignData.description,
-          budget: campaignData.budget,
-          deadline: campaignData.deadline,
-          platform: campaignData.platform,
-          content_type: campaignData.contentType,
-          requirements: campaignData.requirements,
-          status: 'draft'
-        })
-        .select()
-        .single();
-
-      if (campaignError) throw campaignError;
-
-      // Insert categories if provided
-      if (campaignData.categories?.length) {
-        const { data: categories } = await supabase
-          .from('categories')
-          .select('id')
-          .in('name', campaignData.categories);
-
-        if (categories && categories.length > 0) {
-          const { error: categoriesError } = await supabase
-            .from('campaign_categories')
-            .insert(
-              categories.map(category => ({
-                campaign_id: campaign.id,
-                category_id: category.id
-              }))
-            );
-
-          if (categoriesError) throw categoriesError;
+      const response = await fetch(
+        `${this.baseUrl}/campaigns?${queryParams.toString()}`,
+        {
+          method: 'GET',
+          headers: this.getAuthHeaders()
         }
-      }
+      );
 
-      // Insert influencer if provided
-      if (campaignData.influencer) {
-        const { error: influencerError } = await supabase
-          .from('campaign_influencers')
-          .insert({
-            campaign_id: campaign.id,
-            user_id: campaignData.influencer.id,
-            status: 'pending'
-          });
-
-        if (influencerError) throw influencerError;
-      }
-
-      return campaign;
+      return this.handleResponse<CampaignResponse>(response);
     } catch (error) {
-      console.error('Error creating campaign:', error);
-      throw error;
+      console.error('Error fetching campaigns:', error);
+      throw error instanceof Error ? error : new Error('Erro ao buscar campanhas');
     }
   }
 
   async getCampaign(id: string): Promise<Campaign> {
     try {
-      const { data: campaign, error } = await supabase
-        .from('campaigns')
-        .select(`
-          *,
-          campaign_categories (
-            categories (
-              name
-            )
-          ),
-          campaign_influencers (
-            users (
-              id,
-              first_name,
-              last_name,
-              avatar_url
-            )
-          )
-        `)
-        .eq('id', id)
-        .single();
+      const response = await fetch(
+        `${this.baseUrl}/campaigns/${id}`,
+        {
+          method: 'GET',
+          headers: this.getAuthHeaders()
+        }
+      );
 
-      if (error) throw error;
-      if (!campaign) throw new Error('Campanha não encontrada');
-
-      return campaign;
+      return this.handleResponse<Campaign>(response);
     } catch (error) {
       console.error('Error fetching campaign:', error);
-      throw error;
+      throw error instanceof Error ? error : new Error('Erro ao buscar campanha');
     }
   }
 
-  async getUserCampaigns(): Promise<Campaign[]> {
+  async createCampaign(data: CampaignInput): Promise<Campaign> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        throw new Error('Usuário não encontrado');
-      }
+      // Input validation
+      this.validateCampaignInput(data);
 
-      const { data: campaigns, error } = await supabase
-        .from('campaigns')
-        .select(`
-          *,
-          campaign_categories (
-            categories (
-              name
-            )
-          ),
-          campaign_influencers (
-            users (
-              id,
-              first_name,
-              last_name,
-              avatar_url
-            )
-          )
-        `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      const response = await fetch(
+        `${this.baseUrl}/campaigns`,
+        {
+          method: 'POST',
+          headers: this.getAuthHeaders(),
+          body: JSON.stringify(data)
+        }
+      );
 
-      if (error) throw error;
-
-      return campaigns || [];
+      return this.handleResponse<Campaign>(response);
     } catch (error) {
-      console.error('Error fetching user campaigns:', error);
-      throw error;
+      console.error('Error creating campaign:', error);
+      throw error instanceof Error ? error : new Error('Erro ao criar campanha');
     }
   }
 
-  async updateCampaign(id: string, updates: Partial<Campaign>): Promise<Campaign> {
+  async updateCampaign(id: string, data: Partial<CampaignInput>): Promise<Campaign> {
     try {
-      const { data: campaign, error } = await supabase
-        .from('campaigns')
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single();
+      const response = await fetch(
+        `${this.baseUrl}/campaigns/${id}`,
+        {
+          method: 'PUT',
+          headers: this.getAuthHeaders(),
+          body: JSON.stringify(data)
+        }
+      );
 
-      if (error) throw error;
-      if (!campaign) throw new Error('Campanha não encontrada');
-
-      return campaign;
+      return this.handleResponse<Campaign>(response);
     } catch (error) {
       console.error('Error updating campaign:', error);
-      throw error;
+      throw error instanceof Error ? error : new Error('Erro ao atualizar campanha');
     }
   }
 
   async deleteCampaign(id: string): Promise<void> {
     try {
-      const { error } = await supabase
-        .from('campaigns')
-        .delete()
-        .eq('id', id);
+      const response = await fetch(
+        `${this.baseUrl}/campaigns/${id}`,
+        {
+          method: 'DELETE',
+          headers: this.getAuthHeaders()
+        }
+      );
 
-      if (error) throw error;
+      if (!response.ok) {
+        throw new Error('Erro ao excluir campanha');
+      }
     } catch (error) {
       console.error('Error deleting campaign:', error);
-      throw error;
+      throw error instanceof Error ? error : new Error('Erro ao excluir campanha');
+    }
+  }
+
+  private validateCampaignInput(data: CampaignInput): void {
+    const errors: string[] = [];
+
+    if (!data.title?.trim()) {
+      errors.push('Título é obrigatório');
+    }
+
+    if (!data.description?.trim()) {
+      errors.push('Descrição é obrigatória');
+    }
+
+    if (!data.platform) {
+      errors.push('Plataforma é obrigatória');
+    }
+
+    if (!data.contentType) {
+      errors.push('Tipo de conteúdo é obrigatório');
+    }
+
+    if (!data.budget || data.budget <= 0) {
+      errors.push('Orçamento deve ser maior que zero');
+    }
+
+    if (!data.deadline) {
+      errors.push('Prazo é obrigatório');
+    } else {
+      const deadlineDate = new Date(data.deadline);
+      if (deadlineDate < new Date()) {
+        errors.push('Prazo deve ser uma data futura');
+      }
+    }
+
+    if (!data.requirements?.length) {
+      errors.push('Pelo menos um requisito é obrigatório');
+    }
+
+    if (data.type === 'single' && !data.influencerId) {
+      errors.push('Influenciador é obrigatório para campanhas individuais');
+    }
+
+    if (data.type === 'multiple' && !data.categories?.length) {
+      errors.push('Pelo menos uma categoria é obrigatória para campanhas múltiplas');
+    }
+
+    if (errors.length > 0) {
+      throw new Error(`Erros de validação:\n${errors.join('\n')}`);
     }
   }
 }
