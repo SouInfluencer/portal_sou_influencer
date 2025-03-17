@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics, logEvent, Analytics } from 'firebase/analytics';
-import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAK4J9OU2VJ1iMoOcGI9uhmN0YEHeoSFBc",
@@ -20,9 +19,6 @@ let analytics: Analytics | null = null;
 if (typeof window !== 'undefined') {
   analytics = getAnalytics(app);
 }
-
-// Initialize Storage
-export const storage = getStorage(app);
 
 // Helper function to log events with error handling and validation
 export const logAnalyticsEvent = async (

@@ -1,119 +1,139 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, CreditCard, CheckCircle, Clock, Plus, AlertTriangle, Calendar, DollarSign, Receipt, Shield, X } from 'lucide-react';
-import { planService } from '../../../services/planService';
-import { paymentService, type Card, type NewCardData } from '../../../services/paymentService';
-import { usePlan } from './context/PlanContext';
-import { toast } from 'react-hot-toast';
-import type { ManagePlanProps } from './types';
-import { PaymentMethodForm } from './components/PaymentMethodForm';
+import React from 'react';
+import { ArrowLeft, CreditCard, CheckCircle, AlertTriangle, Calendar, DollarSign, Receipt, Shield, X } from 'lucide-react';
+
+// Add mobile-first styles
+const styles = `
+/* Base styles */
+:root {
+  --min-touch-target: clamp(2.75rem, 8vw, 3rem); /* 44-48px */
+  --container-padding: clamp(1rem, 5vw, 2rem);
+  --font-size-base: clamp(0.875rem, 4vw, 1rem);
+  --font-size-lg: clamp(1.125rem, 5vw, 1.25rem);
+  --font-size-xl: clamp(1.5rem, 6vw, 1.875rem);
+  --spacing-base: clamp(1rem, 4vw, 1.5rem);
+  --border-radius: clamp(0.75rem, 3vw, 1rem);
+}
+
+/* Mobile-first media queries */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--container-padding);
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-base);
+  }
+  
+  .card {
+    padding: var(--spacing-base);
+    margin-bottom: var(--spacing-base);
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-base);
+  }
+  
+  .button {
+    width: 100%;
+    min-height: var(--min-touch-target);
+    justify-content: center;
+  }
+  
+  .input {
+    min-height: var(--min-touch-target);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .card {
+    padding: calc(var(--spacing-base) * 1.25);
+  }
+}
+
+@media (min-width: 769px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .card {
+    padding: calc(var(--spacing-base) * 1.5);
+  }
+}
+`;
+
+interface ManagePlanProps {
+  onBack: () => void;
+}
 
 export function ManagePlan({ onBack }: ManagePlanProps) {
-  const { currentPlan, subscription, refreshPlan } = usePlan();
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
-  const [showNewCardForm, setShowNewCardForm] = useState(false);
-  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [cards, setCards] = useState<Card[]>([]);
-  const [invoices, setInvoices] = useState<Array<{
-    id: string;
-    date: string;
-    amount: number;
-    status: 'paid' | 'pending' | 'failed';
-    downloadUrl?: string;
-  }>>([]);
+  const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
+  const [showNewCardForm, setShowNewCardForm] = React.useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [cardsData, invoicesData] = await Promise.all([
-          paymentService.getPaymentMethods(),
-          paymentService.getInvoices()
-        ]);
-        
-        setCards(cardsData);
-        setInvoices(invoicesData);
-        
-        // Set default card as selected
-        const defaultCard = cardsData.find(card => card.isDefault);
-        if (defaultCard) {
-          setSelectedCard(defaultCard.id);
-        }
-      } catch (error) {
-        console.error('Error fetching payment data:', error);
-        toast.error('Erro ao carregar dados de pagamento');
-      } finally {
-        setLoading(false);
-      }
+  React.useEffect(() => {
+    // Add styles to document
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Trigger mount animation
+    setMounted(true);
+
+    return () => {
+      document.head.removeChild(styleSheet);
     };
-
-    fetchData();
   }, []);
 
-  const handleCancelSubscription = async () => {
-    try {
-      setLoading(true);
-      await planService.cancelSubscription('Cancelamento solicitado pelo usuário');
-      await refreshPlan();
-      setShowCancelConfirm(false);
-      toast.success('Assinatura cancelada com sucesso');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Erro ao cancelar assinatura');
-    } finally {
-      setLoading(false);
+  const savedCards = [
+    {
+      id: '1',
+      brand: 'visa',
+      last4: '4242',
+      expMonth: 12,
+      expYear: 2025,
+      holderName: 'João Silva'
+    },
+    {
+      id: '2',
+      brand: 'mastercard',
+      last4: '8888',
+      expMonth: 8,
+      expYear: 2024,
+      holderName: 'João Silva'
     }
-  };
+  ];
 
-  const handleAddNewCard = async (formData: NewCardData) => {
-    try {
-      setLoading(true);
-      const newCard = await paymentService.addPaymentMethod(formData);
-      setCards(prev => [...prev, newCard]);
-      setSelectedCard(newCard.id);
-      setShowNewCardForm(false);
-      toast.success('Cartão adicionado com sucesso');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Erro ao adicionar cartão');
-    } finally {
-      setLoading(false);
+  const invoices = [
+    {
+      id: '1',
+      date: '2024-03-01',
+      amount: 99,
+      status: 'paid'
+    },
+    {
+      id: '2',
+      date: '2024-02-01',
+      amount: 99,
+      status: 'paid'
+    },
+    {
+      id: '3',
+      date: '2024-01-01',
+      amount: 99,
+      status: 'paid'
     }
-  };
-
-  const handleUpdateDefaultCard = async (cardId: string) => {
-    try {
-      setLoading(true);
-      await paymentService.updateDefaultPaymentMethod(cardId);
-      setCards(prev => prev.map(card => ({
-        ...card,
-        isDefault: card.id === cardId
-      })));
-      setSelectedCard(cardId);
-      toast.success('Método de pagamento atualizado com sucesso');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Erro ao atualizar método de pagamento');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDeleteCard = async (cardId: string) => {
-    try {
-      setLoading(true);
-      await paymentService.deletePaymentMethod(cardId);
-      setCards(prev => prev.filter(card => card.id !== cardId));
-      if (selectedCard === cardId) {
-        setSelectedCard(null);
-      }
-      toast.success('Cartão removido com sucesso');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Erro ao remover cartão');
-    } finally {
-      setLoading(false);
-    }
-  };
+  ];
 
   return (
-    <div className="py-6">
+    <div className="py-6 container">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -121,7 +141,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
             onClick={onBack}
             className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-4"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-4 w-4 mr-2 min-h-[var(--min-touch-target)] min-w-[var(--min-touch-target)]" />
             Voltar para planos
           </button>
           <h1 className="text-2xl font-semibold text-gray-900">Gerenciar Assinatura</h1>
@@ -131,8 +151,8 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
         </div>
 
         {/* Current Plan Status */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200">
-          <div className="flex items-center justify-between p-6">
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
+          <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
@@ -141,12 +161,8 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                   </div>
                 </div>
                 <div className="ml-4">
-                  <h2 className="text-lg font-medium text-gray-900">Plano {currentPlan?.name}</h2>
-                  <p className="text-sm text-gray-500">
-                    {subscription?.status === 'active' 
-                      ? `Próxima cobrança em ${new Date(subscription.currentPeriodEnd).toLocaleDateString()}`
-                      : 'Assinatura inativa'}
-                  </p>
+                  <h2 className="text-lg font-medium text-gray-900">Plano Pro</h2>
+                  <p className="text-sm text-gray-500">Próxima cobrança em 15 de Abril, 2024</p>
                 </div>
               </div>
             </div>
@@ -155,156 +171,131 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
                 <CheckCircle className="h-4 w-4 mr-1" />
                 Ativo
               </span>
-              <span className="text-lg font-medium text-gray-900">R$ {currentPlan?.price}/mês</span>
+              <span className="text-lg font-medium text-gray-900">R$ 99/mês</span>
             </div>
           </div>
         </div>
 
         {/* Payment Method */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
-          <div className="p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-6">Método de Pagamento</h3>
-            <div className="space-y-4">
-              {/* Saved Cards */}
-              <div className="space-y-4">
-                {cards.map((card) => (
-                  <div
-                    key={card.id}
-                    className={`relative rounded-lg border p-4 transition-all duration-200 ${
-                      selectedCard === card.id 
-                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
-                        : 'border-gray-200 hover:border-blue-200'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <img
-                          src={`/card-brands/${card.brand}.svg`}
-                          alt={card.brand}
-                          className="h-8 w-8"
-                        />
-                        <div className="ml-4">
-                          <p className="text-sm font-medium text-gray-900">
-                            •••• {card.last4}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            Expira em {card.expMonth.toString().padStart(2, '0')}/{card.expYear}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {card.isDefault && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            Principal
-                          </span>
-                        )}
-                        <button
-                          onClick={() => handleUpdateDefaultCard(card.id)}
-                          disabled={card.isDefault || loading}
-                          className="text-sm text-blue-600 hover:text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Tornar Principal
-                        </button>
-                        <button
-                          onClick={() => handleDeleteCard(card.id)}
-                          disabled={card.isDefault || loading}
-                          className="text-sm text-red-600 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Remover
-                        </button>
-                      </div>
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
+          <h3 className="text-lg font-medium text-gray-900 mb-6">Método de Pagamento</h3>
+          <div className="space-y-4">
+            {savedCards.map((card) => (
+              <div
+                key={card.id}
+                onClick={() => setSelectedCard(card.id)}
+                className={`relative rounded-lg border p-4 cursor-pointer transition-all duration-200 ${
+                  selectedCard === card.id 
+                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                    : 'border-gray-200 hover:border-blue-200'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <img
+                      src={`/card-brands/${card.brand}.svg`}
+                      alt={card.brand}
+                      className="h-8 w-8"
+                    />
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-900">
+                        •••• {card.last4}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Expira em {card.expMonth.toString().padStart(2, '0')}/{card.expYear}
+                      </p>
                     </div>
                   </div>
-                ))}
-
-                <button
-                  onClick={() => setShowNewCardForm(true)}
-                  className="w-full flex items-center justify-center px-4 py-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-300 transition-colors duration-200"
-                >
-                  <CreditCard className="h-5 w-5 text-gray-400 mr-2" />
-                  <span className="text-sm font-medium text-gray-600">
-                    Adicionar novo cartão
-                  </span>
-                </button>
-
-                {showNewCardForm && (
-                  <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <PaymentMethodForm
-                      onSubmit={handleAddNewCard}
-                      onCancel={() => setShowNewCardForm(false)}
-                      loading={loading}
-                    />
-                  </div>
-                )}
+                  {selectedCard === card.id && (
+                    <CheckCircle className="h-5 w-5 text-blue-600" />
+                  )}
+                </div>
               </div>
-            </div>
+            ))}
+
+            <button
+              onClick={() => setShowNewCardForm(true)}
+              className="w-full flex items-center justify-center px-4 py-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-300 transition-colors duration-200"
+            >
+              <CreditCard className="h-5 w-5 text-gray-400 mr-2" />
+              <span className="text-sm font-medium text-gray-600">
+                Adicionar novo cartão
+              </span>
+            </button>
           </div>
         </div>
 
         {/* Billing History */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 mt-8">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-medium text-gray-900">Histórico de Faturas</h3>
-              <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                Baixar todas
-              </button>
-            </div>
-            <div className="overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead>
-                  <tr>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Data
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Valor
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Fatura
-                    </th>
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 card">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-medium text-gray-900">Histórico de Faturas</h3>
+            <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+              Baixar todas
+            </button>
+          </div>
+          <div className="overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200 hidden sm:table">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Data
+                  </th>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Valor
+                  </th>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Fatura
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {invoices.map((invoice) => (
+                  <tr key={invoice.id}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {new Date(invoice.date).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      R$ {invoice.amount.toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Pago
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button className="text-blue-600 hover:text-blue-900">
+                        <Receipt className="h-5 w-5" />
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {invoices.map((invoice) => (
-                    <tr key={invoice.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {new Date(invoice.date).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        R$ {invoice.amount.toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          invoice.status === 'paid'
-                            ? 'bg-green-100 text-green-800'
-                            : invoice.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {invoice.status === 'paid' ? 'Pago' : 
-                           invoice.status === 'pending' ? 'Pendente' : 'Falhou'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        {invoice.downloadUrl && (
-                          <a
-                            href={invoice.downloadUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-900"
-                          >
-                            <Receipt className="h-5 w-5" />
-                          </a>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                ))}
+              </tbody>
+            </table>
+            {/* Mobile Invoice List */}
+            <div className="sm:hidden space-y-4">
+              {invoices.map((invoice) => (
+                <div key={invoice.id} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-sm font-medium text-gray-900">
+                      {new Date(invoice.date).toLocaleDateString()}
+                    </div>
+                    <div className="text-sm font-medium text-gray-900">
+                      R$ {invoice.amount.toFixed(2)}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Pago
+                    </span>
+                    <button className="text-blue-600 hover:text-blue-900">
+                      <Receipt className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -313,7 +304,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
         <div className="mt-8 flex justify-center sm:justify-start">
           <button
             onClick={() => setShowCancelConfirm(true)}
-            className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-red-600 bg-white hover:bg-red-50"
+            className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-red-600 bg-white hover:bg-red-50 min-h-[var(--min-touch-target)] button"
           >
             Cancelar assinatura
           </button>
@@ -321,7 +312,7 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
       </div>
 
       {/* Cancel Confirmation Modal */}
-      {showCancelConfirm && (
+      {showCancelConfirm && mounted && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -345,14 +336,14 @@ export function ManagePlan({ onBack }: ManagePlanProps) {
               <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={handleCancelSubscription}
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
+                  onClick={() => setShowCancelConfirm(false)}
                 >
                   Cancelar Assinatura
                 </button>
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm min-h-[var(--min-touch-target)] button"
                   onClick={() => setShowCancelConfirm(false)}
                 >
                   Voltar

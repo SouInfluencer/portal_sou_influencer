@@ -1,5 +1,5 @@
-import React from 'react';
-import { TrendingUp, Users, CheckCircle, BarChart2, Heart, MessageSquare, Eye, Download, Copy, Hourglass } from 'lucide-react';
+import React, { useState } from 'react';
+import { TrendingUp, Users, Star, Info, Award, Clock, CheckCircle, Instagram, Youtube, Video, BarChart2, Heart, MessageSquare, Eye, Download, Copy, Hourglass } from 'lucide-react';
 import type { Campaign } from '../../../../../types';
 
 const styles = `
@@ -71,10 +71,16 @@ interface ProductionStepProps {
 }
 
 export function ProductionStep({ campaign, userType = 'influencer', onNext, onComplete }: ProductionStepProps) {
-
+  const [progress, setProgress] = React.useState({
+    materialsDownloaded: false,
+    briefingReviewed: false,
+    contentInProduction: false,
+    finalReview: false
+  });
+  const [mounted, setMounted] = React.useState(false);
   const [showPreview, setShowPreview] = React.useState(true);
   const [downloading, setDownloading] = React.useState(false);
-  const [hashtags] = React.useState<string[]>([]);
+  const [hashtags, setHashtags] = React.useState<string[]>([]);
   const [copied, setCopied] = React.useState<{
     caption: boolean;
     hashtags: boolean;
@@ -91,6 +97,9 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
     styleSheet.innerText = styles;
     document.head.appendChild(styleSheet);
 
+    // Trigger mount animation
+    setMounted(true);
+
     return () => {
       document.head.removeChild(styleSheet);
     };
@@ -98,7 +107,7 @@ export function ProductionStep({ campaign, userType = 'influencer', onNext, onCo
 
   const handleComplete = () => {
     // Call both onComplete and onNext to advance to the delivery step
-    onComplete?.();
+    onComplete?.('in_production');
     onNext?.();
   };
 
