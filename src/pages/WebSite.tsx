@@ -30,7 +30,7 @@ import { Campaigns } from './dashboard/Campaigns';
 import { Schedule } from './dashboard/Schedule';
 import { Profile } from './dashboard/Profile';
 import { Messages } from './dashboard/Messages';
-import { Settings as SettingsPage } from './dashboard/Settings';
+import { Settings as SettingsPage } from './dashboard/settings/Settings.tsx';
 import { NewCampaign } from './dashboard/NewCampaign';
 import { Plan } from './dashboard/Plan';
 import { Payments } from './dashboard/Payments';

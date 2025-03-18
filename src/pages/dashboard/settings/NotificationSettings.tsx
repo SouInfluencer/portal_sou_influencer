@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import type { NotificationSettingsProps } from './types';
-import { notificationService } from '../../services/notificationService';
+import type { NotificationSettingsProps } from './types.ts';
+import { notificationService } from '../../../services/notificationService.ts';
 
 /**
  * Notification settings component for managing email and push notifications

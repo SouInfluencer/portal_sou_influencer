@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { User, Bell, Shield, CreditCard, AlertTriangle, Building2, Home, Building as Bank, BarChart as ChartBar } from 'lucide-react';
-import { ProfileSettings } from '../../components/settings/ProfileSettings';
-import { NotificationSettings } from '../../components/settings/NotificationSettings';
-import { SecuritySettings } from '../../components/settings/SecuritySettings';
-import { SettingsTab } from '../../components/settings/SettingsTab';
-import type { SettingsFormData, FormErrors } from '../../components/settings/types';
+import { ProfileSettings } from './ProfileSettings.tsx';
+import { NotificationSettings } from './NotificationSettings.tsx';
+import { SecuritySettings } from './SecuritySettings.tsx';
+import { SettingsTab } from './SettingsTab.tsx';
+import type { SettingsFormData, FormErrors } from './types.ts';
 import { toast, Toaster } from 'react-hot-toast';
 
 export function Settings() {

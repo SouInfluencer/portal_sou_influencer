@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SettingsTabProps } from './types';
+import type { SettingsTabProps } from './types.ts';
 
 /**
  * Tab component for settings navigation

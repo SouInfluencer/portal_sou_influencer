@@ -1,10 +1,10 @@
 import React from 'react';
 import { MapPin, User, AtSign, Phone, Calendar, Building2, Home, Ban as Bank } from 'lucide-react';
-import type { ProfileSettingsProps } from './types';
+import type { ProfileSettingsProps } from './types.ts';
 import { toast } from 'react-hot-toast';
 import MaskedInput from 'react-input-mask';
-import {PersonalDataDto} from "../../types/personal-data-dto.ts";
-import {profileService} from "../../services/profileService.ts";
+import {PersonalDataDto} from "../../../types/personal-data-dto.ts";
+import {profileService} from "../../../services/profileService.ts";
 
 export const ProfileSettings = React.memo(function ProfileSettings({
   formData,

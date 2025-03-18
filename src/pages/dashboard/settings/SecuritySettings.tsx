@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Key, AlertTriangle, Trash2, Shield } from 'lucide-react';
-import type { SecuritySettingsProps } from './types';
-import { securityService } from '../../services/securityService';
+import type { SecuritySettingsProps } from './types.ts';
+import { securityService } from '../../../services/securityService.ts';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/authService';
+import { authService } from '../../../services/authService.ts';
 
 /**
  * Security settings component for managing password and account deletion
