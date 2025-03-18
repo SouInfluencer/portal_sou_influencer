@@ -3,6 +3,8 @@ import { authService } from "./authService";
 import { storage } from '../lib/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
+import {CepSerchDto} from "../types/cep-search-dto.ts";
+import {PersonalDataDto} from "../types/personal-data-dto.ts";
 
 export interface ProfileData {
   id: string;
@@ -149,15 +151,15 @@ class ProfileService {
     }
   }
 
-  async updateProfile(data: Partial<ProfileData>): Promise<ProfileData> {
+  async updateProfile(data: Partial<PersonalDataDto>): Promise<boolean> {
     try {
-      const response = await fetch(`${this.baseUrl}/profile`, {
+      await fetch(`${this.baseUrl}/profile`, {
         method: 'PUT',
         headers: this.getAuthHeaders(),
         body: JSON.stringify(data)
       });
 
-      return this.handleResponse<ProfileData>(response);
+      return true;
     } catch (error) {
       console.error('Error updating profile:', error);
       throw error instanceof Error ? error : new Error('Erro ao atualizar perfil');
@@ -254,6 +256,46 @@ class ProfileService {
         dates: []
       };
     }
+  }
+
+  async searchCEP(cep: string): Promise<CepSerchDto> {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      if (!response.ok) {
+        throw new Error('Erro ao buscar o CEP');
+      }
+      const data = await response.json();
+      if (data.erro) {
+        throw new Error('CEP não encontrado');
+      }
+      return data;
+    } catch (error) {
+      console.error('Erro:', error);
+      return null;
+    }
+  }
+
+  async updateAddress(addressData: {
+    cep: string | undefined;
+    street: string | undefined;
+    number: string | undefined;
+    neighborhood: string | undefined;
+    city: string | undefined;
+    state: string | undefined
+  }) {
+
+
+    return true;
+  }
+
+  async updateBankInfo(bankData: {
+    bank: string | undefined;
+    accountType: string | undefined;
+    agency: string | undefined;
+    account: string | undefined
+  }) {
+
+    return true
   }
 }
 

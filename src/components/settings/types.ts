@@ -1,12 +1,12 @@
 export interface SettingsFormData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   cpf?: string;
-  companyName?: string;
-  cnpj?: string;
   cep?: string;
   street?: string;
   number?: string;
+  neighborhood?: string;
   city?: string;
   state?: string;
   bank?: string;
@@ -14,6 +14,7 @@ export interface SettingsFormData {
   agency?: string;
   account?: string;
   phone: string;
+  birthDate: string;
   bio: string;
   location: string;
   website: string;
