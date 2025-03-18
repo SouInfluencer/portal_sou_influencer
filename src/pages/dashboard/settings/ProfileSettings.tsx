@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import MaskedInput from 'react-input-mask';
 import {PersonalDataDto} from "../../../types/personal-data-dto.ts";
 import {profileService} from "../../../services/profileService.ts";
+import EstadoSelect from "./EstadoSelect.tsx";
 
 export const ProfileSettings = React.memo(function ProfileSettings({
   formData,
@@ -413,30 +414,15 @@ export const ProfileSettings = React.memo(function ProfileSettings({
               </div>
 
               <div>
-                <label htmlFor="state" className="block text-sm font-medium text-gray-700">
-                  <Building2 className="inline mr-2 h-4 w-4" />
-                  Estado
-                </label>
-                <select
-                  id="state"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleFieldChange}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                >
-                  <option value="">Selecione...</option>
-                  {['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'].map(state => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
-              </div>
+                  <EstadoSelect formData={{ ...formData, state: formData.state || '' }} handleFieldChange={handleFieldChange} />
+                </div>
             </div>
           )}
 
           {activeTab === 'bank' && (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div className="sm:col-span-2">
-                <label htmlFor="bank" className="block text-sm font-medium text-gray-700">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label htmlFor="bank" className="block text-sm font-medium text-gray-700">
                   <Bank className="inline mr-2 h-4 w-4" />
                   Banco
                 </label>
